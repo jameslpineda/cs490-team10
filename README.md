@@ -11,6 +11,7 @@ The Figma Design we will be attempting to recreate is located here: https://www.
 
 Our Repository Structure should resemble the following File Tree (subject to change):
 
+```
 task-app/
 |-- api/
 |   |-- node_modules/
@@ -58,3 +59,6 @@ task-app/
 |-- package.json
 |-- README.md
 |-- ...
+
+
+```
