@@ -1,6 +1,6 @@
 # cs490-team10
 
-Crushed it will be a full-stack software application with:
+Crushed It will be a full-stack software application with:
   - Daily task management like Frankly Covey
   - Prioritization of Free to Focus
   - Focus time like Pomordoro
