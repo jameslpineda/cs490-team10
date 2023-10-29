@@ -45,9 +45,9 @@ const ForgotPassword: React.FC = () => {
     };
 
     return (
-        <div className="bg-gray-100 min-h-screen flex items-center justify-center">
-            <div className="bg-white p-8 rounded shadow-lg md:w-96 w-full mx-4">
-                <h1 className="text-2xl font-semibold text-center mb-4">Forgot Password</h1>
+        <div className="bg-gray-700 min-h-screen flex items-center justify-center">
+            <div className="bg-white p-8 rounded shadow-lg md:w-96 w-3/5 mx-4">
+                <h1 className="text-2xl font-semibold text-center mb-4 text-gray-700">Forgot Password</h1>
                 {message && (
                     <p className="text-green-600 font-semibold text-center mb-4">
                         Password reset link sent successfully to your email.
@@ -55,7 +55,7 @@ const ForgotPassword: React.FC = () => {
                 )}
                 <form onSubmit={handleSubmit}>
                     <div className="mb-4">
-                        <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
+                        <label htmlFor="email" className="block text-sm font-medium text-gray-700">Enter email for reset password link</label>
                         <input
                             type="email"
                             value={email}
@@ -70,8 +70,8 @@ const ForgotPassword: React.FC = () => {
                     {isLoading ?
                         <div className="absolute inset-0 flex items-center justify-center bg-opacity-75">
                             <div className="animate-spin rounded-full border-t-2 border-b-2 border-blue-600 h-6 w-6"></div>
-                        </div> : <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded-[10px] hover:bg-blue-600">
-                            Send
+                        </div> : <button type="submit" className=" shadow-lg w-full bg-gray-700 text-white p-2 rounded-[10px] hover:bg-gray-600">
+                            Submit
                         </button>
                     }
                 </form>
