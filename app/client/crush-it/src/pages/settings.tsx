@@ -23,9 +23,14 @@ const Settings:React.FC = ({/*Prop of session*/}) => {
         let newPassword = document.getElementById('newpass') as HTMLInputElement;
         let confirmNewPassword = document.getElementById('confirmnewpass') as HTMLInputElement;
         const r = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*()-_+=]{12,}$/;
-
+        
+        // TODO: Update first name, last name, and timer settings
+        if (password.value === "") {
+            toast.success("Settings Updated", {
+                position: toast.POSITION.TOP_CENTER
+            });
         // TODO: Check if user inputted password matches DB password
-        if (true) {
+        } else if (true) {
             if (r.test(newPassword.value)) {
                 if (newPassword.value === confirmNewPassword.value) {
                     toast.success("Password Updated", {
@@ -52,7 +57,7 @@ const Settings:React.FC = ({/*Prop of session*/}) => {
     return (
         <div className="flex">
             <div className="w-1/6 bg-gray-900">
-                <h2 className="text-2xl font-semibold text-white pt-10 font-fredoka font-semibold text-center">Crush It</h2>
+                <h2 className="text-2xl text-white pt-10 font-fredoka font-semibold text-center">Crush It</h2>
                 <div className="flex justify-center py-4">
                     <div className="w-2/3">
                         <hr className="border-gray-600"></hr>
@@ -62,7 +67,7 @@ const Settings:React.FC = ({/*Prop of session*/}) => {
                     <img className="w-13 h-13" src={process.env.PUBLIC_URL + '/image1.png'} alt="Crush It Image" />
                 </div>
                 <div className="flex justify-center">
-                    <p className="w-1/2 text-lg text-white font-fredoka text-center">It's time to plan your day!</p>
+                    <p className="w-1/2 text-lg text-white font-semibold text-center">It's time to plan your day!</p>
                 </div>
                 <div className="flex justify-center items-center pb-20 mb-5">
                     <div className="flex space-x-6 pt-4">
@@ -74,8 +79,8 @@ const Settings:React.FC = ({/*Prop of session*/}) => {
                 <div className="flex justify-center items-center h-48">
                     <div className="flex space-x-6">
                         <button onClick={routeLogout} className="flex shadow-lg w-25 text-white border border-white bg-gray-900 hover:bg-red-500 text-sm py-1 px-4 rounded-md" type="button">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-5 h-5">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-5 h-5">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
                             </svg>
                             Logout
                         </button>

@@ -1,8 +1,8 @@
 import 'dotenv/config';
 import express, { Request, Response, NextFunction } from 'express';
-import userRoutes from './routes/users';
-import { registerRoutes } from './routes/registerRoute';
-import { authRoutes } from './routes/authRoute';
+import userRoutes from './routes/userRoutes';
+import { registerRoutes } from './routes/registerRoutes';
+import { authRoutes } from './routes/authRoutes';
 import createHttpError, { isHttpError } from 'http-errors';
 import bodyParser from 'body-parser';
 import cors from 'cors';
@@ -21,7 +21,7 @@ app.use(
   })
 );
 
-// app.use('/api/users', userRoutes);
+app.use('/api/user', userRoutes);
 
 app.use('/api/register', registerRoutes);
 app.use('/api/auth', authRoutes);
