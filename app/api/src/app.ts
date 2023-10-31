@@ -11,6 +11,15 @@ import { connectToDatabase } from './lib/connectToDatabase';
 const bootstrap = async () => {
   // Create an Express application
   const app = express();
+import dotenv from 'dotenv';
+import mongoose from 'mongoose';
+import express from 'express';
+import path from 'path';
+
+const app = express();
+
+dotenv.config();
+const PORT = process.env.PORT || 3000;
 
   // Initialize the database connection
   run().catch(console.dir);

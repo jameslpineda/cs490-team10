@@ -24,7 +24,7 @@ Make sure you have the following installed on your machine:
 3. **Set Up Environment Variables:**  
    Create a .env file in the api directory of the project and add the following:
    ```
-   MONGODB_CONNECTION_STRING=mongodb://your-connection-string
+   MONGODB_URI=mongodb://your-connection-string
    ```
    Replace `your-connection-string` with your actual MongoDB connection string.
 4. **Build the Project (if not using `ts-node` for development):**
