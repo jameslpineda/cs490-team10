@@ -1,9 +1,10 @@
 import { RequestHandler } from 'express';
 import bcrypt from 'bcrypt';
-import UserModel from '../models/user';
+import UserModel from '../models/userModel';
 const { v4: uuidv4 } = require('uuid');
-import { sendVerificationEmail } from '../utils/sendVerificationUtil'
+import { sendVerificationEmail } from '../utils/sendVerificationUtil';
 
+import { generateToken } from '../utils/auth';
 
 export const registerUserHandler: RequestHandler = async (req, res, next) => {
   const { email, password } = req.body;
@@ -21,7 +22,7 @@ export const registerUserHandler: RequestHandler = async (req, res, next) => {
 
     // encrypt the password
     const hashedPassword = await bcrypt.hash(password, 10);
-    
+
     // store new user
     const newUser = new UserModel({
       email,
@@ -33,7 +34,12 @@ export const registerUserHandler: RequestHandler = async (req, res, next) => {
 
     // send the email
     sendVerificationEmail(email, verificationToken);
-    res.status(201).send('User registered and verification email sent.');
+    res.status(201).json({
+      message: 'User registered and verification email sent.',
+      _id: newUser._id,
+      email: newUser.email,
+      token: generateToken(newUser._id),
+    });
   } catch (error) {
     next(error);
   }
@@ -41,6 +47,6 @@ export const registerUserHandler: RequestHandler = async (req, res, next) => {
 
 export const verifyUserHandler: RequestHandler = async (req, res, next) => {
   const token = req.query.token;
-  console.log("User with following token verified: " + token)
-  res.status(201).send("User with following token verified: " + token);
+  console.log('User with following token verified: ' + token);
+  res.status(201).send('User with following token verified: ' + token);
 };
