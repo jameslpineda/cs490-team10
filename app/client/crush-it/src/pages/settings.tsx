@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const Settings:React.FC = () => {
     const [firstName, setFirstName] = useState('John');
@@ -9,10 +10,50 @@ const Settings:React.FC = () => {
     const [longBreak, setLongBreak] = useState('15');
     
     let navigate = useNavigate();
+
     const routeChange = () => {
         let path = '../';
         navigate(path);
     }
+    const routeLogout = () => {
+        // TODO: destroy session
+        toast.success("Successfully Logged Out", {
+            position: toast.POSITION.TOP_CENTER
+        });
+        let path = '../login';
+        navigate(path);
+    }
+
+    const validatePassword = () => {
+        let password = document.getElementById('oldpass') as HTMLInputElement;
+        let newPassword = document.getElementById('newpass') as HTMLInputElement;
+        let confirmNewPassword = document.getElementById('confirmnewpass') as HTMLInputElement;
+        const r = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*()-_+=]{12,}$/;
+
+        // TODO: Check if user inputted password matches DB password
+        if (true) {
+            if (r.test(newPassword.value)) {
+                if (newPassword.value === confirmNewPassword.value) {
+                    toast.success("Password Updated", {
+                        position: toast.POSITION.TOP_CENTER
+                    });
+                    // TODO: Update password on DB
+                } else {
+                    toast.error("Password confirmation doesn't match", {
+                        position: toast.POSITION.TOP_CENTER
+                    });
+                }
+            } else {
+                toast.error("Password doesn't fit criteria", {
+                    position: toast.POSITION.TOP_CENTER
+                });
+            }
+        } else {
+            toast.error("Current Password is incorrect", {
+                position: toast.POSITION.TOP_CENTER
+            });
+        }
+    };
 
     return (
         <div className="flex">
@@ -29,10 +70,20 @@ const Settings:React.FC = () => {
                 <div className="flex justify-center">
                     <p className="w-1/2 text-lg text-white font-fredoka text-center">It's time to plan your day!</p>
                 </div>
-                <div className="flex justify-center items-center pb-10">
+                <div className="flex justify-center items-center pb-20 mb-5">
                     <div className="flex space-x-6 pt-4">
                         <button onClick={routeChange} className="shadow-lg w-25 text-white border border-white bg-gray-900 hover:bg-gray-800 font-semibold py-2 px-8 rounded-md" type="button">
                             Plan Day
+                        </button>
+                    </div>
+                </div>
+                <div className="flex justify-center items-center h-48">
+                    <div className="flex space-x-6">
+                        <button onClick={routeLogout} className="flex shadow-lg w-25 text-white border border-white bg-gray-900 hover:bg-red-500 text-sm py-1 px-4 rounded-md" type="button">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
+                            </svg>
+                            Logout
                         </button>
                     </div>
                 </div>
@@ -118,7 +169,7 @@ const Settings:React.FC = () => {
                             <button onClick={routeChange} className="shadow-lg w-40 bg-white hover:bg-gray-200 text-gray-800 font-bold py-2 px-4 rounded-md" type="button">
                                 Cancel
                             </button>
-                            <button className="shadow-lg w-40 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md" type="button">
+                            <button onClick={validatePassword} className="shadow-lg w-40 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md" type="button">
                                 Save
                             </button>
                         </div>
