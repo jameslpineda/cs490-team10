@@ -1,12 +1,45 @@
 import 'dotenv/config';
-import express from 'express';
-import UserModel from './models/user';
+import express, { Request, Response, NextFunction } from 'express';
+import userRoutes from './routes/users';
+import { registerRoutes } from './routes/registerRoute';
+import { authRoutes } from './routes/authRoute';
+import createHttpError, { isHttpError } from 'http-errors';
+import bodyParser from 'body-parser';
+import cors from 'cors';
 
 const app = express();
 
-app.get('/', async (req, res) => {
-  const users = await UserModel.find().exec();
-  res.status(200).json(users);
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.json());
+
+app.use(
+  cors({
+    origin: true,
+    methods: ['POST', 'PUT', 'GET', 'OPTIONS', 'HEAD', 'PATCH', 'DELETE'],
+    credentials: true,
+  })
+);
+
+// app.use('/api/users', userRoutes);
+
+app.use('/api/register', registerRoutes);
+
+app.use('/api/auth', authRoutes);
+
+app.use((req, res, next) => {
+  next(createHttpError(404, 'Endpoint not found'));
+});
+
+app.use((error: unknown, req: Request, res: Response, next: NextFunction) => {
+  console.log(error);
+  let errorMessage = 'An unknown error has occurred';
+  let statusCode = 500;
+  if (isHttpError(error)) {
+    statusCode = error.status;
+    errorMessage = error.message;
+  }
+  res.status(statusCode).json({ error: errorMessage });
 });
 
 export default app;
