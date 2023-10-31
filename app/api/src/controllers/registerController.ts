@@ -20,12 +20,12 @@ export const registerUserHandler: RequestHandler = async (req, res, next) => {
     const expireTime = Date.now() + 15 * 60 * 1000;
 
     // encrypt the password
-    const hashedPwd = await bcrypt.hash(password, 10);
-
+    const hashedPassword = await bcrypt.hash(password, 10);
+    
     // store new user
     const newUser = new UserModel({
       email,
-      password,
+      password: hashedPassword,
       resetVerificationPasswordToken: verificationToken,
       expireTime,
     });

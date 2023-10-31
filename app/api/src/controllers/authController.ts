@@ -6,7 +6,19 @@ import { forgotPasswordEmailTemplate } from '../utils/email-template';
 import { forgotPasswordValidation } from '../validations/forgot-password';
 import { resetPasswordValidation } from '../validations/reset-password';
 import { coreConfig } from '../utils/config';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import UserModel from '../models/user';
+import { ObjectId } from 'mongodb';
+import 'dotenv/config';
+
 const ONE_HOUR = 3600000; // 1 hour = 3600000 milliseconds
+const TOKEN_EXP_TIME = '7d';
+
+// Create a JWT token
+const createToken = (_id: ObjectId) => {
+  return jwt.sign({ _id }, process.env.SECRET!, { expiresIn: TOKEN_EXP_TIME });
+};
 
 export const forgotPassword: RequestHandler = async (
   req: Request,
@@ -102,5 +114,29 @@ export const resetPassword = async (req: Request, res: Response) => {
     return res.json({ data: { message: 'Password reset successfully' } });
   } catch (error) {
     return res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+export const login: RequestHandler = async (req, res, next) => {
+  const { email, password } = req.body;
+  try {
+    if (!email || !password) {
+      throw Error('All fields must be filled');
+    }
+
+    // Find the user by email
+    const user = await UserModel.findOne({ email });
+
+    // If the user is not found or the password is incorrect
+    if (!user || !(await bcrypt.compare(password, user.password!))) {
+      return res.status(401).json({ message: 'Invalid email or password' });
+    }
+
+    const token = createToken(user._id);
+
+    // Send the token in the response
+    res.status(200).json({ email, token });
+  } catch (error) {
+    next(error);
   }
 };
