@@ -1,29 +1,23 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
-const Settings:React.FC = () => {
+const Settings:React.FC = ({/*Prop of session*/}) => {
+    // TODO: update usestate with session values
     const [firstName, setFirstName] = useState('John');
     const [lastName, setLastName] = useState('Doe');
     const [pomoTimer, setPomoTimer] = useState('25');
     const [shortBreak, setShortBreak] = useState('5');
     const [longBreak, setLongBreak] = useState('15');
-    
+
     let navigate = useNavigate();
-
-    const routeChange = () => {
-        let path = '../';
-        navigate(path);
+    const routeHome = () => {
+        navigate("../");
     }
+
     const routeLogout = () => {
-        // TODO: destroy session
-        toast.success("Successfully Logged Out", {
-            position: toast.POSITION.TOP_CENTER
-        });
-        let path = '../login';
-        navigate(path);
+        navigate("../login");
     }
-
     const validatePassword = () => {
         let password = document.getElementById('oldpass') as HTMLInputElement;
         let newPassword = document.getElementById('newpass') as HTMLInputElement;
@@ -72,7 +66,7 @@ const Settings:React.FC = () => {
                 </div>
                 <div className="flex justify-center items-center pb-20 mb-5">
                     <div className="flex space-x-6 pt-4">
-                        <button onClick={routeChange} className="shadow-lg w-25 text-white border border-white bg-gray-900 hover:bg-gray-800 font-semibold py-2 px-8 rounded-md" type="button">
+                        <button onClick={routeHome} className="shadow-lg w-25 text-white border border-white bg-gray-900 hover:bg-gray-800 font-semibold py-2 px-8 rounded-md" type="button">
                             Plan Day
                         </button>
                     </div>
@@ -94,11 +88,8 @@ const Settings:React.FC = () => {
                         <div className="flex ml-auto p-4 bg-white">
                             <div className="w-1/2 text-left text-2xl font-bold">Profile</div>
                             <div className="w-1/2 flex justify-end">
-                                <button className="flex p-2 text-black border border-back hover:bg-gray-100 font-semibold rounded-md">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
-                                    </svg>
-                                    John Doe
+                                <button data-testid="name" className="flex p-2 text-black border border-back hover:bg-gray-100 font-semibold rounded-md">
+                                    {firstName} {lastName}
                                 </button>
                             </div>
                         </div>
@@ -156,8 +147,8 @@ const Settings:React.FC = () => {
                                                                                                                                                         }}}/>
                         </div>
                         <div className="w-1/3 bg-white p-4 rounded-md">
-                            <label htmlFor="shortbreak" className="text-gray-600 block">Long Break</label>
-                            <input type="number" min="1" step="any" id="shortbreak" className="w-full p-2 border rounded-md shadow" value={longBreak} onChange={(evt) => {
+                            <label htmlFor="longbreak" className="text-gray-600 block">Long Break</label>
+                            <input type="number" min="1" step="any" id="longbreak" className="w-full p-2 border rounded-md shadow" value={longBreak} onChange={(evt) => {
                                                                                                                                                         const alphaRegex = /^[0-9]*$/;
                                                                                                                                                         if (alphaRegex.test(evt.target.value)) {
                                                                                                                                                             setLongBreak(evt.target.value)
@@ -166,7 +157,7 @@ const Settings:React.FC = () => {
                     </div>
                     <div className="flex justify-center items-center pb-10">
                         <div className="flex space-x-6 pt-2">
-                            <button onClick={routeChange} className="shadow-lg w-40 bg-white hover:bg-gray-200 text-gray-800 font-bold py-2 px-4 rounded-md" type="button">
+                            <button onClick={routeHome} className="shadow-lg w-40 bg-white hover:bg-gray-200 text-gray-800 font-bold py-2 px-4 rounded-md" type="button">
                                 Cancel
                             </button>
                             <button onClick={validatePassword} className="shadow-lg w-40 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md" type="button">
