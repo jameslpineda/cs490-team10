@@ -1,5 +1,5 @@
 import { Request, Response, RequestHandler } from 'express';
-import { generateResetToken, hashPassword } from '../utils/auth';
+import { generateResetToken, hashPassword, generateToken } from '../utils/auth';
 import { createUser, getUser, updateUser } from '../services/auth';
 import { sendMail } from '../utils/send-email';
 import { forgotPasswordEmailTemplate } from '../utils/email-template';
@@ -7,18 +7,10 @@ import { forgotPasswordValidation } from '../validations/forgot-password';
 import { resetPasswordValidation } from '../validations/reset-password';
 import { coreConfig } from '../utils/config';
 import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
-import UserModel from '../models/user';
-import { ObjectId } from 'mongodb';
+import UserModel from '../models/userModel';
 import 'dotenv/config';
 
 const ONE_HOUR = 3600000; // 1 hour = 3600000 milliseconds
-const TOKEN_EXP_TIME = '7d';
-
-// Create a JWT token
-const createToken = (_id: ObjectId) => {
-  return jwt.sign({ _id }, process.env.SECRET!, { expiresIn: TOKEN_EXP_TIME });
-};
 
 export const forgotPassword: RequestHandler = async (
   req: Request,
@@ -50,9 +42,8 @@ export const forgotPassword: RequestHandler = async (
       user = await updateUser({ id: user._id }, data);
     } else {
       // If the user doesn't exist, create a new user with reset information
-      return res.status(400).json({error: 'The user does not exist'});
+      return res.status(400).json({ error: 'The user does not exist' });
     }
-
 
     // Create a reset URL and email template
     const resetUrl =
@@ -130,10 +121,10 @@ export const login: RequestHandler = async (req, res, next) => {
       return res.status(401).json({ message: 'Invalid email or password' });
     }
 
-    const token = createToken(user._id);
+    const token = generateToken(user._id);
 
     // Send the token in the response
-    res.status(200).json({ email, token });
+    res.status(200).json({ _id: user._id, email, token });
   } catch (error) {
     next(error);
   }

@@ -1,5 +1,5 @@
 import { UserInterface } from '../interfaces/user';
-import UserModel from '../models/user';
+import UserModel from '../models/userModel';
 
 // Function to get a user based on the query
 export const getUser = async (query: Record<string, any>) => {
