@@ -25,7 +25,6 @@ const Settings:React.FC = ({/*Prop of session*/}) => {
         const r = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*()-_+=]{12,}$/;
         
         // TODO: Update first name, last name, and timer settings
-        alert(password.value);
         if (password.value === "") {
             toast.success("Settings Updated", {
                 position: toast.POSITION.TOP_CENTER
