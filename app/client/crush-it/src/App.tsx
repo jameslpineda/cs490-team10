@@ -9,6 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Home } from './pages/home';
 import Settings from './pages/settings';
 import SignInPage from './pages/signIn';
+import SignUpPage from './pages/signUp';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/signIn' element={<SignInPage />} />
+        <Route path='/signUp' element={<SignUpPage />} />
         <Route path='/forgot-password' element={<ForgotPassword />} />
         <Route path='/reset-password/:id/:token' element={<ResetPassword />} />
         <Route path='/settings' element={<Settings/>} />

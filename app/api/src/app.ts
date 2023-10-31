@@ -24,7 +24,6 @@ app.use(
 // app.use('/api/users', userRoutes);
 
 app.use('/api/register', registerRoutes);
-
 app.use('/api/auth', authRoutes);
 
 app.use((req, res, next) => {

@@ -16,7 +16,7 @@ const Settings:React.FC = ({/*Prop of session*/}) => {
     }
 
     const routeLogout = () => {
-        navigate("../login");
+        navigate("../signIn");
     }
     const validatePassword = () => {
         let password = document.getElementById('oldpass') as HTMLInputElement;
