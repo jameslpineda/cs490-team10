@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const Settings: React.FC = () => {
+const Settings:React.FC = () => {
+    const [firstName, setFirstName] = useState('John');
+    const [lastName, setLastName] = useState('Doe');
+    const [pomoTimer, setPomoTimer] = useState('25');
+    const [shortBreak, setShortBreak] = useState('5');
+    const [longBreak, setLongBreak] = useState('15');
+    
     let navigate = useNavigate();
     const routeChange = () => {
         let path = '../';
@@ -50,11 +56,19 @@ const Settings: React.FC = () => {
                     <div className="flex px-8 py-4">
                         <div className="w-1/2 bg-white p-4 rounded-md">
                             <label htmlFor="firstName" className="text-gray-600 block">First Name</label>
-                            <input type="text" id="firstName" className="w-full p-2 border rounded-md shadow" placeholder="John"/>
+                            <input type="text" id="firstName" className="w-full p-2 border rounded-md shadow" value={firstName} onChange={(evt) => {
+                                const alphaRegex = /^[a-zA-Z]+$/;
+                                if (alphaRegex.test(evt.target.value)) {
+                                    setFirstName(evt.target.value)
+                                }}}/>
                         </div>
                         <div className="w-1/2 bg-white p-4 rounded-md">
                             <label htmlFor="lastName" className="text-gray-600 block">Last Name</label>
-                            <input type="text" id="lastName" className="w-full p-2 border rounded-md shadow" placeholder="Doe"/>
+                            <input type="text" id="lastName" className="w-full p-2 border rounded-md shadow" value={lastName} onChange={(evt) => {
+                                const alphaRegex = /^[a-zA-Z]+$/;
+                                if (alphaRegex.test(evt.target.value)) {
+                                    setLastName(evt.target.value)
+                                }}}/>
                         </div>
                     </div>
                     <h2 className="text-xl font-semibold pt-6 pl-8">Change Password</h2>
@@ -76,15 +90,27 @@ const Settings: React.FC = () => {
                     <div className="flex px-8 py-4">
                         <div className="w-1/3 bg-white p-4 rounded-md">
                             <label htmlFor="pomodoro" className="text-gray-600 block">Pomodoro</label>
-                            <input type="number" min="1" step="any" id="pomodoro" className="w-full p-2 border rounded-md shadow" placeholder="25"/>
+                            <input type="number" min="1" step="any" id="pomodoro" className="w-full p-2 border rounded-md shadow"  value={pomoTimer} onChange={(evt) => {
+                                                                                                                                                        const alphaRegex = /^[0-9]*$/;
+                                                                                                                                                        if (alphaRegex.test(evt.target.value)) {
+                                                                                                                                                            setPomoTimer(evt.target.value)
+                                                                                                                                                        }}}/>
                         </div>
                         <div className="w-1/3 bg-white p-4 rounded-md">
                             <label htmlFor="shortbreak" className="text-gray-600 block">Short Break</label>
-                            <input type="number" min="1" step="any" id="shortbreak" className="w-full p-2 border rounded-md shadow" placeholder="5"/>
+                            <input type="number" min="1" step="any" id="shortbreak" className="w-full p-2 border rounded-md shadow" value={shortBreak} onChange={(evt) => {
+                                                                                                                                                        const alphaRegex = /^[0-9]*$/;
+                                                                                                                                                        if (alphaRegex.test(evt.target.value)) {
+                                                                                                                                                            setShortBreak(shortBreak)
+                                                                                                                                                        }}}/>
                         </div>
                         <div className="w-1/3 bg-white p-4 rounded-md">
                             <label htmlFor="shortbreak" className="text-gray-600 block">Long Break</label>
-                            <input type="number" min="1" step="any" id="shortbreak" className="w-full p-2 border rounded-md shadow" placeholder="15"/>
+                            <input type="number" min="1" step="any" id="shortbreak" className="w-full p-2 border rounded-md shadow" value={longBreak} onChange={(evt) => {
+                                                                                                                                                        const alphaRegex = /^[0-9]*$/;
+                                                                                                                                                        if (alphaRegex.test(evt.target.value)) {
+                                                                                                                                                            setLongBreak(longBreak)
+                                                                                                                                                        }}}/>
                         </div>
                     </div>
                     <div className="flex justify-center items-center pb-10">
