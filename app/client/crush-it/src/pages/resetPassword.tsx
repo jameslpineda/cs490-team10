@@ -32,7 +32,7 @@ const ResetPassword: React.FC = () => {
             if (responseData?.data) {
                 toast.success(responseData?.data?.message);
                 setTimeout(() => {
-                    navigate('/login');
+                    navigate('/signIn');
                 }, 2000);
             } else {
                 toast.error(responseData?.error || 'Invalid Token');

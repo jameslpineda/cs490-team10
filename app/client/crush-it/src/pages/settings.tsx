@@ -16,16 +16,22 @@ const Settings:React.FC = ({/*Prop of session*/}) => {
     }
 
     const routeLogout = () => {
-        navigate("../login");
+        navigate("../signIn");
     }
     const validatePassword = () => {
         let password = document.getElementById('oldpass') as HTMLInputElement;
         let newPassword = document.getElementById('newpass') as HTMLInputElement;
         let confirmNewPassword = document.getElementById('confirmnewpass') as HTMLInputElement;
         const r = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*()-_+=]{12,}$/;
-
+        
+        // TODO: Update first name, last name, and timer settings
+        alert(password.value);
+        if (password.value === "") {
+            toast.success("Settings Updated", {
+                position: toast.POSITION.TOP_CENTER
+            });
         // TODO: Check if user inputted password matches DB password
-        if (true) {
+        } else if (true) {
             if (r.test(newPassword.value)) {
                 if (newPassword.value === confirmNewPassword.value) {
                     toast.success("Password Updated", {
@@ -52,7 +58,7 @@ const Settings:React.FC = ({/*Prop of session*/}) => {
     return (
         <div className="flex">
             <div className="w-1/6 bg-gray-900">
-                <h2 className="text-2xl font-semibold text-white pt-10 font-fredoka font-semibold text-center">Crush It</h2>
+                <h2 className="text-2xl text-white pt-10 font-fredoka font-semibold text-center">Crush It</h2>
                 <div className="flex justify-center py-4">
                     <div className="w-2/3">
                         <hr className="border-gray-600"></hr>
@@ -62,7 +68,7 @@ const Settings:React.FC = ({/*Prop of session*/}) => {
                     <img className="w-13 h-13" src={process.env.PUBLIC_URL + '/image1.png'} alt="Crush It Image" />
                 </div>
                 <div className="flex justify-center">
-                    <p className="w-1/2 text-lg text-white font-fredoka text-center">It's time to plan your day!</p>
+                    <p className="w-1/2 text-lg text-white font-semibold text-center">It's time to plan your day!</p>
                 </div>
                 <div className="flex justify-center items-center pb-20 mb-5">
                     <div className="flex space-x-6 pt-4">

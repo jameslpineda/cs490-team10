@@ -24,9 +24,9 @@ const Navbar: React.FC = () => {
                     </button>
                 </div>
                 <div className={`md:flex md:space-x-4 ${isOpen ? 'block' : 'hidden'}`}>
-                    <Link to="/login" className="flex items-center text-white hover:underline">
+                    <Link to="/signIn" className="flex items-center text-white hover:underline">
                         <FaSignInAlt />
-                        <span className="ml-1">Login</span>
+                        <span className="ml-1">Sign In</span>
                     </Link>
                     <Link to="/signup" className="flex items-center text-white hover:underline">
                         <FaUserPlus />
