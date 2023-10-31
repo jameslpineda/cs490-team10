@@ -1,26 +1,53 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
+
 
 const SignInForm: React.FC = () => {
   // Your sign-in form goes here
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [message, setMessage] = useState<boolean>(false);
+  const [message, setMessage] = useState<string | null>(null);
 
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setMessage(true);
+    
+    try {
+        const response = await fetch('localhost:3000/api/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password }),
+        });
+
+        const data = await response.json();
+        console.log(data);
+
+        if(response.ok) {
+            toast.success('Successful login');
+            // TODO: Handle storing the jwt token or user data in frontend state or context
+
+            // TODO: Redirect user to home page after successful login
+
+        } else {
+            toast.error(data.message || 'Login failed');
+        }
+    } catch (error) {
+        console.error(error);
+        toast.error('An error occurred during login');
+    }
+
+
 };
   return (
     //bg-white rounded-lg shadow-lg p-6 w-full md:w-2/3
     <div className="bg-white rounded-lg p-8">
         <h2 className="text-2xl font-semibold mb-4 text-left">Sign In</h2>
-        {message && (
-            <p className="text-green-600 font-semibold text-center mb-4">
-                Will be added later.
-            </p>
-        )}
+        {/* {message && (
+            <p className={`text-${message.includes('successful') ? 'green' : 'red'}-600 font-semibold text-center mb-4`}>
+            {message}
+          </p>  
+        )} */}
         <form onSubmit={handleSubmit}>
             <div className="mb-4">
                 <label htmlFor="email" className="block text-sm font-medium mb-1 text-gray-700">
