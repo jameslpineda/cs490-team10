@@ -101,7 +101,7 @@ const Settings:React.FC = () => {
                             <input type="number" min="1" step="any" id="shortbreak" className="w-full p-2 border rounded-md shadow" value={shortBreak} onChange={(evt) => {
                                                                                                                                                         const alphaRegex = /^[0-9]*$/;
                                                                                                                                                         if (alphaRegex.test(evt.target.value)) {
-                                                                                                                                                            setShortBreak(shortBreak)
+                                                                                                                                                            setShortBreak(evt.target.value)
                                                                                                                                                         }}}/>
                         </div>
                         <div className="w-1/3 bg-white p-4 rounded-md">
@@ -109,7 +109,7 @@ const Settings:React.FC = () => {
                             <input type="number" min="1" step="any" id="shortbreak" className="w-full p-2 border rounded-md shadow" value={longBreak} onChange={(evt) => {
                                                                                                                                                         const alphaRegex = /^[0-9]*$/;
                                                                                                                                                         if (alphaRegex.test(evt.target.value)) {
-                                                                                                                                                            setLongBreak(longBreak)
+                                                                                                                                                            setLongBreak(evt.target.value)
                                                                                                                                                         }}}/>
                         </div>
                     </div>
