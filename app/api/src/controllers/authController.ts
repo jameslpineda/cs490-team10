@@ -50,11 +50,9 @@ export const forgotPassword: RequestHandler = async (
       user = await updateUser({ id: user._id }, data);
     } else {
       // If the user doesn't exist, create a new user with reset information
-      user = await createUser({
-        ...data,
-        email,
-      });
+      return res.status(400).json({error: 'The user does not exist'});
     }
+
 
     // Create a reset URL and email template
     const resetUrl =
