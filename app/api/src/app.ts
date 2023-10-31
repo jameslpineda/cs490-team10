@@ -1,67 +1,45 @@
-import express from 'express';
-import * as dotenv from 'dotenv';
-dotenv.config();
+import 'dotenv/config';
+import express, { Request, Response, NextFunction } from 'express';
+import userRoutes from './routes/users';
+import { registerRoutes } from './routes/registerRoute';
+import { authRoutes } from './routes/authRoute';
+import createHttpError, { isHttpError } from 'http-errors';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import { run } from './lib/db';
-import { coreConfig } from './utils/config';
-import authRoutes from './routes/auth';
-import { connectToDatabase } from './lib/connectToDatabase';
 
-const bootstrap = async () => {
-  // Create an Express application
-  const app = express();
+const app = express();
 
-  // Initialize the database connection
-  run().catch(console.dir);
-  await connectToDatabase();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.json());
 
-  // Use the body-parser middleware to parse JSON request bodies
-  app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({ extended: false }));
-  app.use(express.json());
-
-  // Use the 'cors' middleware to handle CORS headers and pre-flight requests
-  app.use(cors({
+app.use(
+  cors({
     origin: true,
     methods: ['POST', 'PUT', 'GET', 'OPTIONS', 'HEAD', 'PATCH', 'DELETE'],
     credentials: true,
-  }));
+  })
+);
 
-  // API routes
-  app.use('/api', authRoutes);
+// app.use('/api/users', userRoutes);
 
-  // Start the Express server
-  app.listen(coreConfig.port, () => {
-    console.log(`Server listening on port ${coreConfig.port}`);
-  });
+app.use('/api/register', registerRoutes);
 
-  // Set trust proxy to enable 'X-Forwarded-For' header
-  app.set('trust proxy', true);
+app.use('/api/auth', authRoutes);
 
-  // Handle unexpected router hits by returning a 404 error
-  app.all('*', (req, res, next) => {
-    next(
-      res.status(404).json({ err: `Can't find ${req.originalUrl} on this server!` })
-    );
-  });
+app.use((req, res, next) => {
+  next(createHttpError(404, 'Endpoint not found'));
+});
 
-  // Handle unhandled promise rejections
-  process.on('unhandledRejection', (err: any) => {
-    console.log('UNHANDLED REJECTION! 💥 Shutting down...');
-  });
+app.use((error: unknown, req: Request, res: Response, next: NextFunction) => {
+  console.log(error);
+  let errorMessage = 'An unknown error has occurred';
+  let statusCode = 500;
+  if (isHttpError(error)) {
+    statusCode = error.status;
+    errorMessage = error.message;
+  }
+  res.status(statusCode).json({ error: errorMessage });
+});
 
-  // Handle SIGTERM signal
-  process.on('SIGTERM', () => {
-    console.log('👋 SIGTERM RECEIVED. Shutting down gracefully');
-  });
-
-  // Handle uncaught exceptions
-  process.on('uncaughtException', err => {
-    console.log('UNCAUGHT EXCEPTION! 💥 Shutting down...');
-  });
-};
-
-(async () => {
-  await bootstrap();
-})();
+export default app;
