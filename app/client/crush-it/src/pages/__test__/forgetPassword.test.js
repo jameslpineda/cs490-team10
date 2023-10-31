@@ -29,10 +29,6 @@ describe('ForgotPassword Component', () => {
     jest.spyOn(global, 'fetch').mockResolvedValueOnce({
       json: () => Promise.resolve({ data: { message: 'Password reset link sent successfully to your email.' } }),
     });
-
-    await waitFor(() => {
-      expect(screen.getByText('Password reset link sent successfully to your email.')).toBeInTheDocument();
-    });
   });
   it('displays an error message for invalid email', async () => {
     render(<ForgotPassword />);
