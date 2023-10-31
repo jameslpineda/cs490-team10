@@ -121,7 +121,8 @@ export const login: RequestHandler = async (req, res, next) => {
   const { email, password } = req.body;
   try {
     if (!email || !password) {
-      throw Error('All fields must be filled');
+      return res.status(400).json({ message: 'All fields must be filled' });
+      //throw Error('All fields must be filled');
     }
 
     // Find the user by email
