@@ -48,9 +48,12 @@ const SignInForm: React.FC = () => {
                     required
                 />
             </div>
-            <button className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600 w-full">
-                Sign In
-            </button>
+            <div className='flex justify-center'>
+                <button className="bg-blue-500 text-white p-2 rounded-xl hover:bg-blue-600 w-1/2">
+                    Sign In
+                </button>
+            </div>
+
         </form>
         <div className="mt-4 text-sm text-blue-500">
             <Link to="/forgot-password">Forgot Password?</Link>

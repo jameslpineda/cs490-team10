@@ -8,7 +8,7 @@ const SignInPage: React.FC = () => {
   return (
     <div className="flex h-screen">
       {/* Left 60% - Black Section */}
-      <div className="flex-2 bg-black w-3/5 rounded-r-lg p-8">
+      <div className="flex-2 bg-gray-900 w-3/5 rounded-r-lg p-8">
         {/* Your large logo goes here */}
         <div className="text-white text-6xl font-bold mt-16 mb-4 text-center">
             <h2>Crush It</h2>
@@ -19,7 +19,7 @@ const SignInPage: React.FC = () => {
       </div>
 
       {/* Right 40% - White Section */}
-      <div className="absolute inset-y-4 right-11 w-2/5 bg-white rounded-lg p-2 drop-shadow-md">
+      <div className="absolute inset-y-8 right-11 w-5/12 bg-white rounded-lg p-2 drop-shadow-xl">
         {/* SignInForm Component */}
         <SignInForm />
       </div>
