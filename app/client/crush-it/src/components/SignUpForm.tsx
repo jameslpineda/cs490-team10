@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
 
 const SignUpForm: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -85,8 +86,10 @@ const SignUpForm: React.FC = () => {
                     Sign Up
                 </button>
             </div>
-            <div className="flex justify-center mb-4">
-                Already have an account? Sign in here!
+            <div className="flex w-full justify-center">
+                <div className="flex w-96 bg-gray-300 justify-center rounded-xl p-3 mt-40">
+                    Already have an account?&nbsp;<Link to="/signIn" className="text-sky-700">Sign in here!</Link>
+                </div>
             </div>
         </form>
     </div>
