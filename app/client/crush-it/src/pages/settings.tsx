@@ -10,8 +10,17 @@ const Settings:React.FC = () => {
     const [longBreak, setLongBreak] = useState('15');
     
     let navigate = useNavigate();
+
     const routeChange = () => {
         let path = '../';
+        navigate(path);
+    }
+    const routeLogout = () => {
+        // TODO: destroy session
+        toast.success("Successfully Logged Out", {
+            position: toast.POSITION.TOP_CENTER
+        });
+        let path = '../login';
         navigate(path);
     }
 
@@ -61,10 +70,20 @@ const Settings:React.FC = () => {
                 <div className="flex justify-center">
                     <p className="w-1/2 text-lg text-white font-fredoka text-center">It's time to plan your day!</p>
                 </div>
-                <div className="flex justify-center items-center pb-10">
+                <div className="flex justify-center items-center pb-20 mb-5">
                     <div className="flex space-x-6 pt-4">
                         <button onClick={routeChange} className="shadow-lg w-25 text-white border border-white bg-gray-900 hover:bg-gray-800 font-semibold py-2 px-8 rounded-md" type="button">
                             Plan Day
+                        </button>
+                    </div>
+                </div>
+                <div className="flex justify-center items-center h-48">
+                    <div className="flex space-x-6">
+                        <button onClick={routeLogout} className="flex shadow-lg w-25 text-white border border-white bg-gray-900 hover:bg-red-500 text-sm py-1 px-4 rounded-md" type="button">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
+                            </svg>
+                            Logout
                         </button>
                     </div>
                 </div>
