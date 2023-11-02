@@ -1,15 +1,13 @@
-import 'dotenv/config';
 import app from './app';
 import mongoose from 'mongoose';
-
-const port = process.env.PORT || 3000;
+import { coreConfig, dbConfig } from './utils/config';
 
 mongoose
-  .connect(process.env.MONGODB_CONNECTION_STRING!)
+  .connect(dbConfig.mongodb.connectionString)
   .then(() => {
     console.log('Mongoose connected');
-    app.listen(port, () => {
-      console.log(`Server running on port ${port}`);
+    app.listen(coreConfig.apiPort, () => {
+      console.log(`Server running on port ${coreConfig.apiPort}`);
     });
   })
   .catch(console.error);

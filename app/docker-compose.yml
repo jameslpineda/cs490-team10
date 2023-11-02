@@ -1,0 +1,43 @@
+version: '3.8'
+services:
+  web:
+    image: web
+    build: ./web/
+    stdin_open: true
+    ports:
+      - '3000:3000'
+    networks:
+      - crushit-network
+    volumes:
+      - ./web/:/app
+      - /app/node_modules
+  api:
+    image: api
+    build: ./api
+    env_file:
+      - ./.env.local
+    environment:
+      NODE_ENV: local
+    ports:
+      - '443:443'
+    networks:
+      - crushit-network
+    volumes:
+      - ./api/:/app
+      - /app/node_modules
+    depends_on:
+      - db
+  db:
+    image: 'mongo'
+    ports:
+      - '27017:27017'
+    networks:
+      - crushit-network
+    volumes:
+      - mongo-data:/data/db
+networks:
+  crushit-network:
+    driver: bridge
+volumes:
+  mongo-data:
+    driver: local
