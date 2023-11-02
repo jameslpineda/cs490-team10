@@ -1,6 +1,7 @@
 import { useState, ChangeEvent, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { coreConfig } from '../utils/config';
 
 const ForgotPassword: React.FC = () => {
   const [email, setEmail] = useState<string>('');
@@ -18,7 +19,7 @@ const ForgotPassword: React.FC = () => {
 
     try {
       const response = await fetch(
-        'http://localhost:3000/api/auth/forgot-password',
+        `${coreConfig.restApiUrl}/api/auth/forgot-password`,
         {
           method: 'POST',
           headers: {
