@@ -32,10 +32,10 @@ const protect = async (
 
       next();
     } catch (error) {
+      res.status(401);
       next(error);
     }
   }
-
   if (!token) {
     return res.status(401).json({ message: 'Not authorized, no token' });
   }

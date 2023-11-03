@@ -1,44 +1,38 @@
-import 'dotenv/config';
-import express, { Request, Response, NextFunction } from 'express';
+import express from 'express';
+import cors from 'cors';
+import errorHandler from './middleware/errorHandler';
 import userRoutes from './routes/userRoutes';
 import { registerRoutes } from './routes/registerRoutes';
 import { authRoutes } from './routes/authRoutes';
-import createHttpError, { isHttpError } from 'http-errors';
-import bodyParser from 'body-parser';
-import cors from 'cors';
+import { corsConfig } from './utils/config';
 
 const app = express();
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cors(corsConfig));
+
+// middleware
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
-app.use(
-  cors({
-    origin: true,
-    methods: ['POST', 'PUT', 'GET', 'OPTIONS', 'HEAD', 'PATCH', 'DELETE'],
-    credentials: true,
-  })
-);
+app.use((req, res, next) => {
+  console.log(req.path, req.method);
+  next();
+});
 
+// routes
 app.use('/api/user', userRoutes);
-
 app.use('/api/register', registerRoutes);
 app.use('/api/auth', authRoutes);
 
-app.use((req, res, next) => {
-  next(createHttpError(404, 'Endpoint not found'));
+app.all('*', (req, res) => {
+  res.status(404);
+  if (req.accepts('.json')) {
+    res.json({ message: '404 not found' });
+  } else {
+    res.type('txt').send('404 not found');
+  }
 });
 
-app.use((error: unknown, req: Request, res: Response, next: NextFunction) => {
-  console.log(error);
-  let errorMessage = 'An unknown error has occurred';
-  let statusCode = 500;
-  if (isHttpError(error)) {
-    statusCode = error.status;
-    errorMessage = error.message;
-  }
-  res.status(statusCode).json({ error: errorMessage });
-});
+app.use(errorHandler);
 
 export default app;

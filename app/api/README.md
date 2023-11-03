@@ -19,29 +19,16 @@ Make sure you have the following installed on your machine:
    ```
 2. **Install Dependencies:**
    ```bash
-   npm install
+   yarn install
    ```
-3. **Set Up Environment Variables:**  
-   Create a .env file in the `api` directory of the project and add the following:
-   ```
-   MONGODB_CONNECTION_STRING=mongodb://your-connection-string
-   ```
-   Replace `your-connection-string` with your actual MongoDB connection string.
-4. **Build the Project:**
-   ```
-   yarn run build
-   ```
-5. **Run the Application:**
+3. **Set Up Environment Variables:**
+4. **Run the Application:**
 
-- For production:
-  ```
-  yarn run start
-  ```
 - For development:
   ```
-  yarn run dev
+  yarn dev
   ```
 
 5. **Access the Application:**
 
-- Open your web browser and go to http://localhost:3000
+- Open your web browser and go to http://localhost:443
