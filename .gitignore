@@ -1,0 +1,13 @@
+.DS_Store
+.env
+.env.local
+.env.development
+
+**/node_modules/
+**/logs/
+
+# react
+build/
+
+# express
+dist/
