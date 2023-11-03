@@ -1,10 +1,9 @@
 {
   "name": "api",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "dist/src/server.js",
   "license": "MIT",
   "dependencies": {
-    "@types/mongoose": "^5.11.97",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
@@ -15,7 +14,7 @@
     "joi": "^17.11.0",
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.2.0",
-    "mongoose": "^7.6.3",
+    "mongoose": "^8.0.0",
     "nodemailer": "^6.9.7",
     "path": "^0.12.7",
     "uuid": "^9.0.1"
@@ -30,6 +29,9 @@
     "@types/node": "^20.8.10",
     "@types/nodemailer": "^6.4.13",
     "@types/supertest": "^2.0.15",
+    "@typescript-eslint/eslint-plugin": "^6.9.1",
+    "@typescript-eslint/parser": "^6.9.1",
+    "eslint": "^8.52.0",
     "jest": "^29.7.0",
     "nodemon": "^3.0.1",
     "supertest": "^6.3.3",
