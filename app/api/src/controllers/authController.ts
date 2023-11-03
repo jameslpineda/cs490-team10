@@ -1,6 +1,6 @@
 import { Request, Response, RequestHandler } from 'express';
 import { generateResetToken, hashPassword, generateToken } from '../utils/auth';
-import { createUser, getUser, updateUser } from '../services/auth';
+import { getUser, updateUser } from '../services/auth';
 import { sendMail } from '../utils/send-email';
 import { forgotPasswordEmailTemplate } from '../utils/email-template';
 import { forgotPasswordValidation } from '../validations/forgot-password';

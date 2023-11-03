@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express';
 import bcrypt from 'bcrypt';
 import UserModel from '../models/userModel';
-const { v4: uuidv4 } = require('uuid');
+import { v4 as uuidv4 } from 'uuid';
 import { sendVerificationEmail } from '../utils/sendVerificationUtil';
 
 import { generateToken } from '../utils/auth';
@@ -45,7 +45,7 @@ export const registerUserHandler: RequestHandler = async (req, res, next) => {
   }
 };
 
-export const verifyUserHandler: RequestHandler = async (req, res, next) => {
+export const verifyUserHandler: RequestHandler = async (req, res) => {
   const token = req.query.token;
   console.log('User with following token verified: ' + token);
   res.status(201).send('User with following token verified: ' + token);

@@ -1,9 +1,10 @@
-import { RequestHandler, Request, Response, NextFunction } from 'express';
+import { RequestHandler, Response, NextFunction } from 'express';
 import UserModel from '../models/userModel';
+import { AuthRequestInterface as AuthRequest } from '../interfaces/authInterface';
 
-interface CustomRequest extends Request {
-  user?: any; // Define a custom 'user' property
-}
+// interface CustomRequest extends Request {
+//   user?: any; // Define a custom 'user' property
+// }
 
 export const getUsers: RequestHandler = async (req, res, next) => {
   try {
@@ -14,9 +15,16 @@ export const getUsers: RequestHandler = async (req, res, next) => {
   }
 };
 
-export const getMe: RequestHandler = async (req: CustomRequest, res, next) => {
+export const getMe = async (
+  req: AuthRequest,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
-    const user = await UserModel.findById(req.user.id);
+    if (!req.user) {
+      return res.status(403).json({ message: 'User not authenticated' }); // forbidden
+    }
+    const user = await UserModel.findById(req.user._id);
 
     if (!user) {
       res.status(400).json({ message: 'User not found' });

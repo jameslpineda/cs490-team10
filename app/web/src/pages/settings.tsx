@@ -14,7 +14,7 @@ const Settings: React.FC = (
   const [shortBreak, setShortBreak] = useState('5');
   const [longBreak, setLongBreak] = useState('15');
 
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   const routeHome = () => {
     navigate('../');
   };
@@ -23,9 +23,9 @@ const Settings: React.FC = (
     navigate('../signIn');
   };
   const validatePassword = () => {
-    let password = document.getElementById('oldpass') as HTMLInputElement;
-    let newPassword = document.getElementById('newpass') as HTMLInputElement;
-    let confirmNewPassword = document.getElementById(
+    const password = document.getElementById('oldpass') as HTMLInputElement;
+    const newPassword = document.getElementById('newpass') as HTMLInputElement;
+    const confirmNewPassword = document.getElementById(
       'confirmnewpass',
     ) as HTMLInputElement;
     const r = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*()-_+=]{12,}$/;

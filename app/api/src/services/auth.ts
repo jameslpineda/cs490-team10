@@ -2,7 +2,7 @@ import { UserInterface } from '../interfaces/user';
 import UserModel from '../models/userModel';
 
 // Function to get a user based on the query
-export const getUser = async (query: Record<string, any>) => {
+export const getUser = async (query: Record<string, unknown>) => {
   try {
     return await UserModel.findOne(query).lean();
   } catch (error) {
@@ -13,7 +13,7 @@ export const getUser = async (query: Record<string, any>) => {
 
 // Function to update a user based on the query and data
 export const updateUser = async (
-  query: Record<string, any>,
+  query: Record<string, unknown>,
   data: Partial<UserInterface>,
 ) => {
   try {

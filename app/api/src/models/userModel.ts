@@ -1,4 +1,3 @@
-import { Int32 } from 'mongodb';
 import { InferSchemaType, model, Schema } from 'mongoose';
 
 const userSchema = new Schema(

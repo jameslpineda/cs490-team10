@@ -5,6 +5,7 @@ import userRoutes from './routes/userRoutes';
 import { registerRoutes } from './routes/registerRoutes';
 import { authRoutes } from './routes/authRoutes';
 import { corsConfig } from './utils/config';
+import { logger } from './middleware/logger';
 
 const app = express();
 
@@ -14,10 +15,7 @@ app.use(cors(corsConfig));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use((req, res, next) => {
-  console.log(req.path, req.method);
-  next();
-});
+app.use(logger);
 
 // routes
 app.use('/api/user', userRoutes);
