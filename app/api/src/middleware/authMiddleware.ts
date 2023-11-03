@@ -1,20 +1,13 @@
 import 'dotenv/config';
-import jwt, { JwtPayload } from 'jsonwebtoken';
-import { Request, Response, NextFunction } from 'express';
+import jwt from 'jsonwebtoken';
+import { Response, NextFunction } from 'express';
 import UserModel from '../models/userModel';
+import {
+  AuthRequestInterface as AuthRequest,
+  DecodedToken,
+} from '../interfaces/authInterface';
 
-interface CustomRequest extends Request {
-  user?: any; // Define a custom 'user' property
-}
-interface DecodedToken extends JwtPayload {
-  _id: any;
-}
-
-const protect = async (
-  req: CustomRequest,
-  res: Response,
-  next: NextFunction
-) => {
+const protect = async (req: AuthRequest, res: Response, next: NextFunction) => {
   let token;
   if (
     req.headers.authorization &&
@@ -25,20 +18,27 @@ const protect = async (
       token = req.headers.authorization.split(' ')[1];
 
       // verify token
-      const decoded = jwt.verify(token, process.env.SECRET!) as DecodedToken;
+      if (!process.env.SECRET) throw new Error('Missing SECRET');
+      const decoded = jwt.verify(token, process.env.SECRET) as DecodedToken;
 
       // get user from token
-      req.user = await UserModel.findById(decoded._id);
+      const user = await UserModel.findById(decoded._id);
+      if (!user || !token) {
+        return res
+          .status(401)
+          .json({ message: 'Not authorized, invalid or no token' });
+      }
+      req.user = user;
 
       next();
     } catch (error) {
+      res.status(401);
       next(error);
     }
   }
-
-  if (!token) {
-    return res.status(401).json({ message: 'Not authorized, no token' });
-  }
+  // if (!token) {
+  //   return res.status(401).json({ message: 'Not authorized, no token' });
+  // }
 };
 
 export default protect;

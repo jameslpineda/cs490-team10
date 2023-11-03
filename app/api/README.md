@@ -2,46 +2,22 @@
 
 This is the backend of the Crush It application.
 
-## Prerequisites
+## Development
 
-Make sure you have the following installed on your machine:
+1. **Important!**
 
-- [Node.js](https://nodejs.org/) - JavaScript runtime
-- [npm](https://www.npmjs.com/) - Node.js package manager
-- [MongoDB](https://www.mongodb.com/) - NoSQL database (if developing on the db locally)
+- When working in the backend, you need to make sure you are in `app/api`
 
-## Getting Started
-
-1. **Clone the Repository:**
+2. **Install/Update Dependencies:**
    ```bash
-   git clone git@github.com:rubykap30/cs490-team10.git
-   cd cs490-team10/
+   yarn install
    ```
-2. **Install Dependencies:**
-   ```bash
-   npm install
-   ```
-3. **Set Up Environment Variables:**  
-   Create a .env file in the `api` directory of the project and add the following:
-   ```
-   MONGODB_CONNECTION_STRING=mongodb://your-connection-string
-   ```
-   Replace `your-connection-string` with your actual MongoDB connection string.
-4. **Build the Project:**
-   ```
-   yarn run build
-   ```
-5. **Run the Application:**
+3. **Run the Server:**
 
-- For production:
-  ```
-  yarn run start
-  ```
 - For development:
   ```
-  yarn run dev
+  yarn dev
   ```
 
-5. **Access the Application:**
-
-- Open your web browser and go to http://localhost:3000
+4. **Access the API:**
+   http://localhost:443

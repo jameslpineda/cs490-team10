@@ -1,7 +1,4 @@
-import {
-  Routes,
-  Route,
-} from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import ForgotPassword from './pages/forgotPassword';
 import ResetPassword from './pages/resetPassword';
 import { ToastContainer } from 'react-toastify';
@@ -15,12 +12,30 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/signIn' element={<SignInPage />} />
-        <Route path='/signUp' element={<SignUpPage />} />
-        <Route path='/forgot-password' element={<ForgotPassword />} />
-        <Route path='/reset-password/:id/:token' element={<ResetPassword />} />
-        <Route path='/settings' element={<Settings/>} />
+        <Route
+          path="/"
+          element={<Home />}
+        />
+        <Route
+          path="/signIn"
+          element={<SignInPage />}
+        />
+        <Route
+          path="/signUp"
+          element={<SignUpPage />}
+        />
+        <Route
+          path="/forgot-password"
+          element={<ForgotPassword />}
+        />
+        <Route
+          path="/reset-password/:id/:token"
+          element={<ResetPassword />}
+        />
+        <Route
+          path="/settings"
+          element={<Settings />}
+        />
       </Routes>
       <ToastContainer
         position="top-right"

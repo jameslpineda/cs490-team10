@@ -7,7 +7,7 @@ mongoose
   .then(() => {
     console.log('Mongoose connected');
     app.listen(coreConfig.apiPort, () => {
-      console.log(`Server running on port ${coreConfig.apiPort}`);
+      console.log(`Server listening on port ${coreConfig.apiPort}`);
     });
   })
   .catch(console.error);

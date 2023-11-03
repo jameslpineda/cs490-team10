@@ -11,4 +11,4 @@ COPY . .
 
 EXPOSE 443
 
-CMD ["yarn", "start"]
+CMD ["yarn", "dev"]

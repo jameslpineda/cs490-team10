@@ -26,7 +26,7 @@ const ResetPassword: React.FC = () => {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({ id, token, password }),
-        }
+        },
       );
 
       const responseData = await response.json();

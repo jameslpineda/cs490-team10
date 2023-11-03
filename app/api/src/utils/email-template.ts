@@ -1,5 +1,5 @@
 export const forgotPasswordEmailTemplate = (url: string) => {
-   return `<!DOCTYPE html>
+  return `<!DOCTYPE html>
     <html lang="en">
     <head>
       <meta charset="UTF-8">
@@ -68,4 +68,4 @@ export const forgotPasswordEmailTemplate = (url: string) => {
     </body>
     </html>
     `;
-}
+};
