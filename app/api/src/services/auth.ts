@@ -14,13 +14,13 @@ export const getUser = async (query: Record<string, any>) => {
 // Function to update a user based on the query and data
 export const updateUser = async (
   query: Record<string, any>,
-  data: Partial<UserInterface>
+  data: Partial<UserInterface>,
 ) => {
   try {
     return await UserModel.findOneAndUpdate(
       query,
       { $set: data },
-      { new: true }
+      { new: true },
     ).lean();
   } catch (error) {
     console.log(error);

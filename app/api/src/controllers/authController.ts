@@ -14,7 +14,7 @@ const ONE_HOUR = 3600000; // 1 hour = 3600000 milliseconds
 
 export const forgotPassword: RequestHandler = async (
   req: Request,
-  res: Response
+  res: Response,
 ) => {
   console.log(req.body);
   const { email } = req.body;
@@ -94,7 +94,7 @@ export const resetPassword = async (req: Request, res: Response) => {
         password: hashedPassword,
         resetPasswordToken: null,
         resetPasswordExpireTime: null,
-      }
+      },
     );
     if (!data) {
       return res.status(400).json({ error: 'Password Reset Failed' });

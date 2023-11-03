@@ -4,8 +4,8 @@ import Settings from '../settings';
 
 const mockedUsedNavigate = jest.fn();
 
-jest.mock("react-router-dom", () => ({
-  useNavigate: () => mockedUsedNavigate
+jest.mock('react-router-dom', () => ({
+  useNavigate: () => mockedUsedNavigate,
 }));
 
 describe('Settings Component', () => {

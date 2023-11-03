@@ -13,7 +13,7 @@ interface DecodedToken extends JwtPayload {
 const protect = async (
   req: CustomRequest,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   let token;
   if (

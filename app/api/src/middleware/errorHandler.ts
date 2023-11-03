@@ -5,11 +5,11 @@ const errorHandler = (
   err: Error,
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   logEvents(
     `${err.name}: ${err.message}\t${req.method}\t${req.url}\t${req.headers.origin}`,
-    'errLog.log'
+    'errLog.log',
   );
   console.log(err.stack);
 

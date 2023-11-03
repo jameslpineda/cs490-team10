@@ -26,7 +26,7 @@ const ForgotPassword: React.FC = () => {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({ email }),
-        }
+        },
       );
 
       const responseData = await response.json();

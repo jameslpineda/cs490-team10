@@ -20,7 +20,7 @@ const SignUpForm: React.FC = () => {
     if (!passwordPattern.test(password)) {
       toast.error(
         'Must have at least one lowercase and uppercase letter, one digit, one special char, and minimum 12 chars',
-        { position: toast.POSITION.TOP_RIGHT }
+        { position: toast.POSITION.TOP_RIGHT },
       );
       return; // Stop the function here
     }
@@ -33,7 +33,7 @@ const SignUpForm: React.FC = () => {
           {
             email,
             password,
-          }
+          },
         );
         toast.success('Verification Email Sent!', {
           position: toast.POSITION.TOP_RIGHT,
@@ -116,7 +116,10 @@ const SignUpForm: React.FC = () => {
         <div className="flex w-full justify-center">
           <div className="flex w-96 bg-gray-300 justify-center rounded-xl p-3 mt-40">
             Already have an account?&nbsp;
-            <Link to="/signIn" className="text-sky-700">
+            <Link
+              to="/signIn"
+              className="text-sky-700"
+            >
               Sign in here!
             </Link>
           </div>

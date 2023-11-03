@@ -89,7 +89,10 @@ const SignInForm: React.FC = () => {
       <div className="flex w-full justify-center">
         <div className="flex w-96 bg-gray-300 justify-center rounded-xl p-3 mt-52">
           Need an account?&nbsp;
-          <Link to="/signUp" className="text-sky-700">
+          <Link
+            to="/signUp"
+            className="text-sky-700"
+          >
             Sign up here!
           </Link>
         </div>

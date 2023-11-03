@@ -10,10 +10,13 @@ const SignInPage: React.FC = () => {
       {/* Left 60% - Black Section */}
       <div className="flex-2 bg-gray-900 w-3/5 rounded-r-lg p-8">
         <div className="text-white text-6xl font-bold mt-16 mb-4 text-center">
-            <h2>Crush It</h2>
-            <div className="flex justify-center">
-                <img src={crushItLogo} alt="Crush It Logo"/>
-            </div>
+          <h2>Crush It</h2>
+          <div className="flex justify-center">
+            <img
+              src={crushItLogo}
+              alt="Crush It Logo"
+            />
+          </div>
         </div>
       </div>
 
