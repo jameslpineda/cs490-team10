@@ -8,5 +8,6 @@ router.get('/info', requireAuth, UserController.info);
 router.post('/sign-up', UserController.signUp);
 router.post('/sign-in', UserController.signIn);
 router.get('/verify', UserController.verify);
+router.post('/update', requireAuth, UserController.update);
 
 export default router;

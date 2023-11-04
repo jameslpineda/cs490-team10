@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 import { ObjectId } from 'mongodb';
 import jwt from 'jsonwebtoken';
 
-const TOKEN_EXP_TIME = '7d';
+const TOKEN_EXP_TIME = '1d';
 
 // Function to generate a random reset token (UUID)
 export const generateResetToken = (): string => {

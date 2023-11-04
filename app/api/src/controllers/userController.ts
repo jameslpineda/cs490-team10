@@ -8,7 +8,9 @@ import { generateToken } from '../utils/auth';
 import {
   signUpValidation,
   signInValidation,
+  updateUserValidation,
 } from '../validations/userValidation';
+import { UpdateFieldsInterface } from '../interfaces/userInterface';
 
 // @desc Returns info on logged-in user
 // @route GET /user/info
@@ -102,7 +104,7 @@ export const signIn: RequestHandler = async (req, res, next) => {
     const user = await UserModel.findOne({ email });
 
     // If the user is not found or the password is incorrect
-    if (!user || !(await bcrypt.compare(password, user.password!))) {
+    if (!user || !(await bcrypt.compare(password, user.password))) {
       return res.status(401).json({ message: 'Invalid email or password.' });
     }
 
@@ -145,4 +147,92 @@ export const verify: RequestHandler = async (req, res) => {
   res
     .status(200)
     .json({ message: 'User with following token verified: ' + token });
+};
+
+// @desc Updates user
+// @route POST /user/info
+// @access Private
+export const update = async (
+  req: AuthRequest,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const validation = updateUserValidation(req.body);
+    if (validation.error) {
+      return res
+        .status(422)
+        .json({ error: validation.error.details[0].message });
+    }
+
+    const updateFields: UpdateFieldsInterface = {};
+
+    // If new password in request body
+    if (req.body.new_password) {
+      // First check that they provide a current password
+      if (!req.body.current_password) {
+        return res.status(400).json({
+          message: 'Current password is required.',
+        });
+      }
+
+      // Find the user by email
+      const user = await UserModel.findOne({ _id: req.user_id });
+
+      // Validate password if password is in request body
+      if (
+        !user ||
+        !(await bcrypt.compare(req.body.current_password, user.password!))
+      ) {
+        return res
+          .status(401)
+          .json({ message: 'Current password is incorrect.' });
+      }
+
+      // Encrypt and add new password to update field
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(req.body.new_password, salt);
+      updateFields['password'] = hashedPassword;
+    }
+
+    // Add parameters to be updated
+    if (req.body.first_name) {
+      updateFields.first_name = req.body.first_name;
+    }
+    if (req.body.last_name) {
+      updateFields.last_name = req.body.last_name;
+    }
+    if (req.body.pomodoro) {
+      updateFields.pomodoro = req.body.pomodoro;
+    }
+    if (req.body.short_break) {
+      updateFields.short_break = req.body.short_break;
+    }
+    if (req.body.long_break) {
+      updateFields.long_break = req.body.long_break;
+    }
+
+    // Find the user and verify if they exist
+    const updatedUser = await UserModel.findOneAndUpdate(
+      { _id: req.user_id },
+      {
+        $set: updateFields,
+      },
+      { new: true },
+    );
+
+    // If the update failed
+    if (!updatedUser) {
+      return res
+        .status(404)
+        .json({ status: 'Invalid or expired verification token.' });
+    }
+
+    res.status(200).json({
+      message: 'Successfully updated values',
+      updatedValues: Object.keys(updateFields),
+    });
+  } catch (error) {
+    next(error);
+  }
 };
