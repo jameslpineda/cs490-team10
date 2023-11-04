@@ -165,6 +165,13 @@ export const update = async (
         .json({ error: validation.error.details[0].message });
     }
 
+    // If request body is empty, do nothing
+    if (Object.keys(req.body).length === 0) {
+      return res.status(200).json({
+        message: 'No changes were made.',
+      });
+    }
+
     const updateFields: UpdateFieldsInterface = {};
 
     // If new password in request body
