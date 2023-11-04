@@ -20,5 +20,8 @@ export const hashPassword = (password: string) => {
 
 // Create a JWT token
 export const generateToken = (_id: ObjectId) => {
-  return jwt.sign({ _id }, process.env.SECRET!, { expiresIn: TOKEN_EXP_TIME });
+  if (!process.env.SECRET) {
+    throw new Error('JWT Secret missing');
+  }
+  return jwt.sign({ _id }, process.env.SECRET, { expiresIn: TOKEN_EXP_TIME });
 };

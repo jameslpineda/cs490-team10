@@ -1,15 +1,7 @@
-import { InferSchemaType, model, Schema } from 'mongoose';
+import mongoose, { InferSchemaType, model } from 'mongoose';
 
-const userSchema = new Schema(
+const UserSchema = new mongoose.Schema(
   {
-    first_name: {
-      type: String,
-      default: 'John',
-    },
-    last_name: {
-      type: String,
-      default: 'Doe',
-    },
     email: {
       type: String,
       unique: true,
@@ -19,6 +11,14 @@ const userSchema = new Schema(
     password: {
       type: String,
       required: true,
+    },
+    first_name: {
+      type: String,
+      default: null,
+    },
+    last_name: {
+      type: String,
+      default: null,
     },
     pomodoro: {
       type: Number,
@@ -32,8 +32,13 @@ const userSchema = new Schema(
       type: Number,
       default: 15,
     },
-    resetPasswordToken: String,
-    resetPasswordExpireTime: Number,
+    verification_token: {
+      type: String,
+    },
+    is_verified: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,
@@ -41,6 +46,6 @@ const userSchema = new Schema(
   },
 );
 
-type User = InferSchemaType<typeof userSchema>;
+type User = InferSchemaType<typeof UserSchema>;
 
-export default model<User>('User', userSchema);
+export default model<User>('User', UserSchema);
