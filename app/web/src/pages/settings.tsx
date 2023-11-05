@@ -1,12 +1,10 @@
+/* eslint-disable react/no-unescaped-entities */
+/* eslint-disable no-undef */
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
-const Settings: React.FC = (
-  {
-    /*Prop of session*/
-  },
-) => {
+const Settings: React.FC = () => {
   // TODO: update usestate with session values
   const [firstName, setFirstName] = useState('John');
   const [lastName, setLastName] = useState('Doe');
@@ -36,6 +34,7 @@ const Settings: React.FC = (
         position: toast.POSITION.TOP_CENTER,
       });
       // TODO: Check if user inputted password matches DB password
+      // eslint-disable-next-line no-constant-condition
     } else if (true) {
       if (r.test(newPassword.value)) {
         if (newPassword.value === confirmNewPassword.value) {
@@ -62,65 +61,63 @@ const Settings: React.FC = (
 
   return (
     <div className="flex">
-      <div className="w-1/6 bg-gray-900">
-        <h2 className="text-2xl text-white pt-10 font-fredoka font-semibold text-center">
-          Crush It
-        </h2>
-        <div className="flex justify-center py-4">
-          <div className="w-2/3">
-            <hr className="border-gray-600"></hr>
+      <div className="flex flex-col h-screen w-1/6 bg-gray-900">
+        <div className="h-5/6">
+          <h2 className="text-2xl text-white pt-10 font-fredoka font-semibold text-center">
+            Crush It
+          </h2>
+          <div className="flex justify-center py-4">
+            <hr className="border-gray-600 w-2/3"></hr>
           </div>
-        </div>
-        <div className="flex justify-center pt-8 pb-4">
-          <img
-            className="w-13 h-13"
-            src={process.env.PUBLIC_URL + '/image1.png'}
-            alt="Crush It Image"
-          />
-        </div>
-        <div className="flex justify-center">
-          <p className="w-1/2 text-lg text-white font-semibold text-center">
-            It's time to plan your day!
-          </p>
-        </div>
-        <div className="flex justify-center items-center pb-20 mb-5">
-          <div className="flex space-x-6 pt-4">
-            <button
-              onClick={routeHome}
-              className="shadow-lg w-25 text-white border border-white bg-gray-900 hover:bg-gray-800 font-semibold py-2 px-8 rounded-md"
-              type="button"
-            >
-              Plan Day
-            </button>
+          <div className="flex justify-center pt-8 pb-4">
+            <img
+              className="w-13 h-13"
+              src={process.env.PUBLIC_URL + '/image1.png'}
+              alt="Crush It Image"
+            />
           </div>
-        </div>
-        <div className="flex justify-center items-center h-48">
-          <div className="flex space-x-6">
-            <button
-              onClick={routeLogout}
-              className="flex shadow-lg w-25 text-white border border-white bg-gray-900 hover:bg-red-500 text-sm py-1 px-4 rounded-md"
-              type="button"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                className="w-5 h-5"
+          <div className="flex justify-center">
+            <p className="w-1/2 text-lg text-white font-semibold text-center">
+              It's time to plan your day!
+            </p>
+          </div>
+          <div className="flex justify-center items-center pb-20 mb-5">
+            <div className="flex space-x-6 pt-4">
+              <button
+                onClick={routeHome}
+                className="shadow-lg w-25 text-white border border-white bg-gray-900 hover:bg-gray-800 font-semibold py-2 px-8 rounded-md"
+                type="button"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"
-                />
-              </svg>
-              Logout
-            </button>
+                Plan Day
+              </button>
+            </div>
           </div>
+        </div>
+        <div className="h-1/6 flex-grow flex justify-center items-center">
+          <button
+            onClick={routeLogout}
+            className="flex shadow-lg w-25 text-white border border-white bg-gray-900 hover:bg-red-500 text-sm py-1 px-4 rounded-md"
+            type="button"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="1.5"
+              stroke="currentColor"
+              className="w-5 h-5"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"
+              />
+            </svg>
+            Logout
+          </button>
         </div>
       </div>
-      <div className="w-5/6">
+      <div className="w-5/6 h-screen">
         <div className="bg-gray-100">
           <div>
             <div className="flex ml-auto p-4 bg-white">

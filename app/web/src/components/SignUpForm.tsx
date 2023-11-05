@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
@@ -38,6 +39,7 @@ const SignUpForm: React.FC = () => {
         toast.success('Verification Email Sent!', {
           position: toast.POSITION.TOP_RIGHT,
         });
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
         if (error.response && error.response.status === 400) {
           toast.error('User with this email already exists!', {
