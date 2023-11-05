@@ -29,8 +29,8 @@ export const coreConfig = {
   apiPort: parseInt(API_PORT!) || 443,
   env: NODE_ENV || 'development',
   host: HOST || 'localhost',
-  restApiUrl: REST_API_URL || 'http://localhost:443',
-  frontendBaseUrl: FRONTEND_BASE_URL || 'http://localhost:3000',
+  apiBaseUrl: REST_API_URL || 'http://localhost:443',
+  webBaseUrl: FRONTEND_BASE_URL || 'http://localhost:3000',
 };
 
 export const dbConfig = {

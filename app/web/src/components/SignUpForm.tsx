@@ -31,7 +31,7 @@ const SignUpForm: React.FC = () => {
     if (password === confirmPassword) {
       try {
         await axios.post(
-          `${coreConfig.restApiUrl}/api/register/register-user`,
+          `${coreConfig.apiBaseUrl}/api/register/register-user`,
           {
             email,
             password,

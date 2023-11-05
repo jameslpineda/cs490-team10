@@ -21,7 +21,7 @@ const ResetPassword: React.FC = () => {
 
     try {
       const response = await fetch(
-        `${coreConfig.restApiUrl}/api/reset-password`,
+        `${coreConfig.apiBaseUrl}/api/reset-password`,
         {
           method: 'POST',
           headers: {

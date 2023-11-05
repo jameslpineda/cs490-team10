@@ -39,6 +39,14 @@ const UserSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    reset_password_token: {
+      type: String,
+      default: null,
+    },
+    reset_password_expire_time: {
+      type: Number,
+      default: null,
+    },
   },
   {
     timestamps: true,

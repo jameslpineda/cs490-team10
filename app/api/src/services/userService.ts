@@ -1,8 +1,9 @@
-import { UserInterface } from '../interfaces/user';
+// import { UserInterface } from '../interfaces/userInterface';
 import UserModel from '../models/userModel';
+import { UserInterface } from '../interfaces/userInterface';
 
 // Function to get a user based on the query
-export const getUser = async (query: Record<string, unknown>) => {
+export const getUser = async (query: UserInterface) => {
   try {
     return await UserModel.findOne(query).lean();
   } catch (error) {
@@ -13,7 +14,7 @@ export const getUser = async (query: Record<string, unknown>) => {
 
 // Function to update a user based on the query and data
 export const updateUser = async (
-  query: Record<string, unknown>,
+  query: UserInterface,
   data: Partial<UserInterface>,
 ) => {
   try {
