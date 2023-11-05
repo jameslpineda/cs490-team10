@@ -82,8 +82,52 @@ export const Home = () => {
           </button>
         </div>
         <div className="bg-gray-100">
-          <div className="p-4 m-4 bg-indigo-100 rounded-2xl">
-            <button className="border border-black">Test</button>
+          <div className="flex justify-center space-x-4 p-2 m-4 bg-indigo-100 rounded-2xl">
+            <div>
+              <button className="border border-indigo-400 p-1.5 rounded-md mr-1">
+                <div className="rounded-full bg-indigo-400 text-indigo-100 text-s">
+                  &ensp;&lt;&ensp;
+                </div>
+              </button>
+              <button className="border border-indigo-400 w-32 p-1.5 rounded-md font-semibold text-s">
+                Month
+              </button>
+              <button className="border border-indigo-400 p-1.5 rounded-md ml-1">
+                <div className="rounded-full bg-indigo-400 text-indigo-100 text-s">
+                  &ensp;&gt;&ensp;
+                </div>
+              </button>
+            </div>
+            <div>
+              <button className="border border-indigo-400 p-1.5 rounded-md mr-1">
+                <div className="rounded-full bg-indigo-400 text-indigo-100 text-s">
+                  &ensp;&lt;&ensp;
+                </div>
+              </button>
+              <button className="border border-indigo-400 w-32 p-1.5 rounded-md font-semibold text-s">
+                Day
+              </button>
+              <button className="border border-indigo-400 p-1.5 rounded-md ml-1">
+                <div className="rounded-full bg-indigo-400 text-indigo-100 text-s">
+                  &ensp;&gt;&ensp;
+                </div>
+              </button>
+            </div>
+            <div>
+              <button className="border border-indigo-400 p-1.5 rounded-md mr-1">
+                <div className="rounded-full bg-indigo-400 text-indigo-100 text-s">
+                  &ensp;&lt;&ensp;
+                </div>
+              </button>
+              <button className="border border-indigo-400 w-32 p-1.5 rounded-md font-semibold text-s">
+                Year
+              </button>
+              <button className="border border-indigo-400 p-1.5 rounded-md ml-1">
+                <div className="rounded-full bg-indigo-400 text-indigo-100 text-s">
+                  &ensp;&gt;&ensp;
+                </div>
+              </button>
+            </div>
           </div>
         </div>
         <div className="flex">
