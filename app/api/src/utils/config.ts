@@ -22,6 +22,7 @@ const {
   NODE_ENV,
   REST_API_URL,
   FRONTEND_BASE_URL,
+  JWT_SECRET,
 } = process.env;
 
 export const coreConfig = {
@@ -57,4 +58,8 @@ export const nodemailerConfig = {
 export const corsConfig = {
   origin: ['http://localhost:3000'],
   credentials: true,
+};
+
+export const jwtConfig = {
+  secret: JWT_SECRET,
 };

@@ -1,61 +1,39 @@
-import 'dotenv/config';
-import jwt from 'jsonwebtoken';
 import { Response, NextFunction } from 'express';
-import {
-  AuthRequestInterface as AuthRequest,
-  DecodedToken,
-} from '../interfaces/authInterface';
+import { AuthRequestInterface as AuthRequest } from '../interfaces/authInterface';
+import asyncHandler from 'express-async-handler';
+import { verifyJwtToken } from '../utils/auth';
 
-const verifyToken = (token: string) => {
-  try {
-    // Verify token
-    if (!process.env.SECRET) {
-      throw new Error('Missing SECRET');
-    }
+const requireAuth = asyncHandler(
+  async (req: AuthRequest, res: Response, next: NextFunction) => {
+    let token;
+    if (
+      req.headers.authorization &&
+      req.headers.authorization.startsWith('Bearer')
+    ) {
+      try {
+        // Get token from header
+        token = req.headers.authorization.split(' ')[1];
 
-    const decoded = jwt.verify(token, process.env.SECRET) as DecodedToken;
+        // Decode token
+        const decodedToken = verifyJwtToken(token);
+        if (!decodedToken) {
+          res.status(403);
+          throw new Error('Not authorized, invalid token');
+        }
 
-    return decoded;
-  } catch (error) {
-    // Token is not valid
-    return null;
-  }
-};
+        // Get user_id from token
+        req.user_id = decodedToken._id;
 
-const requireAuth = async (
-  req: AuthRequest,
-  res: Response,
-  next: NextFunction,
-) => {
-  let token;
-  if (
-    req.headers.authorization &&
-    req.headers.authorization.startsWith('Bearer')
-  ) {
-    try {
-      // Get token from header
-      token = req.headers.authorization.split(' ')[1];
-
-      // Decode token
-      const decodedToken = verifyToken(token);
-      if (!decodedToken) {
-        return res
-          .status(403)
-          .json({ message: 'Not authorized, invalid token' });
+        next();
+      } catch (error) {
+        next(error);
       }
-
-      // Get user_id from token
-      req.user_id = decodedToken._id;
-
-      next();
-    } catch (error) {
-      // res.status(401);
-      next(error);
     }
-  }
-  if (!token) {
-    return res.status(401).json({ message: 'Not authorized, no token' });
-  }
-};
+    if (!token) {
+      res.status(401);
+      throw new Error('Not authorized, no token');
+    }
+  },
+);
 
 export default requireAuth;

@@ -7,7 +7,6 @@ export const getUser = async (query: UserInterface) => {
   try {
     return await UserModel.findOne(query).lean();
   } catch (error) {
-    console.log(error);
     return null;
   }
 };
@@ -24,7 +23,6 @@ export const updateUser = async (
       { new: true },
     ).lean();
   } catch (error) {
-    console.log(error);
     return null;
   }
 };
@@ -34,7 +32,6 @@ export const createUser = async (data: UserInterface) => {
   try {
     return await UserModel.create(data);
   } catch (error) {
-    console.log(error);
     return null;
   }
 };
