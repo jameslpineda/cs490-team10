@@ -1,11 +1,12 @@
 /* eslint-disable prettier/prettier */
 import React, { useState } from 'react';
+import axios from 'axios';
 
 const IconCycleComponent: React.FC = () => {
   const [clickCount, setClickCount] = useState<number>(0);
 
   const handleClick = () => {
-    setClickCount((clickCount + 1) % icons.length); // Cycle through 4 icons
+    setClickCount((clickCount + 1) % icons.length); // Cycle through icons
   };
 
   const icons: JSX.Element[] = [
