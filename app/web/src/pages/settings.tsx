@@ -295,14 +295,14 @@ const Settings: React.FC = () => {
             <div className="flex space-x-6 pt-2">
               <button
                 onClick={routeHome}
-                className="shadow-lg w-40 bg-white hover:bg-gray-200 text-gray-800 font-bold py-2 px-4 rounded-md"
+                className="shadow-md shadow-blue-200 w-40 border border-blue-500 bg-white hover:bg-gray-200 text-blue-500 py-2 px-4 rounded-md"
                 type="button"
               >
                 Cancel
               </button>
               <button
                 onClick={validatePassword}
-                className="shadow-lg w-40 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md"
+                className="shadow-md shadow-blue-200 w-40 bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-md"
                 type="button"
               >
                 Save
