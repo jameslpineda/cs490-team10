@@ -156,6 +156,7 @@ export const Home = () => {
           <div className="flex justify-center space-x-4 p-2 m-4 bg-indigo-100 rounded-2xl">
             <div>
               <button
+                data-testid="decrement-month-button"
                 onClick={decrementMonth}
                 className="border border-indigo-400 p-1.5 rounded-md mr-1"
               >
@@ -163,10 +164,14 @@ export const Home = () => {
                   &ensp;&lt;&ensp;
                 </div>
               </button>
-              <button className="border border-indigo-400 w-40 p-1.5 pl-3 rounded-md font-semibold text-s text-left">
+              <button
+                data-testid="monthID"
+                className="border border-indigo-400 w-40 p-1.5 pl-3 rounded-md font-semibold text-s text-left"
+              >
                 {months[month][0]}
               </button>
               <button
+                data-testid="increment-month-button"
                 onClick={incrementMonth}
                 className="border border-indigo-400 p-1.5 rounded-md ml-1"
               >
@@ -177,6 +182,7 @@ export const Home = () => {
             </div>
             <div>
               <button
+                data-testid="decrement-day-button"
                 onClick={decrementDay}
                 className="border border-indigo-400 p-1.5 rounded-md mr-1"
               >
@@ -184,10 +190,14 @@ export const Home = () => {
                   &ensp;&lt;&ensp;
                 </div>
               </button>
-              <button className="border border-indigo-400 w-16 p-1.5 pl-3 rounded-md font-semibold text-s text-left">
+              <button
+                data-testid="dayID"
+                className="border border-indigo-400 w-16 p-1.5 pl-3 rounded-md font-semibold text-s text-left"
+              >
                 {day}
               </button>
               <button
+                data-testid="increment-day-button"
                 onClick={incrementDay}
                 className="border border-indigo-400 p-1.5 rounded-md ml-1"
               >
@@ -196,8 +206,9 @@ export const Home = () => {
                 </div>
               </button>
             </div>
-            <div>
+            <div className="flex">
               <button
+                data-testid="decrement-year-button"
                 onClick={decrementYear}
                 className="border border-indigo-400 p-1.5 rounded-md mr-1"
               >
@@ -205,10 +216,14 @@ export const Home = () => {
                   &ensp;&lt;&ensp;
                 </div>
               </button>
-              <button className="border border-indigo-400 w-28 p-1.5 pl-3 rounded-md font-semibold text-s text-left">
+              <button
+                data-testid="yearID"
+                className="border border-indigo-400 w-28 p-1.5 pl-3 rounded-md font-semibold text-s text-left"
+              >
                 {year}
               </button>
               <button
+                data-testid="increment-year-button"
                 onClick={incrementYear}
                 className="border border-indigo-400 p-1.5 rounded-md ml-1"
               >
