@@ -1,6 +1,5 @@
 import React from 'react';
 import { useState } from 'react';
-import axios from 'axios';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 import { coreConfig } from '../utils/config';
@@ -21,8 +20,7 @@ const SignUpForm: React.FC = () => {
     // Check if the password not matches the regex pattern
     if (!passwordPattern.test(password)) {
       toast.error(
-        'Must have at least one lowercase and uppercase letter, one digit, one special char, and minimum 12 chars',
-        { position: toast.POSITION.TOP_RIGHT },
+        'Must have at least one lowercase and uppercase letter, one digit, one special char, and minimum 12 chars'
       );
       return; // Stop the function here
     }
@@ -30,32 +28,25 @@ const SignUpForm: React.FC = () => {
     // Check if the password and confirm password match
     if (password === confirmPassword) {
       try {
-        await axios.post(
-          `${coreConfig.restApiUrl}/api/register/register-user`,
-          {
-            email,
-            password,
-          },
-        );
+        await fetch(`${coreConfig.restApiUrl}/api/register/register-user`,{
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password }),
+      });
+      
         toast.success('Verification Email Sent!', {
           position: toast.POSITION.TOP_RIGHT,
         });
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
         if (error.response && error.response.status === 400) {
-          toast.error('User with this email already exists!', {
-            position: toast.POSITION.TOP_RIGHT,
-          });
+          toast.error('User with this email already exists!');
         } else {
-          toast.error('Registration Failed', {
-            position: toast.POSITION.TOP_RIGHT,
-          });
+          toast.error('Registration Failed');
         }
       }
     } else {
-      toast.error('Passwords do not match!', {
-        position: toast.POSITION.TOP_RIGHT,
-      });
+      toast.error('Passwords do not match!');
     }
   };
 
@@ -99,8 +90,8 @@ const SignUpForm: React.FC = () => {
             required
           />
           <span
-              onClick={togglePasswordVisibility}
-              className="absolute bottom-0 right-10 transform -translate-y-1/3 cursor-pointer -mr-8"
+            onClick={togglePasswordVisibility}
+            className="absolute bottom-0 right-10 transform -translate-y-1/3 cursor-pointer -mr-8"
             >
               {showPassword ? (
               <svg
