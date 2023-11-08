@@ -16,7 +16,7 @@ const SignInForm: React.FC = () => {
     const r = /^[\w-]+@[\w-]+\.[\w-]+$/;
 
     if (!r.test(email.value)) {
-      toast.error('Invalid Email Pattern', { autoClose: 7000 });
+      toast.error('Invalid Email', { autoClose: 7000 });
     } else {
       try {
         const response = await fetch(

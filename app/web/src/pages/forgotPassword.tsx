@@ -20,7 +20,7 @@ const ForgotPassword: React.FC = () => {
     const r = /^[\w-]+@[\w-]+\.[\w-]+$/;
 
     if (!r.test(email.value)) {
-      toast.error('Invalid Email Pattern', {
+      toast.error('Invalid Email', {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 7000,
       });
