@@ -7,6 +7,7 @@ const SignInForm: React.FC = () => {
   // Your sign-in form goes here
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
   // const [message, setMessage] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -20,7 +21,7 @@ const SignInForm: React.FC = () => {
     } else {
       try {
         const response = await fetch(
-          `${coreConfig.restApiUrl}/api/auth/login`,
+          `${coreConfig.apiBaseUrl}/api/auth/login`,
           {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },

@@ -1,6 +1,5 @@
 import React from 'react';
 import { useState } from 'react';
-import axios from 'axios';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 import { coreConfig } from '../utils/config';
@@ -41,13 +40,12 @@ const SignUpForm: React.FC = () => {
     // Check if the password and confirm password match
     if (password === confirmPassword) {
       try {
-        await axios.post(
-          `${coreConfig.restApiUrl}/api/register/register-user`,
-          {
-            email,
-            password,
-          },
-        );
+        await fetch(`${coreConfig.restApiUrl}/api/register/register-user`,{
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password }),
+      });
+      
         toast.success('Verification Email Sent!', {
           position: toast.POSITION.TOP_RIGHT,
           autoClose: 70070,
@@ -115,7 +113,6 @@ const SignUpForm: React.FC = () => {
           <span
             onClick={togglePasswordVisibility}
             className="absolute bottom-0 right-10 transform -translate-y-1/3 cursor-pointer -mr-8"
-          >
             {showPassword ? (
               <svg
                 xmlns="http://www.w3.org/2000/svg"

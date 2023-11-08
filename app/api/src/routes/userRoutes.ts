@@ -1,10 +1,15 @@
 import express from 'express';
 import * as UserController from '../controllers/userController';
-import protect from '../middleware/authMiddleware';
+import requireAuth from '../middleware/authMiddleware';
 
 const router = express.Router();
 
-// router.get('/user-info', UserController.getUsers);
-router.get('/me', protect, UserController.getMe);
+router.get('/info', requireAuth, UserController.info);
+router.post('/sign-up', UserController.signUp);
+router.post('/sign-in', UserController.signIn);
+router.get('/verify', UserController.verify);
+router.post('/update', requireAuth, UserController.update);
+router.post('/forgot-password', UserController.forgotPassword);
+router.post('/reset-password', UserController.resetPassword);
 
 export default router;

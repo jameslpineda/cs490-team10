@@ -26,7 +26,7 @@ export const sendMail = async (
   email: string,
   subject: string,
   mailBody: string,
-): Promise<boolean | undefined> => {
+): Promise<boolean> => {
   const mailOptions: Options = {
     from: nodemailerConfig.user,
     to: email,
@@ -38,9 +38,11 @@ export const sendMail = async (
       nodemailerConfig.options as MailOptions,
     );
     const res = await transporter.sendMail(mailOptions);
-    if (!res) return false;
+    if (!res) {
+      return false;
+    }
     return true;
   } catch (error) {
-    console.log(error);
+    throw new Error('Failed to send email');
   }
 };

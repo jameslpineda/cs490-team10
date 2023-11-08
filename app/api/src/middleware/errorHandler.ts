@@ -1,18 +1,25 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import { logEvents } from './logger';
 
-const errorHandler = (err: Error, req: Request, res: Response) => {
+// Disable eslint to allow error handler overwrite
+/* eslint-disable */ //
+const errorHandler = (
+  err: Error,
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  /* eslint-enable */ //
   logEvents(
     `${err.name}: ${err.message}\t${req.method}\t${req.url}\t${req.headers.origin}`,
     'errLog.log',
   );
-  console.log(err.stack);
 
-  const status = res.statusCode ? res.statusCode : 500; // server error
+  const statusCode = res.statusCode ? res.statusCode : 500; // Server error
 
-  res.status(status);
+  res.status(statusCode);
 
-  res.json({ message: err.message });
+  res.json({ message: err.message, stack: err.stack });
 };
 
-export default errorHandler;
+export { errorHandler };
