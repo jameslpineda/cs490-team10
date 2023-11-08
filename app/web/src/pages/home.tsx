@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 export const Home = () => {
   const months: { [key: number]: [string, number] } = {
     0: ['January', 31],
-    1: ['Feburary', 28],
+    1: ['February', 28],
     2: ['March', 31],
     3: ['April', 30],
     4: ['May', 31],
@@ -50,7 +50,11 @@ export const Home = () => {
     const nextDay = day - 1;
     if (nextDay < 1) {
       const prevMonth = decrementMonth();
-      setDay(months[prevMonth][1]);
+      if (months[prevMonth][0] == 'February' && year % 4 == 0 && day == 1) {
+        setDay(29);
+      } else {
+        setDay(months[prevMonth][1]);
+      }
     } else {
       setDay(nextDay);
     }
@@ -58,8 +62,12 @@ export const Home = () => {
   function incrementDay() {
     const nextDay = day + 1;
     if (nextDay > months[month][1]) {
-      incrementMonth();
-      setDay(1);
+      if (months[month][0] == 'February' && year % 4 == 0 && day == 28) {
+        setDay(29);
+      } else {
+        incrementMonth();
+        setDay(1);
+      }
     } else {
       setDay(nextDay);
     }

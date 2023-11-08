@@ -16,36 +16,54 @@ const ForgotPassword: React.FC = () => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
+    const email = document.getElementById('email') as HTMLInputElement;
+    const r = /^[\w-]+@[\w-]+\.[\w-]+$/;
 
-    try {
-      const response = await fetch(
-        `${coreConfig.apiBaseUrl}/api/auth/forgot-password`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
+    if (!r.test(email.value)) {
+      toast.error('Invalid Email', {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 7000,
+      });
+    } else {
+      setIsLoading(true);
+      try {
+        const response = await fetch(
+          `${coreConfig.apiBaseUrl}/api/auth/forgot-password`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email }),
           },
-          body: JSON.stringify({ email }),
-        },
-      );
+        );
 
-      const responseData = await response.json();
-      if (responseData?.data) {
-        toast.success(responseData?.data?.message);
-        setEmail('');
-        setMessage(true);
-        setTimeout(() => {
-          navigate('/');
-        }, 3000);
-      } else {
-        toast.error(responseData?.error || 'Invalid User');
+        const responseData = await response.json();
+        if (responseData?.data) {
+          toast.success(responseData?.data?.message, {
+            position: toast.POSITION.TOP_CENTER,
+            autoClose: 7000,
+          });
+          setEmail('');
+          setMessage(true);
+          setTimeout(() => {
+            navigate('/');
+          }, 3000);
+        } else {
+          toast.error(responseData?.error || 'Invalid User', {
+            position: toast.POSITION.TOP_CENTER,
+            autoClose: 7000,
+          });
+        }
+      } catch (error) {
+        console.log(error);
+        toast.error('Invalid Request', {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 7000,
+        });
+      } finally {
+        setIsLoading(false);
       }
-    } catch (error) {
-      console.log(error);
-      toast.error('Invalid Request');
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -69,7 +87,6 @@ const ForgotPassword: React.FC = () => {
               Enter email for reset password link
             </label>
             <input
-              type="email"
               value={email}
               onChange={handleEmailChange}
               name="email"
