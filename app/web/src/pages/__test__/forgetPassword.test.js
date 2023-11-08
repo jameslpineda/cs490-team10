@@ -18,7 +18,7 @@ describe('ForgotPassword Component', () => {
   });
 
   it('submits the form with valid email', async () => {
-    render(<ForgotPassword />);
+    render(<ForgotPassword/>);
 
     const emailInput = screen.getByPlaceholderText('Enter Your Email Address');
     fireEvent.change(emailInput, { target: { value: 'jlp4@njit.edu' } });
