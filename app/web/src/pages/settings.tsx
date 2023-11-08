@@ -32,6 +32,7 @@ const Settings: React.FC = () => {
     if (password.value === '') {
       toast.success('Settings Updated', {
         position: toast.POSITION.TOP_CENTER,
+        autoClose: 10000,
       });
       // TODO: Check if user inputted password matches DB password
       // eslint-disable-next-line no-constant-condition
@@ -40,21 +41,25 @@ const Settings: React.FC = () => {
         if (newPassword.value === confirmNewPassword.value) {
           toast.success('Password Updated', {
             position: toast.POSITION.TOP_CENTER,
+            autoClose: 10000,
           });
           // TODO: Update password on DB
         } else {
           toast.error("Password confirmation doesn't match", {
             position: toast.POSITION.TOP_CENTER,
+            autoClose: 10000,
           });
         }
       } else {
         toast.error("Password doesn't fit criteria", {
           position: toast.POSITION.TOP_CENTER,
+          autoClose: 10000,
         });
       }
     } else {
       toast.error('Current Password is incorrect', {
         position: toast.POSITION.TOP_CENTER,
+        autoClose: 10000,
       });
     }
   };

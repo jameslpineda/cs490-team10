@@ -12,28 +12,37 @@ const SignInForm: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const email = document.getElementById('email') as HTMLInputElement;
+    const r = /^[\w-]+@[\w-]+\.[\w-]+$/;
 
-    try {
-      const response = await fetch(`${coreConfig.restApiUrl}/api/auth/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      });
+    if (!r.test(email.value)) {
+      toast.error('Invalid Email Pattern', { autoClose: 7000 });
+    } else {
+      try {
+        const response = await fetch(
+          `${coreConfig.restApiUrl}/api/auth/login`,
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password }),
+          },
+        );
 
-      const data = await response.json();
-      console.log(data);
+        const data = await response.json();
+        console.log(data);
 
-      if (response.ok) {
-        toast.success('Successful login');
-        // TODO: Handle storing the jwt token or user data in frontend state or context
+        if (response.ok) {
+          toast.success('Successful login', { autoClose: 7000 });
+          // TODO: Handle storing the jwt token or user data in frontend state or context
 
-        // TODO: Redirect user to home page after successful login
-      } else {
-        toast.error(data.message || 'Login failed');
+          // TODO: Redirect user to home page after successful login
+        } else {
+          toast.error(data.message || 'Login failed', { autoClose: 7000 });
+        }
+      } catch (error) {
+        console.error(error);
+        toast.error('An error occurred during login', { autoClose: 7000 });
       }
-    } catch (error) {
-      console.error(error);
-      toast.error('An error occurred during login');
     }
   };
 
@@ -59,7 +68,6 @@ const SignInForm: React.FC = () => {
             Email/username
           </label>
           <input
-            type="email"
             id="email"
             className="w-full p-2 border border-gray-300 rounded-xl focus:outline-none focus:border-blue-500"
             value={email}
