@@ -11,9 +11,8 @@ const TaskSchema = new mongoose.Schema({
     required: true,
   },
   status: {
-    type: [String],
+    type: String,
     required: true,
-    enum: ['Priority', 'Important', 'Other'],
   },
   timers: {
     type: Number,
@@ -25,9 +24,8 @@ const TaskSchema = new mongoose.Schema({
     default: null,
   },
   priority: {
-    type: [String],
+    type: String,
     required: true,
-    enum: ['Priority', 'Important', 'Other'],
   },
   date: {
     type: Date,
