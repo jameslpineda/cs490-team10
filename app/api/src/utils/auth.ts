@@ -1,24 +1,31 @@
-import { randomUUID } from 'crypto';
 import bcrypt from 'bcrypt';
 import { ObjectId } from 'mongodb';
 import jwt from 'jsonwebtoken';
+import { jwtConfig } from '../utils/config';
+import { DecodedToken } from '../interfaces/authInterface';
 
-const TOKEN_EXP_TIME = '7d';
-
-// Function to generate a random reset token (UUID)
-export const generateResetToken = (): string => {
-  return randomUUID();
-};
+const TOKEN_EXP_TIME = '1d';
 
 // Function to hash a password using bcrypt
-export const hashPassword = (password: string) => {
-  // Hash the provided password using bcrypt with a cost factor of 10
-  // The higher the cost factor, the slower the hashing process (more secure)
-  // Returns a promise that resolves to the hashed password
-  return bcrypt.hash(password, 10);
+export const hashPassword = async (password: string) => {
+  const salt = await bcrypt.genSalt(10);
+  return bcrypt.hash(password, salt);
 };
 
 // Create a JWT token
-export const generateToken = (_id: ObjectId) => {
-  return jwt.sign({ _id }, process.env.SECRET!, { expiresIn: TOKEN_EXP_TIME });
+export const generateJwtToken = (_id: ObjectId) => {
+  try {
+    return jwt.sign({ _id }, jwtConfig.secret!, { expiresIn: TOKEN_EXP_TIME });
+  } catch (error) {
+    return null;
+  }
+};
+
+// Helper function return 403 code on verification error
+export const verifyJwtToken = (token: string) => {
+  try {
+    return jwt.verify(token, jwtConfig.secret!) as DecodedToken;
+  } catch (error) {
+    return null;
+  }
 };

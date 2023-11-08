@@ -3,12 +3,9 @@ import { JwtPayload } from 'jsonwebtoken';
 import { ObjectId } from 'mongodb';
 
 export interface AuthRequestInterface extends Request {
-  user?: {
-    _id?: ObjectId;
-    email?: string;
-  };
+  user_id?: ObjectId;
 }
 
 export interface DecodedToken extends JwtPayload {
-  _id?: ObjectId;
+  _id: ObjectId;
 }

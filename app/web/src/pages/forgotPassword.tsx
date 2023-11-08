@@ -20,7 +20,7 @@ const ForgotPassword: React.FC = () => {
 
     try {
       const response = await fetch(
-        `${coreConfig.restApiUrl}/api/auth/forgot-password`,
+        `${coreConfig.apiBaseUrl}/api/auth/forgot-password`,
         {
           method: 'POST',
           headers: {

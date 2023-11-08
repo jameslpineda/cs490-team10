@@ -1,6 +1,6 @@
 import nodemailer from 'nodemailer';
 import 'dotenv/config';
-import { coreConfig } from '../utils/config';
+import { coreConfig } from './config';
 
 export const sendVerificationEmail = (email: string, token: string) => {
   const transporter = nodemailer.createTransport({
@@ -16,7 +16,7 @@ export const sendVerificationEmail = (email: string, token: string) => {
     to: email,
     subject: 'Verify Your Email',
     html: `<p>Please verify your email by clicking on the following link:</p>
-           <a href="${coreConfig.restApiUrl}/api/register/verify-user?token=${token}">Verify Email</a>`,
+           <a href="${coreConfig.apiBaseUrl}/user/verify?token=${token}">Verify Email</a>`,
   };
 
   transporter.sendMail(mailOptions, (error, info) => {
