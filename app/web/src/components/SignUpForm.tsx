@@ -13,10 +13,6 @@ const SignUpForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Define the regex pattern for the password
-    const passwordPattern =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,}$/;
-
     const email = document.getElementById('email') as HTMLInputElement;
     const r = /^[\w-]+@[\w-]+\.[\w-]+$/;
 
@@ -28,11 +24,18 @@ const SignUpForm: React.FC = () => {
       return;
     }
 
+    // Define the regex pattern for the password
+    const passwordPattern =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,}$/;
+
     // Check if the password not matches the regex pattern
     if (!passwordPattern.test(password)) {
       toast.error(
         'Must have at least one lowercase and uppercase letter, one digit, one special char, and minimum 12 chars',
-        { position: toast.POSITION.TOP_RIGHT, autoClose: 7000 },
+        {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 7000,
+        },
       );
       return; // Stop the function here
     }
@@ -40,12 +43,12 @@ const SignUpForm: React.FC = () => {
     // Check if the password and confirm password match
     if (password === confirmPassword) {
       try {
-        await fetch(`${coreConfig.restApiUrl}/api/register/register-user`,{
+        await fetch(`${coreConfig.apiBaseUrl}/api/register/register-user`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email, password }),
-      });
-      
+        });
+
         toast.success('Verification Email Sent!', {
           position: toast.POSITION.TOP_RIGHT,
           autoClose: 70070,
@@ -113,6 +116,7 @@ const SignUpForm: React.FC = () => {
           <span
             onClick={togglePasswordVisibility}
             className="absolute bottom-0 right-10 transform -translate-y-1/3 cursor-pointer -mr-8"
+          >
             {showPassword ? (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
