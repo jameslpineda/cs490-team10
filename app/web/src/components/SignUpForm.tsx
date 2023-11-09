@@ -13,6 +13,17 @@ const SignUpForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    const email = document.getElementById('email') as HTMLInputElement;
+    const r = /^[\w-]+@[\w-]+.[\w-]+$/;
+
+    if (!r.test(email.value)) {
+      toast.error('Invalid Email', {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 7000,
+      });
+      return;
+    }
+
     // Define the regex pattern for the password
     const passwordPattern =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,}$/;
@@ -21,6 +32,10 @@ const SignUpForm: React.FC = () => {
     if (!passwordPattern.test(password)) {
       toast.error(
         'Must have at least one lowercase and uppercase letter, one digit, one special char, and minimum 12 chars',
+        {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 7000,
+        },
       );
       return; // Stop the function here
     }
@@ -36,17 +51,27 @@ const SignUpForm: React.FC = () => {
 
         toast.success('Verification Email Sent!', {
           position: toast.POSITION.TOP_RIGHT,
+          autoClose: 7000,
         });
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
         if (error.response && error.response.status === 400) {
-          toast.error('User with this email already exists!');
+          toast.error('User with this email already exists!', {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 7000,
+          });
         } else {
-          toast.error('Registration Failed');
+          toast.error('Registration Failed', {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 7000,
+          });
         }
       }
     } else {
-      toast.error('Passwords do not match!');
+      toast.error('Passwords do not match!', {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 7000,
+      });
     }
   };
 
