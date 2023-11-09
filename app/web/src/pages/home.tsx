@@ -249,10 +249,14 @@ export const Home = () => {
               <div className="flex-grow bg-white rounded-lg shadow-md">
                 <div className="flex flex-col p-4">
                   <div className="flex-1 bg-gray-100 rounded-md p-4 mb-4">
-                    <h2 className="text-xl font-semibold font-sans">Top Priority</h2>
+                    <h2 className="text-xl font-semibold font-sans">
+                      Top Priority
+                    </h2>
                   </div>
                   <div className="flex-1 bg-gray-100 rounded-md p-4 mb-4">
-                    <h2 className="text-xl font-semibold font-sans">Important</h2>
+                    <h2 className="text-xl font-semibold font-sans">
+                      Important
+                    </h2>
                   </div>
                   <div className="flex-1 bg-gray-100 rounded-md p-4 mb-4">
                     <h2 className="text-xl font-semibold font-sans">Other</h2>

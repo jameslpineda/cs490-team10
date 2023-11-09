@@ -17,22 +17,10 @@ const SignUpForm: React.FC = () => {
     const passwordPattern =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,}$/;
 
-    const email = document.getElementById('email') as HTMLInputElement;
-    const r = /^[\w-]+@[\w-]+\.[\w-]+$/;
-
-    if (!r.test(email.value)) {
-      toast.error('Invalid Email', {
-        position: toast.POSITION.TOP_RIGHT,
-        autoClose: 7000,
-      });
-      return;
-    }
-
     // Check if the password not matches the regex pattern
     if (!passwordPattern.test(password)) {
       toast.error(
         'Must have at least one lowercase and uppercase letter, one digit, one special char, and minimum 12 chars',
-        { position: toast.POSITION.TOP_RIGHT, autoClose: 7000 },
       );
       return; // Stop the function here
     }
@@ -40,35 +28,25 @@ const SignUpForm: React.FC = () => {
     // Check if the password and confirm password match
     if (password === confirmPassword) {
       try {
-        await fetch(`${coreConfig.restApiUrl}/api/register/register-user`,{
+        await fetch(`${coreConfig.apiBaseUrl}/api/register/register-user`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email, password }),
-      });
-      
+        });
+
         toast.success('Verification Email Sent!', {
           position: toast.POSITION.TOP_RIGHT,
-          autoClose: 70070,
         });
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
         if (error.response && error.response.status === 400) {
-          toast.error('User with this email already exists!', {
-            position: toast.POSITION.TOP_RIGHT,
-            autoClose: 7000,
-          });
+          toast.error('User with this email already exists!');
         } else {
-          toast.error('Registration Failed', {
-            position: toast.POSITION.TOP_RIGHT,
-            autoClose: 7000,
-          });
+          toast.error('Registration Failed');
         }
       }
     } else {
-      toast.error('Passwords do not match!', {
-        position: toast.POSITION.TOP_RIGHT,
-        autoClose: 7000,
-      });
+      toast.error('Passwords do not match!');
     }
   };
 
@@ -88,6 +66,7 @@ const SignUpForm: React.FC = () => {
             Email/username
           </label>
           <input
+            type="email"
             id="email"
             className="w-full p-2 border border-gray-300 rounded-xl focus:outline-none focus:border-blue-500"
             value={email}
@@ -113,6 +92,7 @@ const SignUpForm: React.FC = () => {
           <span
             onClick={togglePasswordVisibility}
             className="absolute bottom-0 right-10 transform -translate-y-1/3 cursor-pointer -mr-8"
+          >
             {showPassword ? (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
