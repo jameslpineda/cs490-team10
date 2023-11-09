@@ -14,7 +14,7 @@ const SignUpForm: React.FC = () => {
     e.preventDefault();
 
     const email = document.getElementById('email') as HTMLInputElement;
-    const r = /^[\w-]+@[\w-]+.[\w-]+$/;
+    const r = /^[\w-]+@[\w-]+\.[\w-]+$/;
 
     if (!r.test(email.value)) {
       toast.error('Invalid Email', {
@@ -51,7 +51,7 @@ const SignUpForm: React.FC = () => {
 
         toast.success('Verification Email Sent!', {
           position: toast.POSITION.TOP_RIGHT,
-          autoClose: 7000,
+          autoClose: 70070,
         });
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
@@ -91,7 +91,6 @@ const SignUpForm: React.FC = () => {
             Email/username
           </label>
           <input
-            type="email"
             id="email"
             className="w-full p-2 border border-gray-300 rounded-xl focus:outline-none focus:border-blue-500"
             value={email}
