@@ -31,12 +31,7 @@ const SignUpForm: React.FC = () => {
     // Check if the password not matches the regex pattern
     if (!passwordPattern.test(password)) {
       toast.error(
-        'Must have at least one lowercase and uppercase letter, one digit, one special char, and minimum 12 chars',
-        {
-          position: toast.POSITION.TOP_RIGHT,
-          autoClose: 7000,
-        },
-      );
+        'Must have at least one lowercase and uppercase letter, one digit, one special char, and minimum 12 chars');
       return; // Stop the function here
     }
 

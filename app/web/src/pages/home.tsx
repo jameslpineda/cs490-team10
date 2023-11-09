@@ -4,8 +4,12 @@
 /* eslint-disable no-undef */
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+<<<<<<< HEAD
 import moment from 'moment';
 import './scroll.css';
+=======
+import IconCycleComponent from '../components/IconCycleComponent';
+>>>>>>> c557856 (Backend for Icon Cycle Component + Task Backend Flow)
 
 export const Home = () => {
   const [date, setDate] = useState(moment());
@@ -532,7 +536,9 @@ export const Home = () => {
           </div>
           <div className="w-1/2 pl-4">
             <h2 className="text-2xl font-semibold">Appointment</h2>
-            <div className="flex flex-col flex-grow">TODO Next Sprint</div>
+            <div className="flex flex-col flex-grow">
+              <IconCycleComponent />
+            </div>
           </div>
         </div>
       </div>

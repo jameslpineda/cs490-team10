@@ -13,6 +13,8 @@ const TaskSchema = new mongoose.Schema({
   status: {
     type: String,
     required: true,
+    enum: ['not complete', 'in progress', 'complete', 'rollover', 'delete'],
+    default: 'not complete'
   },
   timers: {
     type: Number,
@@ -35,4 +37,4 @@ const TaskSchema = new mongoose.Schema({
 
 type Task = InferSchemaType<typeof TaskSchema>;
 
-export default model<Task>('User', TaskSchema);
+export default model<Task>('Task', TaskSchema);
