@@ -36,7 +36,6 @@ export const updateTaskData = asyncHandler(
     const updatedTask = await updateTask({ _id: req.body.task_id }, data);
 
     if (!updatedTask) {
-      console.log('HELLO');
       res.status(400);
       throw new Error('Failed to update task.');
     }
