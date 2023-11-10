@@ -13,10 +13,6 @@ export const Home = () => {
   const [showDay, setShowDay] = useState(false);
   const [showYear, setShowYear] = useState(false);
 
-  const month = date.month();
-  const day = date.date();
-  const year = date.year();
-
   const monthNames = [];
   for (let i = 0; i < 12; i++) {
     const monthName = moment().month(i).format('MMMM');
