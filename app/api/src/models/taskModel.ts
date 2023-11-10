@@ -13,13 +13,12 @@ const TaskSchema = new mongoose.Schema({
   status: {
     type: String,
     required: true,
-    enum: ['not complete', 'in progress', 'complete', 'rollover', 'delete'],
-    default: 'not complete'
+    default: 'Not Complete'
   },
   timers: {
     type: Number,
     required: true,
-    default: 1,
+    default: 0,
   },
   notes: {
     type: String,
