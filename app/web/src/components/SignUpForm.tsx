@@ -33,7 +33,6 @@ const SignUpForm: React.FC = () => {
       toast.error(
         'Must have at least one lowercase and uppercase letter, one digit, one special char, and minimum 12 chars',
         {
-          position: toast.POSITION.TOP_RIGHT,
           autoClose: 7000,
         },
       );
@@ -62,7 +61,6 @@ const SignUpForm: React.FC = () => {
           });
         } else {
           toast.error('Registration Failed', {
-            position: toast.POSITION.TOP_RIGHT,
             autoClose: 7000,
           });
         }
