@@ -13,7 +13,7 @@ const TaskSchema = new mongoose.Schema({
   status: {
     type: String,
     required: true,
-    default: 'Task Has Not Started'
+    default: 'Task has not been started',
   },
   timers: {
     type: Number,
