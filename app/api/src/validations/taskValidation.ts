@@ -12,7 +12,7 @@ export const validateTask = (data: TaskInterface) => {
     ),
     notes: Joi.string().allow(''),
     priority: Joi.string().valid('Top Priority', 'Important', 'Other'),
-    timers: Joi.number().min(0),
+    timers: Joi.number().min(1),
   });
 
   return schema.validate(data);
