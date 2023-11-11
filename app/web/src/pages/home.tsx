@@ -3,8 +3,10 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable no-undef */
 import { constants } from 'buffer';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { logout, reset } from '../features/auth/authSlice';
 
 export const Home = () => {
   const months: { [key: number]: [string, number] } = {
@@ -89,9 +91,22 @@ export const Home = () => {
   const routeSettings = () => {
     navigate('../settings');
   };
+
+  const dispatch = useDispatch();
   const routeLogout = () => {
+    dispatch(logout());
+    dispatch(reset());
     navigate('../signIn');
   };
+
+  const { user } = useSelector((state: any) => state.auth);
+
+  useEffect(() => {
+    if (!user) {
+      navigate('../signIn');
+    }
+  }, [user, navigate]);
+
   return (
     <div className="flex">
       <div className="flex flex-col h-screen w-1/6 bg-gray-900">

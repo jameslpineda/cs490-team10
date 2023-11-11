@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { register, reset } from '../features/auth/authSlice';
+import Spinner from '../components/Spinner';
 import { coreConfig } from '../utils/config';
 
 const SignUpForm: React.FC = () => {
@@ -9,6 +13,35 @@ const SignUpForm: React.FC = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { user, isLoading, isError, isSuccess, message } = useSelector(
+    (state: any) => state.auth,
+  );
+
+  useEffect(() => {
+    if (isError) {
+      toast.error(message, {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 7000,
+      });
+    }
+
+    if (isSuccess || user) {
+      toast.success(message, {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 7000,
+      });
+      dispatch(reset());
+      navigate('/signIn');
+    }
+
+    dispatch(reset());
+  }, [user, isError, isSuccess, message, dispatch, navigate]);
+
+  if (isLoading) return <Spinner />;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -213,7 +246,10 @@ const SignUpForm: React.FC = () => {
           </span>
         </div>
         <div className="flex justify-center">
-          <button className="bg-blue-500 text-white p-2 rounded-xl hover:bg-blue-600 w-1/2">
+          <button
+            className="bg-blue-500 text-white p-2 rounded-xl hover:bg-blue-600 w-1/2"
+            onClick={handleSubmit}
+          >
             Sign Up
           </button>
         </div>
