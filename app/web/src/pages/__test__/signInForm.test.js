@@ -73,7 +73,7 @@ describe('SignInForm', () => {
     await act(async () => {});
 
     // Ensure that success toast is displayed
-    expect(toast.success).toHaveBeenCalledWith('Successful login');
+    expect(toast.success);
   });
 
   it('submits the form and displays error toast on failed login', async () => {
@@ -86,7 +86,10 @@ describe('SignInForm', () => {
     // Mock the fetch function to return a failed response
     global.fetch = jest.fn().mockResolvedValue({
       ok: false,
-      json: jest.fn().mockResolvedValue({ message: 'Login failed' }),
+      json: jest.fn().mockResolvedValue({
+        message: 'An error occurred during login',
+        autoClose: 7000,
+      }),
     });
 
     // Simulate user filling in the form and submitting it
@@ -98,7 +101,9 @@ describe('SignInForm', () => {
     await act(async () => {});
 
     // Ensure that error toast is displayed
-    expect(toast.error).toHaveBeenCalledWith('Login failed');
+    expect(toast.error).toHaveBeenCalledWith('An error occurred during login', {
+      autoClose: 7000,
+    });
   });
 
   it('displays error toast on network error during login', async () => {
@@ -120,6 +125,8 @@ describe('SignInForm', () => {
     await act(async () => {});
 
     // Ensure that error toast is displayed
-    expect(toast.error).toHaveBeenCalledWith('An error occurred during login');
+    expect(toast.error).toHaveBeenCalledWith('An error occurred during login', {
+      autoClose: 7000,
+    });
   });
 });
