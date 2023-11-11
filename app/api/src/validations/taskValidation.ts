@@ -4,11 +4,11 @@ import Joi from 'joi';
 export const validateTask = (data: TaskInterface) => {
   const schema = Joi.object({
     status: Joi.string().valid(
-      'Task Has Not Started',
-      'Task In Progress',
-      'Task Is Complete',
-      'Task Rollover',
-      'Task Is Deleted',
+      'Task has not been started',
+      'Task is in progress',
+      'Task is complete',
+      'Task rolled over to the next day',
+      'Task is deleted',
     ),
     notes: Joi.string().allow(''),
     priority: Joi.string().valid('Top Priority', 'Important', 'Other'),
