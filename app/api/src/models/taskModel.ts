@@ -13,6 +13,7 @@ const TaskSchema = new mongoose.Schema({
   status: {
     type: String,
     required: true,
+    default: 'Task has not been started',
   },
   timers: {
     type: Number,
@@ -35,4 +36,4 @@ const TaskSchema = new mongoose.Schema({
 
 type Task = InferSchemaType<typeof TaskSchema>;
 
-export default model<Task>('User', TaskSchema);
+export default model<Task>('Task', TaskSchema);

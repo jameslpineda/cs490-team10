@@ -15,11 +15,11 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={<Home />}
+          element={<SignInPage />}
         />
         <Route
-          path="/signIn"
-          element={<SignInPage />}
+          path="/home"
+          element={<Home />}
         />
         <Route
           path="/signUp"
