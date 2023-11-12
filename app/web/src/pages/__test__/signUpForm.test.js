@@ -21,7 +21,7 @@ describe('SignUpForm', () => {
       </BrowserRouter>,
     );
     // Ensure that the sign-in form elements are rendered
-    expect(screen.getByLabelText('Email/username')).toBeInTheDocument();
+    expect(screen.getByLabelText('Email/Username')).toBeInTheDocument();
     expect(screen.getByLabelText('Password')).toBeInTheDocument();
     expect(screen.getByLabelText('Confirm Password')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Sign Up' })).toBeInTheDocument();
@@ -35,7 +35,7 @@ describe('SignUpForm', () => {
     );
 
     // Simulate user typing in email and password fields
-    userEvent.type(screen.getByLabelText('Email/username'), 'test@example.com');
+    userEvent.type(screen.getByLabelText('Email/Username'), 'test@example.com');
     userEvent.type(screen.getByLabelText('Password'), 'Password123$Kapoor');
     userEvent.type(
       screen.getByLabelText('Confirm Password'),
@@ -43,7 +43,7 @@ describe('SignUpForm', () => {
     );
 
     // Ensure that the state is updated correctly
-    expect(screen.getByLabelText('Email/username')).toHaveValue(
+    expect(screen.getByLabelText('Email/Username')).toHaveValue(
       'test@example.com',
     );
     expect(screen.getByLabelText('Password')).toHaveValue('Password123$Kapoor');
@@ -64,7 +64,7 @@ describe('SignUpForm', () => {
     });
 
     // Simulate user filling in the form and submitting it
-    userEvent.type(screen.getByLabelText('Email/username'), 'test@example.com');
+    userEvent.type(screen.getByLabelText('Email/Username'), 'test@example.com');
     userEvent.type(screen.getByLabelText('Password'), 'Password123$Kapoor');
     userEvent.type(screen.getByLabelText('Confirm Password'), 'Password123$Kapoor');
     userEvent.click(screen.getByRole('button', { name: 'Sign Up' }));
@@ -90,7 +90,7 @@ describe('SignUpForm', () => {
     });
 
     // Simulate user filling in the form and submitting it
-    userEvent.type(screen.getByLabelText('Email/username'), 'test@example.com');
+    userEvent.type(screen.getByLabelText('Email/Username'), 'test@example.com');
     userEvent.type(screen.getByLabelText('Password'), 'Password');
     userEvent.type(
       screen.getByLabelText('Confirm Password'),
@@ -116,7 +116,7 @@ describe('SignUpForm', () => {
     global.fetch = jest.fn().mockRejectedValue(new Error('Network error'));
 
     // Simulate user filling in the form and submitting it
-    userEvent.type(screen.getByLabelText('Email/username'), 'test@example.com');
+    userEvent.type(screen.getByLabelText('Email/Username'), 'test@example.com');
     userEvent.type(screen.getByLabelText('Password'), 'password123');
     userEvent.type(screen.getByLabelText('Confirm Password'), 'password123');
     userEvent.click(screen.getByRole('button', { name: 'Sign Up' }));

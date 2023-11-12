@@ -32,14 +32,18 @@ export const Home = () => {
 
   const decrementMonth = () => {
     const currDate = date.clone();
-    if (currDate.year() != 2000 && currDate.month() != 0) {
+    if (currDate.year() == 2000 && currDate.month() == 0) {
+      return;
+    } else {
       setDate(date.clone().subtract(1, 'month'));
     }
   };
 
   const incrementMonth = () => {
     const currDate = date.clone();
-    if (currDate.year() != 2500 && currDate.month() != 11) {
+    if (currDate.year() == 2500 && currDate.month() == 11) {
+      return;
+    } else {
       setDate(date.clone().add(1, 'month'));
     }
   };
@@ -400,13 +404,12 @@ export const Home = () => {
               </button>
               <button
                 onClick={() => setShowYear(!false)}
-                data-testid="yearID"
                 className={`relative border border-indigo-400 w-28 p-1.5 pl-3 rounded-md font-semibold text-s text-left ${
                   showYear ? 'bg-white' : ''
                 }  `}
               >
                 <span className="text-black font-bold flex justify-between  items-center">
-                  <p>{date.format('YYYY')}</p>
+                  <p data-testid="yearID">{date.format('YYYY')}</p>
                   {showYear ? (
                     <svg
                       className="h-6"
