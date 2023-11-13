@@ -7,13 +7,22 @@ import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import './scroll.css';
 import TaskModal from '../components/TaskModal';
+import Task from '../components/Task';
 
 interface Task {
   title: string;
 }
 
+interface TaskData {
+  title: string;
+  pomodoroCount: number;
+  note: string;
+  priority: string;
+}
+
 export const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [tasks, setTasks] = useState<TaskData[]>([]);
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -21,6 +30,13 @@ export const Home = () => {
 
   const closeModal = () => {
     setIsModalOpen(false);
+  };
+
+  const addTask = (task: TaskData) => {
+    setTasks((prevTasks) => [...prevTasks, task]);
+    closeModal();
+    // TODO: Add logic to post the task to the backend
+    // TODO: Use axios for this purpose
   };
 
   const [date, setDate] = useState(moment());
@@ -569,7 +585,12 @@ export const Home = () => {
                   </defs>
                 </svg>
               </button>
-              {isModalOpen && <TaskModal onClose={closeModal} />}
+              {isModalOpen && (
+                <TaskModal
+                  onClose={closeModal}
+                  onSubmit={addTask}
+                />
+              )}
             </div>
 
             <div className="flex-1 flex-col flex-grow">
@@ -579,14 +600,38 @@ export const Home = () => {
                     <h2 className="text-xl font-semibold font-sans">
                       Top Priority
                     </h2>
+                    {tasks
+                      .filter((task) => task.priority === 'Top Priority')
+                      .map((task, index) => (
+                        <Task
+                          key={index}
+                          {...task}
+                        />
+                      ))}
                   </div>
                   <div className="flex-1 bg-gray-100 rounded-md p-4 mb-4">
                     <h2 className="text-xl font-semibold font-sans">
                       Important
                     </h2>
+                    {tasks
+                      .filter((task) => task.priority === 'Important')
+                      .map((task, index) => (
+                        <Task
+                          key={index}
+                          {...task}
+                        />
+                      ))}
                   </div>
                   <div className="flex-1 bg-gray-100 rounded-md p-4 mb-4">
                     <h2 className="text-xl font-semibold font-sans">Other</h2>
+                    {tasks
+                      .filter((task) => task.priority === 'Other')
+                      .map((task, index) => (
+                        <Task
+                          key={index}
+                          {...task}
+                        />
+                      ))}
                   </div>
                 </div>
               </div>

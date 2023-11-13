@@ -2,9 +2,17 @@ import React, { useState } from 'react';
 
 interface ModalProps {
   onClose: () => void;
+  onSubmit: (taskData: TaskData) => void;
 }
 
-const TaskModal: React.FC<ModalProps> = ({ onClose }) => {
+interface TaskData {
+  title: string;
+  pomodoroCount: number;
+  note: string;
+  priority: string;
+}
+
+const TaskModal: React.FC<ModalProps> = ({ onClose, onSubmit }) => {
   const [taskData, setTaskData] = useState({
     title: '',
     pomodoroCount: 1,
@@ -33,6 +41,7 @@ const TaskModal: React.FC<ModalProps> = ({ onClose }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Add logic to save the task data (e.g., send to the server, update state, etc.)
+    onSubmit(taskData);
     onClose(); // Close the modal after submitting the form
   };
 
