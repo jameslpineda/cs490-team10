@@ -10,6 +10,15 @@ export const getTask = async (query: TaskInterface) => {
   }
 };
 
+//Function to get a task based on the query
+export const getTasksByDate = async (query: TaskInterface) => {
+  try {
+    return await TaskModel.find(query).lean();
+  } catch (error) {
+    return null;
+  }
+};
+
 //Function to update a task based on the query and data
 export const updateTask = async (
   query: TaskInterface,
