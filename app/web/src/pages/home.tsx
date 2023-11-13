@@ -6,8 +6,23 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import './scroll.css';
+import TaskModal from '../components/TaskModal';
+
+interface Task {
+  title: string;
+}
 
 export const Home = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   const [date, setDate] = useState(moment());
   const [showMonth, setShowMonth] = useState(false);
   const [showDay, setShowDay] = useState(false);
@@ -506,7 +521,57 @@ export const Home = () => {
         </div>
         <div className="flex">
           <div className="w-1/2 pl-4">
-            <h2 className="text-2xl font-semibold pb-2">Task</h2>
+            <div className="flex pb-2">
+              <h2 className="text-2xl font-bold pb-2 pr-2">Tasks</h2>
+              <button onClick={openModal}>
+                <svg
+                  width="39"
+                  height="39"
+                  viewBox="0 0 39 39"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle
+                    cx="19.5"
+                    cy="19.5"
+                    r="19.5"
+                    fill="url(#paint0_linear_1521_35)"
+                  />
+                  <path
+                    d="M13 19.5H26"
+                    stroke="white"
+                    stroke-width="3"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M19.5 26V13"
+                    stroke="white"
+                    stroke-width="3"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <defs>
+                    <linearGradient
+                      id="paint0_linear_1521_35"
+                      x1="19.5"
+                      y1="0"
+                      x2="19.5"
+                      y2="39"
+                      gradientUnits="userSpaceOnUse"
+                    >
+                      <stop stop-color="#5D8EFF" />
+                      <stop
+                        offset="1"
+                        stop-color="#3E6FE1"
+                      />
+                    </linearGradient>
+                  </defs>
+                </svg>
+              </button>
+              {isModalOpen && <TaskModal onClose={closeModal} />}
+            </div>
+
             <div className="flex-1 flex-col flex-grow">
               <div className="flex-grow bg-white rounded-lg shadow-md">
                 <div className="flex flex-col p-4">
