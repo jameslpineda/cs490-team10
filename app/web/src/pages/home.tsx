@@ -5,14 +5,61 @@
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import './scroll.css';
+
+import TaskModal from '../components/TaskModal';
+import Task from '../components/Task';
 import { coreConfig } from '../utils/config';
 import { toast } from 'react-toastify';
 import { constants } from 'buffer';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout, reset } from '../features/auth/authSlice';
+        
+interface TaskData {
+  title: string;
+  pomodoroCount: number;
+  note: string;
+  priority: string;
+}
 
 export const Home = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [tasks, setTasks] = useState<TaskData[]>([]);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const addTask = (task: TaskData) => {
+    setTasks((prevTasks) => [...prevTasks, task]);
+    closeModal();
+    // TODO: Add logic to post the task to the backend
+    // TODO: Use fetch for this purpose
+    fetch(`${coreConfig.apiBaseUrl}/tasks/create`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(task),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json(); // Parse the JSON response
+      })
+      .then((data) => {
+        // Handle the success response from the server
+        console.log('Task created successfully:', data);
+      })
+      .catch((error) => {
+        // Handle errors during the fetch or server-side errors
+        console.error('Error creating task:', error.message);
+      });
+  };
+
   const [date, setDate] = useState(moment());
   const [showMonth, setShowMonth] = useState(false);
   const [showDay, setShowDay] = useState(false);
@@ -551,7 +598,62 @@ export const Home = () => {
         </div>
         <div className="flex">
           <div className="w-1/2 pl-4">
-            <h2 className="text-2xl font-semibold pb-2">Task</h2>
+            <div className="flex pb-2">
+              <h2 className="text-3xl font-bold pb-2 pr-2">Tasks</h2>
+              <button onClick={openModal}>
+                <svg
+                  width="32"
+                  height="32"
+                  viewBox="0 0 39 39"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle
+                    cx="19.5"
+                    cy="19.5"
+                    r="19.5"
+                    fill="url(#paint0_linear_1521_35)"
+                  />
+                  <path
+                    d="M13 19.5H26"
+                    stroke="white"
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M19.5 26V13"
+                    stroke="white"
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <defs>
+                    <linearGradient
+                      id="paint0_linear_1521_35"
+                      x1="19.5"
+                      y1="0"
+                      x2="19.5"
+                      y2="39"
+                      gradientUnits="userSpaceOnUse"
+                    >
+                      <stop stopColor="#5D8EFF" />
+                      <stop
+                        offset="1"
+                        stopColor="#3E6FE1"
+                      />
+                    </linearGradient>
+                  </defs>
+                </svg>
+              </button>
+              {isModalOpen && (
+                <TaskModal
+                  onClose={closeModal}
+                  onSubmit={addTask}
+                />
+              )}
+            </div>
+
             <div className="flex-1 flex-col flex-grow">
               <div className="flex-grow bg-white rounded-lg shadow-md">
                 <div className="flex flex-col p-4">
@@ -559,14 +661,38 @@ export const Home = () => {
                     <h2 className="text-xl font-semibold font-sans">
                       Top Priority
                     </h2>
+                    {tasks
+                      .filter((task) => task.priority === 'Top Priority')
+                      .map((task, index) => (
+                        <Task
+                          key={index}
+                          {...task}
+                        />
+                      ))}
                   </div>
                   <div className="flex-1 bg-gray-100 rounded-md p-4 mb-4">
                     <h2 className="text-xl font-semibold font-sans">
                       Important
                     </h2>
+                    {tasks
+                      .filter((task) => task.priority === 'Important')
+                      .map((task, index) => (
+                        <Task
+                          key={index}
+                          {...task}
+                        />
+                      ))}
                   </div>
                   <div className="flex-1 bg-gray-100 rounded-md p-4 mb-4">
                     <h2 className="text-xl font-semibold font-sans">Other</h2>
+                    {tasks
+                      .filter((task) => task.priority === 'Other')
+                      .map((task, index) => (
+                        <Task
+                          key={index}
+                          {...task}
+                        />
+                      ))}
                   </div>
                 </div>
               </div>
