@@ -27,19 +27,19 @@ export const Home = () => {
   const [tasks, setTasks] = useState<TaskData[]>([]);
   const [username, setUsername] = useState('');
   
-    useEffect(() => {
-      const storedUser = localStorage.getItem('user');
-      if (storedUser) {
-        const userObject = JSON.parse(storedUser);
-        let userUsername;
-        if (userObject.first_name === null || userObject.last_name === null) {
-          userUsername = userObject.email;
-        } else {
-          userUsername = userObject.first_name + ' ' + userObject.last_name;
-        }
-        setUsername(userUsername);
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      const userObject = JSON.parse(storedUser);
+      let userUsername;
+      if (userObject.first_name === null || userObject.last_name === null) {
+        userUsername = userObject.email;
+      } else {
+        userUsername = userObject.first_name + ' ' + userObject.last_name;
       }
-    }, []);
+      setUsername(userUsername);
+    }
+  }, []);
 
   const openModal = () => {
     setIsModalOpen(true);
