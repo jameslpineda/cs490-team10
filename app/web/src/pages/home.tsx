@@ -8,10 +8,7 @@ import moment from 'moment';
 import './scroll.css';
 import TaskModal from '../components/TaskModal';
 import Task from '../components/Task';
-
-interface Task {
-  title: string;
-}
+import { coreConfig } from '../utils/config';
 
 interface TaskData {
   title: string;
@@ -36,7 +33,26 @@ export const Home = () => {
     setTasks((prevTasks) => [...prevTasks, task]);
     closeModal();
     // TODO: Add logic to post the task to the backend
-    // TODO: Use axios for this purpose
+    // TODO: Use fetch for this purpose
+    fetch(`${coreConfig.apiBaseUrl}/tasks/create`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(task),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json(); // Parse the JSON response
+      })
+      .then((data) => {
+        // Handle the success response from the server
+        console.log('Task created successfully:', data);
+      })
+      .catch((error) => {
+        // Handle errors during the fetch or server-side errors
+        console.error('Error creating task:', error.message);
+      });
   };
 
   const [date, setDate] = useState(moment());
@@ -538,11 +554,11 @@ export const Home = () => {
         <div className="flex">
           <div className="w-1/2 pl-4">
             <div className="flex pb-2">
-              <h2 className="text-2xl font-bold pb-2 pr-2">Tasks</h2>
+              <h2 className="text-3xl font-bold pb-2 pr-2">Tasks</h2>
               <button onClick={openModal}>
                 <svg
-                  width="39"
-                  height="39"
+                  width="32"
+                  height="32"
                   viewBox="0 0 39 39"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
@@ -556,16 +572,16 @@ export const Home = () => {
                   <path
                     d="M13 19.5H26"
                     stroke="white"
-                    stroke-width="3"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   />
                   <path
                     d="M19.5 26V13"
                     stroke="white"
-                    stroke-width="3"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   />
                   <defs>
                     <linearGradient
@@ -576,10 +592,10 @@ export const Home = () => {
                       y2="39"
                       gradientUnits="userSpaceOnUse"
                     >
-                      <stop stop-color="#5D8EFF" />
+                      <stop stopColor="#5D8EFF" />
                       <stop
                         offset="1"
-                        stop-color="#3E6FE1"
+                        stopColor="#3E6FE1"
                       />
                     </linearGradient>
                   </defs>
