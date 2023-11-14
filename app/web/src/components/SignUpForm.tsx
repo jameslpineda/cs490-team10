@@ -42,10 +42,11 @@ const SignUpForm: React.FC = () => {
     // Check if the password and confirm password match
     if (password === confirmPassword) {
       try {
-        await fetch(`${coreConfig.apiBaseUrl}/api/register/register-user`, {
+        const emailValue = email.value;
+        await fetch(`${coreConfig.apiBaseUrl}/user/sign-up`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, password }),
+          body: JSON.stringify({ email: emailValue, password }),
         });
 
         toast.success('Verification Email Sent!', {
