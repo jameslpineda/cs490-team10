@@ -18,14 +18,11 @@ const SignInForm: React.FC = () => {
       toast.error('Invalid Email', { autoClose: 7000 });
     } else {
       try {
-        const response = await fetch(
-          `${coreConfig.apiBaseUrl}/api/auth/login`,
-          {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, password }),
-          },
-        );
+        const response = await fetch(`${coreConfig.apiBaseUrl}/user/sign-in`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password }),
+        });
 
         const data = await response.json();
         console.log(data);
