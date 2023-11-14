@@ -43,12 +43,11 @@ const SignInForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const email = document.getElementById('email') as HTMLInputElement;
-    const r = /^[\w-]+@[\w-]+\.[\w-]+$/;
+    const r = /^[\w+-]+@[\w-]+\.[\w-]+$/;
 
     if (!r.test(email.value)) {
       toast.error('Invalid Email', { autoClose: 7000 });
     } else {
-      const emailValue = email.value;
       try {
         const emailValue = email.value;
         const response = await fetch(`${coreConfig.apiBaseUrl}/user/sign-in`, {

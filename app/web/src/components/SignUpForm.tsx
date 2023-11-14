@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 import { register, reset } from '../features/auth/authSlice';
 import Spinner from '../components/Spinner';
 import { coreConfig } from '../utils/config';
@@ -18,6 +19,7 @@ const SignUpForm: React.FC = () => {
   const dispatch = useDispatch();
 
   const { user, isLoading, isError, isSuccess, message } = useSelector(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (state: any) => state.auth,
   );
 
@@ -47,7 +49,7 @@ const SignUpForm: React.FC = () => {
     e.preventDefault();
 
     const email = document.getElementById('email') as HTMLInputElement;
-    const r = /^[\w-]+@[\w-]+\.[\w-]+$/;
+    const r = /^[\w+-]+@[\w-]+\.[\w-]+$/;
 
     if (!r.test(email.value)) {
       toast.error('Invalid Email', {
@@ -74,7 +76,6 @@ const SignUpForm: React.FC = () => {
 
     // Check if the password and confirm password match
     if (password === confirmPassword) {
-      const emailValue = email.value;
       try {
         const emailValue = email.value;
         await fetch(`${coreConfig.apiBaseUrl}/user/sign-up`, {
