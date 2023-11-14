@@ -25,6 +25,21 @@ interface TaskData {
 export const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [tasks, setTasks] = useState<TaskData[]>([]);
+  const [username, setUsername] = useState('');
+  
+    useEffect(() => {
+      const storedUser = localStorage.getItem('user');
+      if (storedUser) {
+        const userObject = JSON.parse(storedUser);
+        let userUsername;
+        if (userObject.first_name === null || userObject.last_name === null) {
+          userUsername = userObject.email;
+        } else {
+          userUsername = userObject.first_name + ' ' + userObject.last_name;
+        }
+        setUsername(userUsername);
+      }
+    }, []);
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -258,7 +273,7 @@ export const Home = () => {
             data-testid="name"
             className="flex p-2 text-black border border-black hover:bg-gray-100 font-semibold rounded-md"
           >
-            John Doe
+            {username}
           </button>
         </div>
         <div className="bg-gray-100">
