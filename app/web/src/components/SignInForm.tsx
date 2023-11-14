@@ -4,7 +4,6 @@ import { toast } from 'react-toastify';
 import { login, reset } from '../features/auth/authSlice';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { coreConfig } from '../utils/config';
 import Spinner from '../components/Spinner';
 import useAppDispatch from '../features/auth/hooks/useAppDispatch';
 
@@ -18,6 +17,7 @@ const SignInForm: React.FC = () => {
   const dispatch = useAppDispatch();
 
   const { user, isLoading, isError, isSuccess, message } = useSelector(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (state: any) => state.auth,
   );
 
@@ -29,13 +29,15 @@ const SignInForm: React.FC = () => {
       });
     }
 
-    if (isSuccess || user) {
-      toast.success(message, {
-        position: toast.POSITION.TOP_RIGHT,
-        autoClose: 7000,
-      });
+    if (user) {
+      if (message) {
+        toast.success(message, {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 7000,
+        });
+      }
+      navigate('/home');
       dispatch(reset());
-      navigate('/');
     }
 
     dispatch(reset());
@@ -49,27 +51,12 @@ const SignInForm: React.FC = () => {
     if (!r.test(email.value)) {
       toast.error('Invalid Email', { autoClose: 7000 });
     } else {
-      try {
-        const emailValue = email.value;
-        const response = await fetch(`${coreConfig.apiBaseUrl}/user/sign-in`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email: emailValue, password }),
-        });
+      const userData = {
+        email: email.value,
+        password,
+      };
 
-        const data = await response.json();
-
-        if (response.ok) {
-          toast.success('Successful login', { autoClose: 7000 });
-          // TODO: Handle storing the jwt token or user data in frontend state or context
-          dispatch(login());
-          // TODO: Redirect user to home page after successful login
-        } else {
-          toast.error(data.message || 'Login failed', { autoClose: 7000 });
-        }
-      } catch (error) {
-        toast.error('An error occurred during login', { autoClose: 7000 });
-      }
+      dispatch(login(userData));
     }
   };
 

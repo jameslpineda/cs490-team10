@@ -178,6 +178,7 @@ export const Home = () => {
     navigate('../');
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { user } = useSelector((state: any) => state.auth);
 
   useEffect(() => {

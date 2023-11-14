@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   web:
-    image: web
+    # image: web
     build: ./web/
     stdin_open: true
     ports:
@@ -12,7 +12,7 @@ services:
       - ./web/:/app
       - /app/node_modules
   api:
-    image: api
+    # image: api
     build: ./api
     env_file:
       - ./.env.local
