@@ -41,6 +41,7 @@ const SignUpForm: React.FC = () => {
 
     // Check if the password and confirm password match
     if (password === confirmPassword) {
+      const emailValue = email.value;
       try {
         const emailValue = email.value;
         await fetch(`${coreConfig.apiBaseUrl}/user/sign-up`, {
@@ -61,6 +62,7 @@ const SignUpForm: React.FC = () => {
             autoClose: 7000,
           });
         } else {
+          console.log(error);
           toast.error('Registration Failed', {
             autoClose: 7000,
           });
