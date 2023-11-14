@@ -1,10 +1,12 @@
 import axios from 'axios';
-
-const API_URL = env.API_URL;
+import { coreConfig } from '../../utils/config';
 
 // Register user
 const register = async (userData) => {
-  const response = await axios.post(`${API_URL}`, userData);
+  const response = await axios.post(
+    `${coreConfig.apiBaseUrl}/user/sign-up`,
+    userData,
+  );
   if (response.data) {
     localStorage.setItem('user', JSON.stringify(response.data));
   }
@@ -13,7 +15,10 @@ const register = async (userData) => {
 
 // Login user
 const login = async (userData) => {
-  const response = await axios.post(`${API_URL}/login`, userData);
+  const response = await axios.post(
+    `${coreConfig.apiBaseUrl}/user/sign-in`,
+    userData,
+  );
   if (response.data) {
     localStorage.setItem('user', JSON.stringify(response.data));
   }
