@@ -1,13 +1,44 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { login, reset } from '../features/auth/authSlice';
+import { useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import { coreConfig } from '../utils/config';
+import Spinner from '../components/Spinner';
 
 const SignInForm: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const [showPassword, setShowPassword] = useState(false);
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { user, isLoading, isError, isSuccess, message } = useSelector(
+    (state: any) => state.auth,
+  );
+
+  useEffect(() => {
+    if (isError) {
+      toast.error(message, {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 7000,
+      });
+    }
+
+    if (isSuccess || user) {
+      toast.success(message, {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 7000,
+      });
+      dispatch(reset());
+      navigate('/signIn');
+    }
+
+    dispatch(reset());
+  }, [user, isError, isSuccess, message, dispatch, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -17,33 +48,33 @@ const SignInForm: React.FC = () => {
     if (!r.test(email.value)) {
       toast.error('Invalid Email', { autoClose: 7000 });
     } else {
+      const emailValue = email.value;
       try {
-        const response = await fetch(
-          `${coreConfig.apiBaseUrl}/api/auth/login`,
-          {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, password }),
-          },
-        );
+        const emailValue = email.value;
+        const response = await fetch(`${coreConfig.apiBaseUrl}/user/sign-in`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: emailValue, password }),
+        });
 
         const data = await response.json();
-        console.log(data);
+        //console.log(data);
 
         if (response.ok) {
           toast.success('Successful login', { autoClose: 7000 });
           // TODO: Handle storing the jwt token or user data in frontend state or context
-
+          dispatch(login(data));
           // TODO: Redirect user to home page after successful login
         } else {
           toast.error(data.message || 'Login failed', { autoClose: 7000 });
         }
       } catch (error) {
-        console.error(error);
         toast.error('An error occurred during login', { autoClose: 7000 });
       }
     }
   };
+
+  if (isLoading) return <Spinner />;
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
