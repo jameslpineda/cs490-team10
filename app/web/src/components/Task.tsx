@@ -42,7 +42,7 @@ const Task: React.FC<TaskProps> = ({
   }
 
   function incrementCount() {
-    const newCount = count + 1;
+    const newCount = +count + 1;
     setCounter(newCount);
   }
 

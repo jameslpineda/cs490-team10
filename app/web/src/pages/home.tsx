@@ -5,6 +5,16 @@
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import './scroll.css';
+import TaskModal from '../components/TaskModal';
+import Task from '../components/Task';
+import { coreConfig } from '../utils/config';
+
+interface TaskData {
+  title: string;
+  pomodoroCount: number;
+  note: string;
+  priority: string;
+}
 
 import TaskModal from '../components/TaskModal';
 import Task from '../components/Task';
