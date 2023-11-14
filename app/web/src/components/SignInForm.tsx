@@ -3,9 +3,10 @@ import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { login, reset } from '../features/auth/authSlice';
 import { useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { coreConfig } from '../utils/config';
 import Spinner from '../components/Spinner';
+import useAppDispatch from '../features/auth/hooks/useAppDispatch';
 
 const SignInForm: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -14,7 +15,7 @@ const SignInForm: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const { user, isLoading, isError, isSuccess, message } = useSelector(
     (state: any) => state.auth,
@@ -34,7 +35,7 @@ const SignInForm: React.FC = () => {
         autoClose: 7000,
       });
       dispatch(reset());
-      navigate('/signIn');
+      navigate('/');
     }
 
     dispatch(reset());
@@ -58,12 +59,11 @@ const SignInForm: React.FC = () => {
         });
 
         const data = await response.json();
-        //console.log(data);
 
         if (response.ok) {
           toast.success('Successful login', { autoClose: 7000 });
           // TODO: Handle storing the jwt token or user data in frontend state or context
-          dispatch(login(data));
+          dispatch(login());
           // TODO: Redirect user to home page after successful login
         } else {
           toast.error(data.message || 'Login failed', { autoClose: 7000 });

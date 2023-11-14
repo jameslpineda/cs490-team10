@@ -1,8 +1,11 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable no-undef */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import useAppDispatch from '../features/auth/hooks/useAppDispatch';
+import { logout, reset } from '../features/auth/authSlice';
 
 const Settings: React.FC = () => {
   // TODO: update usestate with session values
@@ -17,9 +20,21 @@ const Settings: React.FC = () => {
     navigate('../home');
   };
 
+  const dispatch = useAppDispatch();
   const routeLogout = () => {
+    dispatch(logout());
+    dispatch(reset());
     navigate('../');
   };
+
+  const { user } = useSelector((state: any) => state.auth);
+
+  useEffect(() => {
+    if (!user) {
+      navigate('../');
+    }
+  }, [user, navigate]);
+
   const validatePassword = () => {
     const password = document.getElementById('oldpass') as HTMLInputElement;
     const newPassword = document.getElementById('newpass') as HTMLInputElement;
