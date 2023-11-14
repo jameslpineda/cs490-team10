@@ -28,6 +28,11 @@ module.exports = {
   },
   plugins: ['@typescript-eslint', 'prettier', 'jest'],
   rules: {
-    'prettier/prettier': 'error',
+    'prettier/prettier': [
+      'error',
+      {
+        endOfLine: 'auto',
+      },
+    ],
   },
 };

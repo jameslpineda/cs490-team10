@@ -17,11 +17,13 @@ const SignInForm: React.FC = () => {
     if (!r.test(email.value)) {
       toast.error('Invalid Email', { autoClose: 7000 });
     } else {
+      const emailValue = email.value;
       try {
+        const emailValue = email.value;
         const response = await fetch(`${coreConfig.apiBaseUrl}/user/sign-in`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, password }),
+          body: JSON.stringify({ email: emailValue, password }),
         });
 
         const data = await response.json();
@@ -36,7 +38,6 @@ const SignInForm: React.FC = () => {
           toast.error(data.message || 'Login failed', { autoClose: 7000 });
         }
       } catch (error) {
-        console.error(error);
         toast.error('An error occurred during login', { autoClose: 7000 });
       }
     }
