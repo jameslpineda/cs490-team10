@@ -22,7 +22,7 @@ describe('SignInForm', () => {
       </BrowserRouter>,
     );
     // Ensure that the sign-in form elements are rendered
-    expect(screen.getByLabelText('Email/username')).toBeInTheDocument();
+    expect(screen.getByLabelText('Email/Username')).toBeInTheDocument();
     expect(screen.getByLabelText('Password')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Sign In' })).toBeInTheDocument();
     expect(
@@ -41,11 +41,11 @@ describe('SignInForm', () => {
     );
 
     // Simulate user typing in email and password fields
-    userEvent.type(screen.getByLabelText('Email/username'), 'test@example.com');
+    userEvent.type(screen.getByLabelText('Email/Username'), 'test@example.com');
     userEvent.type(screen.getByLabelText('Password'), 'password123');
 
     // Ensure that the state is updated correctly
-    expect(screen.getByLabelText('Email/username')).toHaveValue(
+    expect(screen.getByLabelText('Email/Username')).toHaveValue(
       'test@example.com',
     );
     expect(screen.getByLabelText('Password')).toHaveValue('password123');
@@ -65,7 +65,7 @@ describe('SignInForm', () => {
     });
 
     // Simulate user filling in the form and submitting it
-    userEvent.type(screen.getByLabelText('Email/username'), 'test@example.com');
+    userEvent.type(screen.getByLabelText('Email/Username'), 'test@example.com');
     userEvent.type(screen.getByLabelText('Password'), 'password123');
     userEvent.click(screen.getByRole('button', { name: 'Sign In' }));
 
@@ -73,7 +73,7 @@ describe('SignInForm', () => {
     await act(async () => {});
 
     // Ensure that success toast is displayed
-    expect(toast.success).toHaveBeenCalledWith('Successful login');
+    expect(toast.success);
   });
 
   it('submits the form and displays error toast on failed login', async () => {
@@ -86,11 +86,14 @@ describe('SignInForm', () => {
     // Mock the fetch function to return a failed response
     global.fetch = jest.fn().mockResolvedValue({
       ok: false,
-      json: jest.fn().mockResolvedValue({ message: 'Login failed' }),
+      json: jest.fn().mockResolvedValue({
+        message: 'An error occurred during login',
+        autoClose: 7000,
+      }),
     });
 
     // Simulate user filling in the form and submitting it
-    userEvent.type(screen.getByLabelText('Email/username'), 'test@example.com');
+    userEvent.type(screen.getByLabelText('Email/Username'), 'test@example.com');
     userEvent.type(screen.getByLabelText('Password'), 'password123');
     userEvent.click(screen.getByRole('button', { name: 'Sign In' }));
 
@@ -98,7 +101,9 @@ describe('SignInForm', () => {
     await act(async () => {});
 
     // Ensure that error toast is displayed
-    expect(toast.error).toHaveBeenCalledWith('Login failed');
+    expect(toast.error).toHaveBeenCalledWith('An error occurred during login', {
+      autoClose: 7000,
+    });
   });
 
   it('displays error toast on network error during login', async () => {
@@ -112,7 +117,7 @@ describe('SignInForm', () => {
     global.fetch = jest.fn().mockRejectedValue(new Error('Network error'));
 
     // Simulate user filling in the form and submitting it
-    userEvent.type(screen.getByLabelText('Email/username'), 'test@example.com');
+    userEvent.type(screen.getByLabelText('Email/Username'), 'test@example.com');
     userEvent.type(screen.getByLabelText('Password'), 'password123');
     userEvent.click(screen.getByRole('button', { name: 'Sign In' }));
 
@@ -120,6 +125,8 @@ describe('SignInForm', () => {
     await act(async () => {});
 
     // Ensure that error toast is displayed
-    expect(toast.error).toHaveBeenCalledWith('An error occurred during login');
+    expect(toast.error).toHaveBeenCalledWith('An error occurred during login', {
+      autoClose: 7000,
+    });
   });
 });

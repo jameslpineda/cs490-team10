@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import { errorHandler } from './middleware/errorHandler';
 import userRoutes from './routes/userRoutes';
+import taskRoutes from './routes/taskRoutes';
 import { corsConfig } from './utils/config';
 import { logger } from './middleware/logger';
 
@@ -17,6 +18,7 @@ app.use(logger);
 
 // routes
 app.use('/user', userRoutes);
+app.use('/task', taskRoutes);
 
 app.use(errorHandler);
 

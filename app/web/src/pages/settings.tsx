@@ -14,11 +14,11 @@ const Settings: React.FC = () => {
 
   const navigate = useNavigate();
   const routeHome = () => {
-    navigate('../');
+    navigate('../home');
   };
 
   const routeLogout = () => {
-    navigate('../signIn');
+    navigate('../');
   };
   const validatePassword = () => {
     const password = document.getElementById('oldpass') as HTMLInputElement;
@@ -122,19 +122,17 @@ const Settings: React.FC = () => {
           </button>
         </div>
       </div>
-      <div className="w-5/6 h-screen">
-        <div className="bg-gray-100">
-          <div>
-            <div className="flex ml-auto p-4 bg-white">
-              <div className="w-1/2 text-left text-2xl font-bold">Profile</div>
-              <div className="w-1/2 flex justify-end">
-                <button
-                  data-testid="name"
-                  className="flex p-2 text-black border border-back hover:bg-gray-100 font-semibold rounded-md"
-                >
-                  {firstName} {lastName}
-                </button>
-              </div>
+      <div className="w-5/6">
+        <div className="bg-gray-100 h-screen">
+          <div className="flex ml-auto p-4 bg-white">
+            <div className="w-1/2 text-left text-2xl font-bold">Profile</div>
+            <div className="w-1/2 flex justify-end">
+              <button
+                data-testid="name"
+                className="flex p-2 text-black border border-back hover:bg-gray-100 font-semibold rounded-md"
+              >
+                {firstName} {lastName}
+              </button>
             </div>
           </div>
           <h2 className="text-xl font-semibold pt-6 pl-8">User Information</h2>
@@ -142,8 +140,22 @@ const Settings: React.FC = () => {
             <div className="w-1/2 bg-white p-4 rounded-md">
               <label
                 htmlFor="firstName"
-                className="text-gray-600 block"
+                className="text-gray-600 flex"
               >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 28 28"
+                  strokeWidth="2"
+                  stroke="#6284FF"
+                  className="w-6 h-6 pt-1"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
+                  />
+                </svg>
                 First Name
               </label>
               <input
@@ -162,8 +174,22 @@ const Settings: React.FC = () => {
             <div className="w-1/2 bg-white p-4 rounded-md">
               <label
                 htmlFor="lastName"
-                className="text-gray-600 block"
+                className="text-gray-600 flex"
               >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 28 28"
+                  strokeWidth="2"
+                  stroke="#6284FF"
+                  className="w-6 h-6 pt-1"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
+                  />
+                </svg>
                 Last Name
               </label>
               <input
@@ -185,8 +211,22 @@ const Settings: React.FC = () => {
             <div className="w-1/3 bg-white p-4 rounded-md">
               <label
                 htmlFor="oldpass"
-                className="text-gray-600 block"
+                className="text-gray-600 flex"
               >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 28 28"
+                  strokeWidth="2"
+                  stroke="#6284FF"
+                  className="w-6 h-6 pt-1"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"
+                  />
+                </svg>
                 Current Password
               </label>
               <input
@@ -199,8 +239,22 @@ const Settings: React.FC = () => {
             <div className="w-1/3 bg-white p-4 rounded-md">
               <label
                 htmlFor="newpass"
-                className="text-gray-600 block"
+                className="text-gray-600 flex"
               >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 28 28"
+                  strokeWidth="2"
+                  stroke="#6284FF"
+                  className="w-6 h-6 pt-1"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"
+                  />
+                </svg>
                 New Password
               </label>
               <input
@@ -213,8 +267,22 @@ const Settings: React.FC = () => {
             <div className="w-1/3 bg-white p-4 rounded-md">
               <label
                 htmlFor="confirmnewpass"
-                className="text-gray-600 block"
+                className="text-gray-600 flex"
               >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 28 28"
+                  strokeWidth="2"
+                  stroke="#6284FF"
+                  className="w-6 h-6 pt-1"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"
+                  />
+                </svg>
                 Confirm New Password
               </label>
               <input
@@ -232,8 +300,22 @@ const Settings: React.FC = () => {
             <div className="w-1/3 bg-white p-4 rounded-md">
               <label
                 htmlFor="pomodoro"
-                className="text-gray-600 block"
+                className="text-gray-600 flex"
               >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 28 28"
+                  strokeWidth="2"
+                  stroke="#6284FF"
+                  className="w-6 h-6 pt-1"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
                 Pomodoro
               </label>
               <input
@@ -254,8 +336,22 @@ const Settings: React.FC = () => {
             <div className="w-1/3 bg-white p-4 rounded-md">
               <label
                 htmlFor="shortbreak"
-                className="text-gray-600 block"
+                className="text-gray-600 flex"
               >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 28 28"
+                  strokeWidth="2"
+                  stroke="#6284FF"
+                  className="w-6 h-6 pt-1"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
                 Short Break
               </label>
               <input
@@ -276,8 +372,22 @@ const Settings: React.FC = () => {
             <div className="w-1/3 bg-white p-4 rounded-md">
               <label
                 htmlFor="longbreak"
-                className="text-gray-600 block"
+                className="text-gray-600 flex"
               >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 28 28"
+                  strokeWidth="2"
+                  stroke="#6284FF"
+                  className="w-6 h-6 pt-1"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
                 Long Break
               </label>
               <input
