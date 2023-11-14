@@ -3,11 +3,14 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable no-undef */
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import './scroll.css';
 import { coreConfig } from '../utils/config';
 import { toast } from 'react-toastify';
+import { constants } from 'buffer';
+import { useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { logout, reset } from '../features/auth/authSlice';
 
 export const Home = () => {
   const [date, setDate] = useState(moment());
@@ -119,9 +122,22 @@ export const Home = () => {
   const routeSettings = () => {
     navigate('../settings');
   };
+
+  const dispatch = useDispatch();
   const routeLogout = () => {
-    navigate('../');
+    dispatch(logout());
+    dispatch(reset());
+    navigate('../signIn');
   };
+
+  const { user } = useSelector((state: any) => state.auth);
+
+  useEffect(() => {
+    if (!user) {
+      navigate('../signIn');
+    }
+  }, [user, navigate]);
+
   return (
     <div
       className="flex"
