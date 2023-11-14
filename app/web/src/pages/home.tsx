@@ -3,11 +3,78 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable no-undef */
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import './scroll.css';
+import TaskModal from '../components/TaskModal';
+import Task from '../components/Task';
+import { coreConfig } from '../utils/config';
+import { toast } from 'react-toastify';
+import { constants } from 'buffer';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { logout, reset } from '../features/auth/authSlice';
+import useAppDispatch from '../features/auth/hooks/useAppDispatch';
+
+interface TaskData {
+  title: string;
+  pomodoroCount: number;
+  note: string;
+  priority: string;
+}
 
 export const Home = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [tasks, setTasks] = useState<TaskData[]>([]);
+  const [username, setUsername] = useState('');
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      const userObject = JSON.parse(storedUser);
+      let userUsername;
+      if (userObject.first_name === null || userObject.last_name === null) {
+        userUsername = userObject.email;
+      } else {
+        userUsername = userObject.first_name + ' ' + userObject.last_name;
+      }
+      setUsername(userUsername);
+    }
+  }, []);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const addTask = (task: TaskData) => {
+    setTasks((prevTasks) => [...prevTasks, task]);
+    closeModal();
+    // TODO: Add logic to post the task to the backend
+    // TODO: Use fetch for this purpose
+    fetch(`${coreConfig.apiBaseUrl}/tasks/create`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(task),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json(); // Parse the JSON response
+      })
+      .then((data) => {
+        // Handle the success response from the server
+        console.log('Task created successfully:', data);
+      })
+      .catch((error) => {
+        // Handle errors during the fetch or server-side errors
+        console.error('Error creating task:', error.message);
+      });
+  };
+
   const [date, setDate] = useState(moment());
   const [showMonth, setShowMonth] = useState(false);
   const [showDay, setShowDay] = useState(false);
@@ -30,17 +97,48 @@ export const Home = () => {
     allYears.push(y);
   }
 
+  const refreshView = async (newDate: moment.Moment) => {
+    try {
+      const queryParams = new URLSearchParams({
+        date: JSON.stringify(newDate),
+      });
+
+      console.log(queryParams);
+
+      const url = `${coreConfig.apiBaseUrl}/task/retrieve?${queryParams}`;
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      const tasks = await response.json();
+      console.log(tasks);
+    } catch (error) {
+      console.error(error);
+      toast.error('Could not update tasks', { autoClose: 7000 });
+    }
+  };
+
+  const updateDate = (newDate: moment.Moment) => {
+    refreshView(newDate);
+    setDate(newDate);
+  };
+
   const decrementMonth = () => {
     const currDate = date.clone();
-    if (currDate.year() != 2000 && currDate.month() != 0) {
-      setDate(date.clone().subtract(1, 'month'));
+    if (currDate.year() == 2000 && currDate.month() == 0) {
+      return;
+    } else {
+      updateDate(date.clone().subtract(1, 'month'));
     }
   };
 
   const incrementMonth = () => {
     const currDate = date.clone();
-    if (currDate.year() != 2500 && currDate.month() != 11) {
-      setDate(date.clone().add(1, 'month'));
+    if (currDate.year() == 2500 && currDate.month() == 11) {
+      return;
+    } else {
+      updateDate(date.clone().add(1, 'month'));
     }
   };
 
@@ -53,7 +151,7 @@ export const Home = () => {
     ) {
       return;
     } else {
-      setDate(date.clone().subtract(1, 'day'));
+      updateDate(date.clone().subtract(1, 'day'));
     }
   };
 
@@ -66,19 +164,19 @@ export const Home = () => {
     ) {
       return;
     } else {
-      setDate(date.clone().add(1, 'day'));
+      updateDate(date.clone().add(1, 'day'));
     }
   };
 
   const decrementYear = () => {
     if (date.clone().year() > 2000) {
-      setDate(date.clone().subtract(1, 'year'));
+      updateDate(date.clone().subtract(1, 'year'));
     }
   };
 
   const incrementYear = () => {
     if (date.clone().year() < 2050) {
-      setDate(date.clone().add(1, 'year'));
+      updateDate(date.clone().add(1, 'year'));
     }
   };
 
@@ -86,9 +184,23 @@ export const Home = () => {
   const routeSettings = () => {
     navigate('../settings');
   };
+
+  const dispatch = useAppDispatch();
   const routeLogout = () => {
+    dispatch(logout());
+    dispatch(reset());
     navigate('../');
   };
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { user } = useSelector((state: any) => state.auth);
+
+  useEffect(() => {
+    if (!user) {
+      navigate('../');
+    }
+  }, [user, navigate]);
+
   return (
     <div
       className="flex"
@@ -161,7 +273,7 @@ export const Home = () => {
             data-testid="name"
             className="flex p-2 text-black border border-black hover:bg-gray-100 font-semibold rounded-md"
           >
-            John Doe
+            {username}
           </button>
         </div>
         <div className="bg-gray-100">
@@ -248,7 +360,7 @@ export const Home = () => {
                       className=" text-black w-full outline-none myScroll"
                       value={date.format('MMMM')}
                       onChange={(e) => {
-                        setDate(date.clone().month(e.target.value));
+                        updateDate(date.clone().month(e.target.value));
                         setShowMonth(false);
                       }}
                     >
@@ -359,7 +471,7 @@ export const Home = () => {
                       className=" text-black w-full outline-none pr-2 myScroll"
                       value={date.format('D')}
                       onChange={(e) => {
-                        setDate(date.clone().date(parseInt(e.target.value)));
+                        updateDate(date.clone().date(parseInt(e.target.value)));
                         setShowDay(false);
                       }}
                     >
@@ -400,13 +512,12 @@ export const Home = () => {
               </button>
               <button
                 onClick={() => setShowYear(!false)}
-                data-testid="yearID"
                 className={`relative border border-indigo-400 w-28 p-1.5 pl-3 rounded-md font-semibold text-s text-left ${
                   showYear ? 'bg-white' : ''
                 }  `}
               >
                 <span className="text-black font-bold flex justify-between  items-center">
-                  <p>{date.format('YYYY')}</p>
+                  <p data-testid="yearID">{date.format('YYYY')}</p>
                   {showYear ? (
                     <svg
                       className="h-6"
@@ -470,7 +581,7 @@ export const Home = () => {
                       className=" text-black w-full outline-none pr-2 myScroll"
                       value={date.format('YYYY')}
                       onChange={(e) => {
-                        setDate(date.clone().year(parseInt(e.target.value)));
+                        updateDate(date.clone().year(parseInt(e.target.value)));
                         setShowDay(false);
                       }}
                     >
@@ -503,7 +614,62 @@ export const Home = () => {
         </div>
         <div className="flex">
           <div className="w-1/2 pl-4">
-            <h2 className="text-2xl font-semibold pb-2">Task</h2>
+            <div className="flex pb-2">
+              <h2 className="text-3xl font-bold pb-2 pr-2">Tasks</h2>
+              <button onClick={openModal}>
+                <svg
+                  width="32"
+                  height="32"
+                  viewBox="0 0 39 39"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle
+                    cx="19.5"
+                    cy="19.5"
+                    r="19.5"
+                    fill="url(#paint0_linear_1521_35)"
+                  />
+                  <path
+                    d="M13 19.5H26"
+                    stroke="white"
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M19.5 26V13"
+                    stroke="white"
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <defs>
+                    <linearGradient
+                      id="paint0_linear_1521_35"
+                      x1="19.5"
+                      y1="0"
+                      x2="19.5"
+                      y2="39"
+                      gradientUnits="userSpaceOnUse"
+                    >
+                      <stop stopColor="#5D8EFF" />
+                      <stop
+                        offset="1"
+                        stopColor="#3E6FE1"
+                      />
+                    </linearGradient>
+                  </defs>
+                </svg>
+              </button>
+              {isModalOpen && (
+                <TaskModal
+                  onClose={closeModal}
+                  onSubmit={addTask}
+                />
+              )}
+            </div>
+
             <div className="flex-1 flex-col flex-grow">
               <div className="flex-grow bg-white rounded-lg shadow-md">
                 <div className="flex flex-col p-4">
@@ -511,14 +677,38 @@ export const Home = () => {
                     <h2 className="text-xl font-semibold font-sans">
                       Top Priority
                     </h2>
+                    {tasks
+                      .filter((task) => task.priority === 'Top Priority')
+                      .map((task, index) => (
+                        <Task
+                          key={index}
+                          {...task}
+                        />
+                      ))}
                   </div>
                   <div className="flex-1 bg-gray-100 rounded-md p-4 mb-4">
                     <h2 className="text-xl font-semibold font-sans">
                       Important
                     </h2>
+                    {tasks
+                      .filter((task) => task.priority === 'Important')
+                      .map((task, index) => (
+                        <Task
+                          key={index}
+                          {...task}
+                        />
+                      ))}
                   </div>
                   <div className="flex-1 bg-gray-100 rounded-md p-4 mb-4">
                     <h2 className="text-xl font-semibold font-sans">Other</h2>
+                    {tasks
+                      .filter((task) => task.priority === 'Other')
+                      .map((task, index) => (
+                        <Task
+                          key={index}
+                          {...task}
+                        />
+                      ))}
                   </div>
                 </div>
               </div>
