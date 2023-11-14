@@ -8,17 +8,6 @@ import './scroll.css';
 import TaskModal from '../components/TaskModal';
 import Task from '../components/Task';
 import { coreConfig } from '../utils/config';
-
-interface TaskData {
-  title: string;
-  pomodoroCount: number;
-  note: string;
-  priority: string;
-}
-
-import TaskModal from '../components/TaskModal';
-import Task from '../components/Task';
-import { coreConfig } from '../utils/config';
 import { toast } from 'react-toastify';
 import { constants } from 'buffer';
 import { useNavigate } from 'react-router-dom';
