@@ -12,9 +12,10 @@ import { coreConfig } from '../utils/config';
 import { toast } from 'react-toastify';
 import { constants } from 'buffer';
 import { useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { logout, reset } from '../features/auth/authSlice';
-        
+import useAppDispatch from '../features/auth/hooks/useAppDispatch';
+
 interface TaskData {
   title: string;
   pomodoroCount: number;
@@ -170,18 +171,18 @@ export const Home = () => {
     navigate('../settings');
   };
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const routeLogout = () => {
     dispatch(logout());
     dispatch(reset());
-    navigate('../signIn');
+    navigate('../');
   };
 
   const { user } = useSelector((state: any) => state.auth);
 
   useEffect(() => {
     if (!user) {
-      navigate('../signIn');
+      navigate('../');
     }
   }, [user, navigate]);
 
