@@ -19,6 +19,7 @@ const SignInForm: React.FC = () => {
     } else {
       const emailValue = email.value;
       try {
+        const emailValue = email.value;
         const response = await fetch(`${coreConfig.apiBaseUrl}/user/sign-in`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },

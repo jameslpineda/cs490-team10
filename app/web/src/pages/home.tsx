@@ -6,6 +6,8 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import './scroll.css';
+import { coreConfig } from '../utils/config';
+import { toast } from 'react-toastify';
 
 export const Home = () => {
   const [date, setDate] = useState(moment());
@@ -30,12 +32,39 @@ export const Home = () => {
     allYears.push(y);
   }
 
+  const refreshView = async (newDate: moment.Moment) => {
+    try {
+      const queryParams = new URLSearchParams({
+        date: JSON.stringify(newDate),
+      });
+
+      console.log(queryParams);
+
+      const url = `${coreConfig.apiBaseUrl}/task/retrieve?${queryParams}`;
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      const tasks = await response.json();
+      console.log(tasks);
+    } catch (error) {
+      console.error(error);
+      toast.error('Could not update tasks', { autoClose: 7000 });
+    }
+  };
+
+  const updateDate = (newDate: moment.Moment) => {
+    refreshView(newDate);
+    setDate(newDate);
+  };
+
   const decrementMonth = () => {
     const currDate = date.clone();
     if (currDate.year() == 2000 && currDate.month() == 0) {
       return;
     } else {
-      setDate(date.clone().subtract(1, 'month'));
+      updateDate(date.clone().subtract(1, 'month'));
     }
   };
 
@@ -44,7 +73,7 @@ export const Home = () => {
     if (currDate.year() == 2500 && currDate.month() == 11) {
       return;
     } else {
-      setDate(date.clone().add(1, 'month'));
+      updateDate(date.clone().add(1, 'month'));
     }
   };
 
@@ -57,7 +86,7 @@ export const Home = () => {
     ) {
       return;
     } else {
-      setDate(date.clone().subtract(1, 'day'));
+      updateDate(date.clone().subtract(1, 'day'));
     }
   };
 
@@ -70,19 +99,19 @@ export const Home = () => {
     ) {
       return;
     } else {
-      setDate(date.clone().add(1, 'day'));
+      updateDate(date.clone().add(1, 'day'));
     }
   };
 
   const decrementYear = () => {
     if (date.clone().year() > 2000) {
-      setDate(date.clone().subtract(1, 'year'));
+      updateDate(date.clone().subtract(1, 'year'));
     }
   };
 
   const incrementYear = () => {
     if (date.clone().year() < 2050) {
-      setDate(date.clone().add(1, 'year'));
+      updateDate(date.clone().add(1, 'year'));
     }
   };
 
@@ -252,7 +281,7 @@ export const Home = () => {
                       className=" text-black w-full outline-none myScroll"
                       value={date.format('MMMM')}
                       onChange={(e) => {
-                        setDate(date.clone().month(e.target.value));
+                        updateDate(date.clone().month(e.target.value));
                         setShowMonth(false);
                       }}
                     >
@@ -363,7 +392,7 @@ export const Home = () => {
                       className=" text-black w-full outline-none pr-2 myScroll"
                       value={date.format('D')}
                       onChange={(e) => {
-                        setDate(date.clone().date(parseInt(e.target.value)));
+                        updateDate(date.clone().date(parseInt(e.target.value)));
                         setShowDay(false);
                       }}
                     >
@@ -473,7 +502,7 @@ export const Home = () => {
                       className=" text-black w-full outline-none pr-2 myScroll"
                       value={date.format('YYYY')}
                       onChange={(e) => {
-                        setDate(date.clone().year(parseInt(e.target.value)));
+                        updateDate(date.clone().year(parseInt(e.target.value)));
                         setShowDay(false);
                       }}
                     >

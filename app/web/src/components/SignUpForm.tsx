@@ -43,6 +43,7 @@ const SignUpForm: React.FC = () => {
     if (password === confirmPassword) {
       const emailValue = email.value;
       try {
+        const emailValue = email.value;
         await fetch(`${coreConfig.apiBaseUrl}/user/sign-up`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
