@@ -9,11 +9,25 @@ import { logout, reset } from '../features/auth/authSlice';
 
 const Settings: React.FC = () => {
   // TODO: update usestate with session values
-  const [firstName, setFirstName] = useState('John');
+  const [firstName, setFirstName] = useState('Ruby');
   const [lastName, setLastName] = useState('Doe');
-  const [pomoTimer, setPomoTimer] = useState('25');
-  const [shortBreak, setShortBreak] = useState('5');
-  const [longBreak, setLongBreak] = useState('15');
+  const [pomoTimer, setPomoTimer] = useState<string>(
+    localStorage.getItem('pomoTimer') ?? '25',
+  );
+  const [shortBreak, setShortBreak] = useState<string>(
+    localStorage.getItem('shortBreak') ?? '5',
+  );
+  const [longBreak, setLongBreak] = useState<string>(
+    localStorage.getItem('longBreak') ?? '15',
+  );
+
+  useEffect(() => {
+    localStorage.setItem('firstName', firstName);
+    localStorage.setItem('lastName', lastName);
+    localStorage.setItem('pomoTimer', pomoTimer);
+    localStorage.setItem('shortBreak', shortBreak);
+    localStorage.setItem('longBreak', longBreak);
+  }, [firstName, lastName, pomoTimer, shortBreak, longBreak]);
 
   const navigate = useNavigate();
   const routeHome = () => {

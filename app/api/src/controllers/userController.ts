@@ -120,6 +120,9 @@ export const signIn = asyncHandler(async (req, res) => {
     _id: user._id,
     first_name: user.first_name,
     last_name: user.last_name,
+    pomodoro: user.pomodoro,
+    short_break: user.short_break,
+    long_break: user.long_break,
     email,
     token,
   });
