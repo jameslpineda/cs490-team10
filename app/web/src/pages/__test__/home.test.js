@@ -2,12 +2,16 @@ import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import Home from '../home';
+import { Provider } from 'react-redux';
+import store from '../../features/auth/store';
 
 test('Testing decrement button', () => {
   const { getByTestId } = render(
+    <Provider store={store}>
     <BrowserRouter>
       <Home />
-    </BrowserRouter>,
+    </BrowserRouter>
+    </Provider>,
   );
 
   const decrementMonthButton = getByTestId('decrement-month-button');
@@ -33,9 +37,11 @@ test('Testing decrement button', () => {
 
 test('Testing increment button', () => {
   const { getByTestId } = render(
+    <Provider store={store}>
     <BrowserRouter>
       <Home />
-    </BrowserRouter>,
+    </BrowserRouter>
+    </Provider>,
   );
 
   const incrementMonthButton = getByTestId('increment-month-button');
@@ -61,9 +67,11 @@ test('Testing increment button', () => {
 
 test('Crossing the max days threshold changes the month', () => {
   const { getByTestId } = render(
+    <Provider store={store}>
     <BrowserRouter>
       <Home />
-    </BrowserRouter>,
+    </BrowserRouter>
+    </Provider>,
   );
 
   const initialMonth = getByTestId('monthID').textContent;
@@ -81,9 +89,11 @@ test('Crossing the max days threshold changes the month', () => {
 
 test('Crossing the max month threshold changes the year', () => {
   const { getByTestId } = render(
+    <Provider store={store}>
     <BrowserRouter>
       <Home />
-    </BrowserRouter>,
+    </BrowserRouter>
+    </Provider>,
   );
 
   const initialYear = getByTestId('yearID').textContent;

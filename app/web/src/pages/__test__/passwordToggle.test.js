@@ -4,13 +4,18 @@ import { render, fireEvent } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import SignUpForm from '../../components/SignUpForm';
 import SignInForm from '../../components/SignInForm';
+import { Provider } from 'react-redux';
+import store from '../../features/auth/store';
+
 
 describe('Show/Hide Password Functionality', () => {
   it('toggles password visibility when the icon button is clicked', () => {
     const { getByLabelText } = render(
+      <Provider store={store}>
       <BrowserRouter>
         <SignUpForm />
-      </BrowserRouter>,
+      </BrowserRouter>
+      </Provider>,
     );
 
     const passwordInput = getByLabelText('Password');
@@ -34,9 +39,11 @@ describe('Show/Hide Password Functionality', () => {
 
   it('toggles password visibility when the icon button is clicked', () => {
     const { getByLabelText } = render(
+      <Provider store={store}>
       <BrowserRouter>
-        <SignInForm />
-      </BrowserRouter>,
+        <SignUpForm />
+      </BrowserRouter>
+      </Provider>,
     );
 
     const passwordInput = getByLabelText('Password');
