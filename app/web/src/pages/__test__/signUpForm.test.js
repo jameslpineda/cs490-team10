@@ -4,6 +4,8 @@ import userEvent from '@testing-library/user-event';
 import { toast } from 'react-toastify';
 import { BrowserRouter } from 'react-router-dom';
 import SignUpForm from '../../components/SignUpForm';
+import { Provider } from 'react-redux';
+import store from '../../features/auth/store';
 
 // Mocking the react-toastify module to prevent actual toasts from being shown during tests
 jest.mock('react-toastify', () => ({
@@ -16,9 +18,11 @@ jest.mock('react-toastify', () => ({
 describe('SignUpForm', () => {
   it('renders sign-up form correctly', () => {
     render(
-      <BrowserRouter>
-        <SignUpForm />
-      </BrowserRouter>,
+      <Provider store={store}>
+        <BrowserRouter>
+          <SignUpForm />
+        </BrowserRouter>
+      </Provider>,
     );
     // Ensure that the sign-in form elements are rendered
     expect(screen.getByLabelText('Email/Username')).toBeInTheDocument();
@@ -29,9 +33,11 @@ describe('SignUpForm', () => {
 
   it('updates email and password state on input change', () => {
     render(
-      <BrowserRouter>
-        <SignUpForm />
-      </BrowserRouter>,
+      <Provider store={store}>
+        <BrowserRouter>
+          <SignUpForm />
+        </BrowserRouter>
+      </Provider>,
     );
 
     // Simulate user typing in email and password fields
@@ -52,9 +58,11 @@ describe('SignUpForm', () => {
 
   it('submits the form and displays verification email', async () => {
     render(
-      <BrowserRouter>
-        <SignUpForm />
-      </BrowserRouter>,
+      <Provider store={store}>
+        <BrowserRouter>
+          <SignUpForm />
+        </BrowserRouter>
+      </Provider>,
     );
 
     // Mock the fetch function to return a successful response
@@ -78,9 +86,11 @@ describe('SignUpForm', () => {
 
   it('submits the form and displays error toast on failed sign up', async () => {
     render(
-      <BrowserRouter>
-        <SignUpForm />
-      </BrowserRouter>,
+     <Provider store={store}>
+        <BrowserRouter>
+          <SignUpForm />
+        </BrowserRouter>
+      </Provider>,
     );
 
     // Mock the fetch function to return a failed response
@@ -107,9 +117,11 @@ describe('SignUpForm', () => {
 
   it('displays error toast on network error during login', async () => {
     render(
-      <BrowserRouter>
-        <SignUpForm />
-      </BrowserRouter>,
+      <Provider store={store}>
+        <BrowserRouter>
+          <SignUpForm />
+        </BrowserRouter>
+      </Provider>,
     );
 
     // Mock the fetch function to throw an error

@@ -1,6 +1,8 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import Settings from '../settings';
+import { Provider } from 'react-redux';
+import store from '../../features/auth/store';
 
 const mockedUsedNavigate = jest.fn();
 
@@ -10,7 +12,11 @@ jest.mock('react-router-dom', () => ({
 
 describe('Settings Component', () => {
   test('renders the component with initial values', () => {
-    const { getByLabelText } = render(<Settings />);
+    const { getByLabelText } = render(
+      <Provider store={store}>
+        <Settings />
+      </Provider>,
+    );
 
     expect(getByLabelText('First Name').value).toBe('John');
     expect(getByLabelText('Last Name').value).toBe('Doe');
@@ -20,7 +26,11 @@ describe('Settings Component', () => {
   });
 
   test('changes the first name input value', () => {
-    const { getByLabelText } = render(<Settings />);
+    const { getByLabelText } = render(
+      <Provider store={store}>
+        <Settings />
+      </Provider>,
+    );
     const firstNameInput = getByLabelText('First Name');
 
     fireEvent.change(firstNameInput, { target: { value: 'Alice' } });
@@ -29,7 +39,11 @@ describe('Settings Component', () => {
   });
 
   test('changes the last name input value', () => {
-    const { getByLabelText } = render(<Settings />);
+    const { getByLabelText } = render(
+      <Provider store={store}>
+        <Settings />
+      </Provider>,
+    );
     const lastNameInput = getByLabelText('Last Name');
 
     fireEvent.change(lastNameInput, { target: { value: 'Smith' } });
@@ -38,7 +52,11 @@ describe('Settings Component', () => {
   });
 
   test('changes the Pomodoro input value', () => {
-    const { getByLabelText } = render(<Settings />);
+    const { getByLabelText } = render(
+      <Provider store={store}>
+        <Settings />
+      </Provider>,
+    );
     const pomodoroInput = getByLabelText('Pomodoro');
 
     fireEvent.change(pomodoroInput, { target: { value: '30' } });
@@ -47,7 +65,11 @@ describe('Settings Component', () => {
   });
 
   test('changes the Short Break input value', () => {
-    const { getByLabelText } = render(<Settings />);
+    const { getByLabelText } = render(
+      <Provider store={store}>
+        <Settings />
+      </Provider>,
+    );
     const shortBreakInput = getByLabelText('Short Break');
 
     fireEvent.change(shortBreakInput, { target: { value: '10' } });
@@ -56,7 +78,11 @@ describe('Settings Component', () => {
   });
 
   test('changes the Long Break input value', () => {
-    const { getByLabelText } = render(<Settings />);
+    const { getByLabelText } = render(
+      <Provider store={store}>
+        <Settings />
+      </Provider>,
+    );
     const longBreakInput = getByLabelText('Long Break');
 
     fireEvent.change(longBreakInput, { target: { value: '20' } });
