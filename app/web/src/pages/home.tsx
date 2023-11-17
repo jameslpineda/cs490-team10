@@ -10,17 +10,11 @@ import { useSelector } from 'react-redux';
 import { logout, reset } from '../features/auth/authSlice';
 import crushItLogo from '../images/crush_it_logo.png';
 import useAppDispatch from '../features/auth/hooks/useAppDispatch';
-
-interface TaskData {
-  title: string;
-  pomodoroCount: number;
-  note: string;
-  priority: string;
-}
+import { TaskProps } from '../interfaces/taskInterface';
 
 export const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [tasks, setTasks] = useState<TaskData[]>([]);
+  const [tasks, setTasks] = useState<TaskProps[]>([]);
   const [username, setUsername] = useState('');
 
   useEffect(() => {
@@ -45,7 +39,7 @@ export const Home = () => {
     setIsModalOpen(false);
   };
 
-  const addTask = (task: TaskData) => {
+  const addTask = (task: TaskProps) => {
     setTasks((prevTasks) => [...prevTasks, task]);
     closeModal();
     // TODO: Add logic to post the task to the backend
@@ -99,8 +93,6 @@ export const Home = () => {
         date: JSON.stringify(newDate),
       });
 
-      console.log(queryParams);
-
       const url = `${coreConfig.apiBaseUrl}/task/retrieve?${queryParams}`;
       const response = await fetch(url, {
         method: 'GET',
@@ -108,7 +100,6 @@ export const Home = () => {
       });
 
       const tasks = await response.json();
-      console.log(tasks);
     } catch (error) {
       console.error(error);
       toast.error('Could not update tasks', { autoClose: 7000 });

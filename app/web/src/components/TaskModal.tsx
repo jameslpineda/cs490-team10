@@ -1,25 +1,9 @@
 import React, { useState } from 'react';
+import { taskModalProps, TaskProps } from '../interfaces/taskInterface';
+import { defaultTaskPropsValues } from '../interfaces/taskInterface';
 
-interface ModalProps {
-  onClose: () => void;
-  // eslint-disable-next-line no-unused-vars
-  onSubmit: (taskData: TaskData) => void;
-}
-
-interface TaskData {
-  title: string;
-  pomodoroCount: number;
-  note: string;
-  priority: string;
-}
-
-const TaskModal: React.FC<ModalProps> = ({ onClose, onSubmit }) => {
-  const [taskData, setTaskData] = useState({
-    title: '',
-    pomodoroCount: 1,
-    note: '',
-    priority: 'Other',
-  });
+const TaskModal: React.FC<taskModalProps> = (props) => {
+  const [taskData, setTaskData] = useState<TaskProps>(defaultTaskPropsValues);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -41,13 +25,12 @@ const TaskModal: React.FC<ModalProps> = ({ onClose, onSubmit }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Add logic to save the task data (e.g., send to the server, update state, etc.)
-    onSubmit(taskData);
-    onClose(); // Close the modal after submitting the form
+    props.onSubmit(taskData);
+    props.onClose();
   };
 
   const handleCancel = () => {
-    onClose(); // Close the modal without saving the task
+    props.onClose();
   };
 
   return (
