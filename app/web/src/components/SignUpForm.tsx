@@ -4,8 +4,7 @@ import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
-import { register, reset } from '../features/auth/authSlice';
+import { reset } from '../features/auth/authSlice';
 import Spinner from '../components/Spinner';
 import { coreConfig } from '../utils/config';
 
