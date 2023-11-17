@@ -61,7 +61,7 @@ const SignUpForm: React.FC = () => {
 
     // Define the regex pattern for the password
     const passwordPattern =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,}$/;
+      /^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[@$!%*#?&])[A-Za-z0-9@$!%*#?&]{8,}$/;
 
     // Check if the password not matches the regex pattern
     if (!passwordPattern.test(password)) {
