@@ -1,10 +1,11 @@
+import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { ObjectId } from 'mongodb';
-import jwt from 'jsonwebtoken';
 import { jwtConfig } from '../utils/config';
-import { DecodedToken } from '../interfaces/authInterface';
+import { Response } from 'express';
 
 const TOKEN_EXP_TIME = '1d';
+const TOKEN_EXP_TIME_MS = 24 * 60 * 60 * 1000;
 
 // Function to hash a password using bcrypt
 export const hashPassword = async (password: string) => {
@@ -13,18 +14,20 @@ export const hashPassword = async (password: string) => {
 };
 
 // Create a JWT token
-export const generateJwtToken = (_id: ObjectId) => {
+export const generateJwtToken = (res: Response, _id: ObjectId) => {
   try {
-    return jwt.sign({ _id }, jwtConfig.secret!, { expiresIn: TOKEN_EXP_TIME });
-  } catch (error) {
-    return null;
-  }
-};
+    const token = jwt.sign({ _id }, jwtConfig.secret!, {
+      expiresIn: TOKEN_EXP_TIME,
+    });
 
-// Helper function return 403 code on verification error
-export const verifyJwtToken = (token: string) => {
-  try {
-    return jwt.verify(token, jwtConfig.secret!) as DecodedToken;
+    res.cookie('jwt', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV !== 'development',
+      sameSite: 'strict',
+      maxAge: TOKEN_EXP_TIME_MS,
+    });
+
+    return token;
   } catch (error) {
     return null;
   }

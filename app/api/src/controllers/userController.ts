@@ -110,7 +110,7 @@ export const signIn = asyncHandler(async (req, res) => {
   }
 
   // Generate JWT Token
-  const token = generateJwtToken(user._id);
+  const token = generateJwtToken(res, user._id);
   if (!token) {
     throw new Error('Failed to create JWT Token');
   }
@@ -121,8 +121,19 @@ export const signIn = asyncHandler(async (req, res) => {
     first_name: user.first_name,
     last_name: user.last_name,
     email,
-    token,
   });
+});
+
+// @desc Signs out a user
+// @route POST /user/sign-out
+// @access Public
+export const signOut = asyncHandler(async (req, res) => {
+  res.cookie('jwt', '', {
+    httpOnly: true,
+    expires: new Date(0),
+  });
+
+  res.status(200).json({ message: 'User signed out' });
 });
 
 // @desc Verifies a registered user
