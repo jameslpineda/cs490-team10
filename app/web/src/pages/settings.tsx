@@ -1,9 +1,8 @@
-/* eslint-disable react/no-unescaped-entities */
-/* eslint-disable no-undef */
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import crushItLogo from '../images/crush_it_logo.png';
 import useAppDispatch from '../features/auth/hooks/useAppDispatch';
 import { logout, reset } from '../features/auth/authSlice';
 
@@ -27,6 +26,7 @@ const Settings: React.FC = () => {
     navigate('../');
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { user } = useSelector((state: any) => state.auth);
 
   useEffect(() => {
@@ -92,13 +92,13 @@ const Settings: React.FC = () => {
           <div className="flex justify-center pt-8 pb-4">
             <img
               className="w-13 h-13"
-              src={process.env.PUBLIC_URL + '/image1.png'}
+              src={crushItLogo}
               alt="Crush It Image"
             />
           </div>
           <div className="flex justify-center">
             <p className="w-1/2 text-lg text-white font-semibold text-center">
-              It's time to plan your day!
+              It&apos;s time to plan your day!
             </p>
           </div>
           <div className="flex justify-center items-center pb-20 mb-5">

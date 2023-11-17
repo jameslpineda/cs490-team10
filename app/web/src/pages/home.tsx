@@ -1,15 +1,11 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable react/no-unescaped-entities */
-/* eslint-disable no-undef */
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import './scroll.css';
+import crushItLogo from '../images/crush_it_logo.png';
 import TaskModal from '../components/TaskModal';
 import Task from '../components/Task';
 import { coreConfig } from '../utils/config';
 import { toast } from 'react-toastify';
-import { constants } from 'buffer';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { logout, reset } from '../features/auth/authSlice';
@@ -26,7 +22,6 @@ export const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [tasks, setTasks] = useState<TaskData[]>([]);
   const [username, setUsername] = useState('');
-  
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
@@ -221,13 +216,13 @@ export const Home = () => {
           <div className="flex justify-center pt-8 pb-4">
             <img
               className="w-13 h-13"
-              src={process.env.PUBLIC_URL + '/image1.png'}
+              src={crushItLogo}
               alt="Crush It Image"
             />
           </div>
           <div className="flex justify-center">
             <p className="w-1/2 text-lg text-white font-semibold text-center">
-              It's time to plan your day!
+              It&apos;s time to plan your day!
             </p>
           </div>
           <div className="flex justify-center items-center pb-20 mb-5">
