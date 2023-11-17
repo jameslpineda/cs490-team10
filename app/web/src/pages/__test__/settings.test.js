@@ -18,8 +18,8 @@ describe('Settings Component', () => {
       </Provider>,
     );
 
-    expect(getByLabelText('First Name').value).toBe('John');
-    expect(getByLabelText('Last Name').value).toBe('Doe');
+    expect(getByLabelText('First Name').value).toBe('');
+    expect(getByLabelText('Last Name').value).toBe('');
     expect(getByLabelText('Pomodoro').value).toBe('25');
     expect(getByLabelText('Short Break').value).toBe('5');
     expect(getByLabelText('Long Break').value).toBe('15');

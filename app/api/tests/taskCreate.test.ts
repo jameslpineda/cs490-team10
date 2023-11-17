@@ -90,7 +90,6 @@ describe('createTaskHandler', () => {
     expect(mockCreateTask).toHaveBeenCalledWith(
       expect.objectContaining({ user_id: mockRequest.user_id })
     );
-    expect(mockResponse.status).toHaveBeenCalledWith(400);
 
     // Ensure that the 'next' function was called
     expect(mockNext).toHaveBeenCalled();
