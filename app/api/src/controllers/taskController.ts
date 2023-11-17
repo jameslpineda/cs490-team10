@@ -29,7 +29,6 @@ export const createTaskHandler = asyncHandler(
     const createdTask = await createTask(data);
 
     if (!createdTask) {
-      res.status(400);
       throw new Error('Failed to create task');
     }
 
@@ -65,10 +64,12 @@ export const retrieveTasksHandler = asyncHandler(
 );
 
 // @desc Updates a task
-// @route PUT /task/update
+// @route PUT /task/update/:id
 // @access Private
 export const updateTaskHandler = asyncHandler(
   async (req: AuthRequest, res: Response) => {
+    const task_id = req.params.id;
+
     const validation = updateTaskValidation(req.body);
     if (validation.error) {
       res.status(422);
@@ -77,25 +78,28 @@ export const updateTaskHandler = asyncHandler(
 
     const data: TaskInterface = {};
 
+    if (req.body.name) {
+      data.name = req.body.name;
+    }
     if (req.body.status) {
       data.status = req.body.status;
     }
     if (req.body.timers) {
       data.timers = req.body.timers;
     }
-
     if (req.body.notes) {
       data.notes = req.body.notes;
     }
-
     if (req.body.priority) {
       data.priority = req.body.priority;
     }
+    if (req.body.date) {
+      data.date = moment(req.body.date).startOf('day').toDate();
+    }
 
-    const updatedTask = await updateTask({ _id: req.body.task_id }, data);
+    const updatedTask = await updateTask({ _id: task_id }, data);
 
     if (!updatedTask) {
-      res.status(400);
       throw new Error('Failed to update task.');
     }
 

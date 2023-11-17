@@ -1,4 +1,5 @@
 import mongoose, { InferSchemaType, model } from 'mongoose';
+import moment from 'moment';
 
 const TaskSchema = new mongoose.Schema({
   user_id: {
@@ -31,7 +32,7 @@ const TaskSchema = new mongoose.Schema({
   date: {
     type: Date,
     required: true,
-    default: Date.now(),
+    default: moment(Date.now()).startOf('day'),
   },
 });
 
