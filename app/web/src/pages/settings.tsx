@@ -19,11 +19,19 @@ const Settings: React.FC = () => {
     navigate('../home');
   };
 
+  const dispatch = useAppDispatch();
+  const routeLogout = () => {
+    dispatch(logout());
+    dispatch(reset());
+    navigate('/');
+  };
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { user } = useSelector((state: any) => state.auth);
 
   useEffect(() => {
     if (!user) {
-      navigate('../');
+      navigate('/');
     }
   }, [user, navigate]);
 

@@ -88,6 +88,13 @@ export const Home = () => {
     navigate('../settings');
   };
 
+  const dispatch = useAppDispatch();
+  const routeLogout = () => {
+    dispatch(logout());
+    navigate('/');
+    dispatch(reset());
+  };
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { user } = useSelector((state: any) => state.auth);
 
