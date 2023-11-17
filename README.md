@@ -50,10 +50,24 @@ app/
 |   |-- src/
 |   |   |-- components/
 |   |   |   |-- ...
+|   |   |-- features/
+|   |   |   |-- ...
+|   |   |-- images/
+|   |   |   |-- ...
+|   |   |-- interfaces/
+|   |   |   |-- ...
 |   |   |-- pages/
 |   |   |   |-- ...
+|   |   |-- services/
+|   |   |   |-- ...
+|   |   |-- utils/
+|   |   |   |-- ...
+|   |   |-- App.css
 |   |   |-- App.tsx
+|   |   |-- index.css
 |   |   |-- index.tsx
+|   |   |-- react-app-env.d.ts
+|   |   |-- reportWebVitals.ts
 |   |   |-- setupTests.ts
 |   |-- .dockerignore
 |   |-- .eslintignore
@@ -61,8 +75,8 @@ app/
 |   |-- .prettierignore
 |   |-- .prettierrc
 |   |-- Dockerfile
-|   |-- package-lock.json
 |   |-- package.json
+|   |-- package-lock.json
 |   |-- postcss.config.js
 |   |-- README.md
 |   |-- tailwind.config.js
