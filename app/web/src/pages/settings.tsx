@@ -15,6 +15,7 @@ const Settings: React.FC = () => {
   const [pomoTimer, setPomoTimer] = useState('25');
   const [shortBreak, setShortBreak] = useState('5');
   const [longBreak, setLongBreak] = useState('15');
+  const [displayName, setDisplayName] = useState('');
 
   const navigate = useNavigate();
   const routeHome = () => {
@@ -38,7 +39,6 @@ const Settings: React.FC = () => {
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
-
     if (storedUser) {
       const userObject = JSON.parse(storedUser);
       const token = userObject.token;
@@ -59,11 +59,20 @@ const Settings: React.FC = () => {
         .then((data) => {
           console.log(data);
           console.log(data.first_name);
-          setFirstName(data.first_name ?? '');
-          setLastName(data.last_name ?? '');
+          setFirstName(data.first_name);
+          setLastName(data.last_name);
           setPomoTimer(data.pomodoro);
           setShortBreak(data.short_break);
           setLongBreak(data.long_break);
+          if (
+            data.first_name == null &&
+            data.last_name == null &&
+            displayName == ''
+          ) {
+            setDisplayName(data.email);
+          } else {
+            setDisplayName(data.first_name + ' ' + data.last_name);
+          }
         })
         .catch((error) => {
           console.error('Error fetching user:', error);
@@ -77,7 +86,8 @@ const Settings: React.FC = () => {
     const confirmNewPassword = document.getElementById(
       'confirmnewpass',
     ) as HTMLInputElement;
-    const r = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*()-_+=]{12,}$/;
+    const r =
+      /^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[@$!%*#?&])[A-Za-z0-9@$!%*#?&]{8,}$/;
 
     // TODO: Update first name, last name, and timer settings
     if (password.value === '') {
@@ -97,61 +107,100 @@ const Settings: React.FC = () => {
             body: JSON.stringify({
               first_name: firstName,
               last_name: lastName,
-              /*
-              current_password:,
-              new_password: ,
-              password: ,
-              */
               pomodoro: pomoTimer,
               short_break: shortBreak,
               long_break: longBreak,
             }),
           });
-
           if (!response.ok) {
+            toast.error('Server Error', {
+              position: toast.POSITION.TOP_CENTER,
+              autoClose: 5000,
+            });
             throw new Error(`HTTP error! Status: ${response.status}`);
+          } else {
+            toast.success('Settings Updated', {
+              position: toast.POSITION.TOP_CENTER,
+              autoClose: 5000,
+            });
           }
-
-          const data = await response.json();
-          console.log('HERE: ' + data);
-
-          // Handle success, e.g., show a success message
         } catch (error) {
           console.error('Error updating user settings:', error);
-          // Handle errors, show an error message to the user, etc.
+          toast.error('Unable to find User', {
+            position: toast.POSITION.TOP_CENTER,
+            autoClose: 5000,
+          });
         }
       }
-      toast.success('Settings Updated', {
-        position: toast.POSITION.TOP_CENTER,
-        autoClose: 10000,
-      });
-      // TODO: Check if user inputted password matches DB password
-      // eslint-disable-next-line no-constant-condition
-    } else if (true) {
+    } else {
       if (r.test(newPassword.value)) {
         if (newPassword.value === confirmNewPassword.value) {
-          toast.success('Password Updated', {
-            position: toast.POSITION.TOP_CENTER,
-            autoClose: 10000,
-          });
-          // TODO: Update password on DB
+          const storedUser = localStorage.getItem('user');
+          if (storedUser) {
+            const userObject = JSON.parse(storedUser);
+            const token = userObject.token;
+            try {
+              const response = await fetch(
+                `${coreConfig.apiBaseUrl}/user/update`,
+                {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                  },
+                  body: JSON.stringify({
+                    first_name: firstName,
+                    last_name: lastName,
+                    new_password: newPassword.value,
+                    current_password: password.value,
+                    pomodoro: pomoTimer,
+                    short_break: shortBreak,
+                    long_break: longBreak,
+                  }),
+                },
+              );
+              alert(response.status);
+              if (response.status == 200) {
+                toast.success('Settings and Password Updated', {
+                  position: toast.POSITION.TOP_CENTER,
+                  autoClose: 5000,
+                });
+              } else if (response.status == 401) {
+                toast.error('Current password is invalid', {
+                  position: toast.POSITION.TOP_CENTER,
+                  autoClose: 5000,
+                });
+              } else if (response.status == 422) {
+                toast.error("2New password doesn't fit criteria", {
+                  position: toast.POSITION.TOP_CENTER,
+                  autoClose: 5000,
+                });
+              } else {
+                toast.error(response.status + ' Error', {
+                  position: toast.POSITION.TOP_CENTER,
+                  autoClose: 5000,
+                });
+              }
+            } catch (error) {
+              console.error('Error updating user settings:', error);
+              toast.error('Unable to find User', {
+                position: toast.POSITION.TOP_CENTER,
+                autoClose: 5000,
+              });
+            }
+          }
         } else {
           toast.error("Password confirmation doesn't match", {
             position: toast.POSITION.TOP_CENTER,
-            autoClose: 10000,
+            autoClose: 5000,
           });
         }
       } else {
-        toast.error("Password doesn't fit criteria", {
+        toast.error("1New password doesn't fit criteria", {
           position: toast.POSITION.TOP_CENTER,
-          autoClose: 10000,
+          autoClose: 5000,
         });
       }
-    } else {
-      toast.error('Current Password is incorrect', {
-        position: toast.POSITION.TOP_CENTER,
-        autoClose: 10000,
-      });
     }
   };
 
@@ -222,7 +271,7 @@ const Settings: React.FC = () => {
                 data-testid="name"
                 className="flex p-2 text-black border border-back hover:bg-gray-100 font-semibold rounded-md"
               >
-                {firstName} {lastName}
+                {displayName}
               </button>
             </div>
           </div>
@@ -255,7 +304,7 @@ const Settings: React.FC = () => {
                 className="w-full p-2 border rounded-md shadow"
                 value={firstName}
                 onChange={(evt) => {
-                  const alphaRegex = /^[a-zA-Z]+$/;
+                  const alphaRegex = /^[a-zA-Z]*$/;
                   if (alphaRegex.test(evt.target.value)) {
                     setFirstName(evt.target.value);
                   }
@@ -289,7 +338,7 @@ const Settings: React.FC = () => {
                 className="w-full p-2 border rounded-md shadow"
                 value={lastName}
                 onChange={(evt) => {
-                  const alphaRegex = /^[a-zA-Z]+$/;
+                  const alphaRegex = /^[a-zA-Z]*$/;
                   if (alphaRegex.test(evt.target.value)) {
                     setLastName(evt.target.value);
                   }
@@ -349,7 +398,7 @@ const Settings: React.FC = () => {
                 New Password
               </label>
               <input
-                type="text"
+                type="password"
                 id="newpass"
                 className="w-full p-2 border rounded-md shadow"
                 placeholder="********"
@@ -377,7 +426,7 @@ const Settings: React.FC = () => {
                 Confirm New Password
               </label>
               <input
-                type="text"
+                type="password"
                 id="confirmnewpass"
                 className="w-full p-2 border rounded-md shadow"
                 placeholder="********"

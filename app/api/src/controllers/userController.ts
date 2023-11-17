@@ -21,7 +21,7 @@ import asyncHandler from 'express-async-handler';
 
 const RESET_TIME = 300000; // 5 minutes = 300000 milliseconds
 
-// @desc Returns info on signed-in user
+// @desc Returns info on logged-in user
 // @route GET /user/info
 // @access Private
 export const info = asyncHandler(async (req: AuthRequest, res: Response) => {
@@ -56,7 +56,7 @@ export const signUp = asyncHandler(async (req, res) => {
   const userExists = await getUser({ email });
   if (userExists) {
     res.status(409);
-    throw new Error('Email/username already exists.');
+    throw new Error('Email/username and already exists.');
   }
 
   const verificationToken = randomUUID();
@@ -71,7 +71,7 @@ export const signUp = asyncHandler(async (req, res) => {
     verification_token: verificationToken,
   });
   if (!user) {
-    throw new Error('Failed to create new user.');
+    throw new Error('Error creating user');
   }
 
   // Send verification email
@@ -112,6 +112,7 @@ export const signIn = asyncHandler(async (req, res) => {
   // Generate JWT Token
   const token = generateJwtToken(user._id);
   if (!token) {
+    res.status(500);
     throw new Error('Failed to create JWT Token');
   }
 
@@ -142,7 +143,9 @@ export const verify = asyncHandler(async (req: Request, res: Response) => {
 
   // If the update failed
   if (!updatedUser) {
-    throw new Error('Failed to update user.');
+    res.status(404);
+    throw new Error('Invalid or expired verification token');
+    // .json({ status: 'Invalid or expired verification token.' });
   }
 
   res
@@ -155,8 +158,10 @@ export const verify = asyncHandler(async (req: Request, res: Response) => {
 // @access Private
 export const update = asyncHandler(async (req: AuthRequest, res: Response) => {
   const validation = updateUserValidation(req.body);
+  console.log(req.body);
   if (validation.error) {
     res.status(422);
+    console.log(res);
     throw new Error(validation.error.details[0].message);
   }
 
@@ -184,7 +189,7 @@ export const update = asyncHandler(async (req: AuthRequest, res: Response) => {
 
     // Encrypt and add new password to update field
     const hashedPassword = await hashPassword(req.body.new_password);
-    data.password = hashedPassword;
+    data['password'] = hashedPassword;
   }
 
   // Add parameters to be updated
@@ -209,7 +214,8 @@ export const update = asyncHandler(async (req: AuthRequest, res: Response) => {
 
   // If the update failed
   if (!updatedUser) {
-    throw new Error('Failed to update user.');
+    res.status(404);
+    throw new Error('Invalid or expired verification token.');
   }
 
   res.status(200).json({
@@ -244,7 +250,7 @@ export const forgotPassword = asyncHandler(
       // If the user exists, update their reset information
       const updatedUser = await updateUser({ _id: user._id }, data);
       if (!updatedUser) {
-        throw new Error('Failed to update user with reset information.');
+        throw new Error('Update user failed');
       }
 
       // Create a reset URL and email template
@@ -261,7 +267,7 @@ export const forgotPassword = asyncHandler(
     }
     res.status(200).json({
       message:
-        'If the provided email address is registered, a reset password link will be sent.',
+        'If the provided email address is registered, a password reset link will be sent.',
     });
   },
 );
@@ -295,6 +301,7 @@ export const resetPassword = asyncHandler(
     const hashedPassword = await hashPassword(password);
 
     // Update the user's password and reset token information
+    user.password = await hashPassword(password);
     const data = await updateUser(
       { _id: user._id },
       {

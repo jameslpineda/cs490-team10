@@ -7,7 +7,7 @@ export const signUpValidation = (data: { email: string; password: string }) => {
     password: Joi.string()
       .pattern(
         new RegExp(
-          `^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{12,}$`,
+          `^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[@$!%*#?&])[A-Za-z0-9@$!%*#?&]{8,}$`,
         ),
       )
       .required()
@@ -29,8 +29,8 @@ export const signInValidation = (data: { email: string; password: string }) => {
 
 export const updateUserValidation = (data: UserInterface) => {
   const schema = Joi.object({
-    first_name: Joi.string(),
-    last_name: Joi.string(),
+    first_name: Joi.string().allow(''),
+    last_name: Joi.string().allow(''),
     current_password: Joi.string().min(1),
     new_password: Joi.when('current_password', {
       is: Joi.exist(),
@@ -38,7 +38,7 @@ export const updateUserValidation = (data: UserInterface) => {
         .required()
         .pattern(
           new RegExp(
-            `^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{12,}$`,
+            `^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[@$!%*#?&])[A-Za-z0-9@$!%*#?&]{8,}$`,
           ),
         )
         .messages({
@@ -74,7 +74,7 @@ export const resetPasswordValidation = (data: {
       .required()
       .pattern(
         new RegExp(
-          `^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{12,}$`,
+          `^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[@$!%*#?&])[A-Za-z0-9@$!%*#?&]{8,}$`,
         ),
       )
       .messages({
