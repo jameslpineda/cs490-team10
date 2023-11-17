@@ -4,30 +4,17 @@ import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { coreConfig } from '../utils/config';
 import useAppDispatch from '../features/auth/hooks/useAppDispatch';
 import { logout, reset } from '../features/auth/authSlice';
 
 const Settings: React.FC = () => {
   // TODO: update usestate with session values
-  const [firstName, setFirstName] = useState('Ruby');
-  const [lastName, setLastName] = useState('Doe');
-  const [pomoTimer, setPomoTimer] = useState<string>(
-    localStorage.getItem('pomoTimer') ?? '25',
-  );
-  const [shortBreak, setShortBreak] = useState<string>(
-    localStorage.getItem('shortBreak') ?? '5',
-  );
-  const [longBreak, setLongBreak] = useState<string>(
-    localStorage.getItem('longBreak') ?? '15',
-  );
-
-  useEffect(() => {
-    localStorage.setItem('firstName', firstName);
-    localStorage.setItem('lastName', lastName);
-    localStorage.setItem('pomoTimer', pomoTimer);
-    localStorage.setItem('shortBreak', shortBreak);
-    localStorage.setItem('longBreak', longBreak);
-  }, [firstName, lastName, pomoTimer, shortBreak, longBreak]);
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [pomoTimer, setPomoTimer] = useState('25');
+  const [shortBreak, setShortBreak] = useState('5');
+  const [longBreak, setLongBreak] = useState('15');
 
   const navigate = useNavigate();
   const routeHome = () => {
@@ -49,7 +36,42 @@ const Settings: React.FC = () => {
     }
   }, [user, navigate]);
 
-  const validatePassword = () => {
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+
+    if (storedUser) {
+      const userObject = JSON.parse(storedUser);
+      const token = userObject.token;
+
+      fetch(`${coreConfig.apiBaseUrl}/user/info`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then((data) => {
+          console.log(data);
+          console.log(data.first_name);
+          setFirstName(data.first_name ?? '');
+          setLastName(data.last_name ?? '');
+          setPomoTimer(data.pomodoro);
+          setShortBreak(data.short_break);
+          setLongBreak(data.long_break);
+        })
+        .catch((error) => {
+          console.error('Error fetching user:', error);
+        });
+    }
+  }, []);
+
+  const validatePassword = async () => {
     const password = document.getElementById('oldpass') as HTMLInputElement;
     const newPassword = document.getElementById('newpass') as HTMLInputElement;
     const confirmNewPassword = document.getElementById(
@@ -59,6 +81,46 @@ const Settings: React.FC = () => {
 
     // TODO: Update first name, last name, and timer settings
     if (password.value === '') {
+      const storedUser = localStorage.getItem('user');
+
+      if (storedUser) {
+        const userObject = JSON.parse(storedUser);
+        const token = userObject.token;
+
+        try {
+          const response = await fetch(`${coreConfig.apiBaseUrl}/user/update`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+              first_name: firstName,
+              last_name: lastName,
+              /*
+              current_password:,
+              new_password: ,
+              password: ,
+              */
+              pomodoro: pomoTimer,
+              short_break: shortBreak,
+              long_break: longBreak,
+            }),
+          });
+
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+
+          const data = await response.json();
+          console.log('HERE: ' + data);
+
+          // Handle success, e.g., show a success message
+        } catch (error) {
+          console.error('Error updating user settings:', error);
+          // Handle errors, show an error message to the user, etc.
+        }
+      }
       toast.success('Settings Updated', {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 10000,
