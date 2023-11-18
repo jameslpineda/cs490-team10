@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import moment from 'moment';
 import '../components/scroll.css';
 import TaskModal from '../components/TaskModal';
-import Task from '../components/Task';
+import TaskList from '../components/TaskList';
 import SideBar from '../components/SideBar';
 import DateBar from '../components/DateBar';
 import { useNavigate } from 'react-router-dom';
@@ -150,50 +150,7 @@ export const Home = () => {
                 />
               )}
             </div>
-
-            <div className="flex-1 flex-col flex-grow">
-              <div className="flex-grow bg-white rounded-lg shadow-md">
-                <div className="flex flex-col p-4">
-                  <div className="flex-1 bg-gray-100 rounded-md p-4 mb-4">
-                    <h2 className="text-xl font-semibold font-sans">
-                      Top Priority
-                    </h2>
-                    {tasks
-                      .filter((task) => task.priority === 'Top Priority')
-                      .map((task, index) => (
-                        <Task
-                          key={index}
-                          {...task}
-                        />
-                      ))}
-                  </div>
-                  <div className="flex-1 bg-gray-100 rounded-md p-4 mb-4">
-                    <h2 className="text-xl font-semibold font-sans">
-                      Important
-                    </h2>
-                    {tasks
-                      .filter((task) => task.priority === 'Important')
-                      .map((task, index) => (
-                        <Task
-                          key={index}
-                          {...task}
-                        />
-                      ))}
-                  </div>
-                  <div className="flex-1 bg-gray-100 rounded-md p-4 mb-4">
-                    <h2 className="text-xl font-semibold font-sans">Other</h2>
-                    {tasks
-                      .filter((task) => task.priority === 'Other')
-                      .map((task, index) => (
-                        <Task
-                          key={index}
-                          {...task}
-                        />
-                      ))}
-                  </div>
-                </div>
-              </div>
-            </div>
+            <TaskList tasks={tasks} />
           </div>
           <div className="w-1/2 pl-4">
             <h2 className="text-2xl font-semibold pb-2">Appointment</h2>

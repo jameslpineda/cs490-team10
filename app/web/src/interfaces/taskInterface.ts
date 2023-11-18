@@ -23,3 +23,7 @@ export interface taskModalProps {
   // eslint-disable-next-line no-unused-vars
   onSubmit: (taskData: TaskProps) => void;
 }
+
+export interface TaskCardProps {
+  tasks: TaskProps[];
+}
