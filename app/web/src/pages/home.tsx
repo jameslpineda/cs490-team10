@@ -11,6 +11,8 @@ import { logout, reset } from '../features/auth/authSlice';
 import crushItLogo from '../images/crush_it_logo.png';
 import useAppDispatch from '../features/auth/hooks/useAppDispatch';
 import { TaskProps } from '../interfaces/taskInterface';
+import { getUserID } from '../services/userServices';
+import { postTaskService } from '../services/taskServices';
 
 export const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -42,27 +44,23 @@ export const Home = () => {
   const addTask = (task: TaskProps) => {
     setTasks((prevTasks) => [...prevTasks, task]);
     closeModal();
-    // TODO: Add logic to post the task to the backend
-    // TODO: Use fetch for this purpose
-    fetch(`${coreConfig.apiBaseUrl}/tasks/create`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(task),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return response.json(); // Parse the JSON response
-      })
-      .then((data) => {
-        // Handle the success response from the server
-        console.log('Task created successfully:', data);
-      })
-      .catch((error) => {
-        // Handle errors during the fetch or server-side errors
-        console.error('Error creating task:', error.message);
-      });
+    task.date = date.format('YYYY-MM-DD');
+    task.user_id = getUserID();
+
+    const tt: TaskProps = {
+      user_id: '12345', // string
+      name: 'My Task', // string
+      timers: 2, // number
+      status: 'Task has not yet started',
+      _id: '12312321asdasd',
+      notes: 'Some notes about the task', // string
+      priority: 'High', // string
+      date: '2023-11-17', // string
+    };
+
+    console.log(tt);
+
+    postTaskService(task);
   };
 
   const [date, setDate] = useState(moment());
@@ -100,6 +98,7 @@ export const Home = () => {
       });
 
       const tasks = await response.json();
+      console.log(tasks);
     } catch (error) {
       console.error(error);
       toast.error('Could not update tasks', { autoClose: 7000 });
