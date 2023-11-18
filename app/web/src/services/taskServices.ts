@@ -24,3 +24,52 @@ export async function postTaskService(task: TaskProps) {
       console.error('Error creating task:', error.message);
     });
 }
+
+export async function getTasksByDateService(
+  date: string,
+): Promise<TaskProps[]> {
+  try {
+    const response = await fetch(
+      `${coreConfig.apiBaseUrl}/task/retrieve?date=${date}`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${getBearerToken()}`,
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data: TaskProps[] = await response.json();
+    console.log('Tasks retrieved:', data);
+
+    return data;
+  } catch (error) {
+    console.error('Error retrieving tasks:', error);
+    throw error;
+  }
+}
+
+export async function updateTask(task: TaskProps) {
+  const taskId = task._id;
+  const url = `${coreConfig.apiBaseUrl}/task/update/${taskId}`;
+
+  fetch(url, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(task),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log('Success:', data);
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+}

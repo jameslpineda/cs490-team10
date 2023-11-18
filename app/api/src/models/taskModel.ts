@@ -1,40 +1,45 @@
 import mongoose, { InferSchemaType, model } from 'mongoose';
 import moment from 'moment';
 
-const TaskSchema = new mongoose.Schema({
-  user_id: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true,
-    ref: 'User',
+const TaskSchema = new mongoose.Schema(
+  {
+    user_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: 'User',
+    },
+    name: {
+      type: String,
+      required: true,
+    },
+    status: {
+      type: String,
+      required: true,
+      default: 'Task has not been started',
+    },
+    timers: {
+      type: Number,
+      required: true,
+      default: 1,
+    },
+    notes: {
+      type: String,
+      default: '',
+    },
+    priority: {
+      type: String,
+      required: true,
+    },
+    date: {
+      type: Date,
+      required: true,
+      default: moment(Date.now()).startOf('day'),
+    },
   },
-  name: {
-    type: String,
-    required: true,
+  {
+    versionKey: false, // Disables the versionKey
   },
-  status: {
-    type: String,
-    required: true,
-    default: 'Task has not been started',
-  },
-  timers: {
-    type: Number,
-    required: true,
-    default: 1,
-  },
-  notes: {
-    type: String,
-    default: '',
-  },
-  priority: {
-    type: String,
-    required: true,
-  },
-  date: {
-    type: Date,
-    required: true,
-    default: moment(Date.now()).startOf('day'),
-  },
-});
+);
 
 type Task = InferSchemaType<typeof TaskSchema>;
 
