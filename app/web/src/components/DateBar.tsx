@@ -1,17 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import moment from 'moment';
-import './scroll.css';
-
-interface DateProp {
-  showMonth: boolean;
-  setShowMonth: React.Dispatch<React.SetStateAction<boolean>>;
-  showDay: boolean;
-  setShowDay: React.Dispatch<React.SetStateAction<boolean>>;
-  showYear: boolean;
-  setShowYear: React.Dispatch<React.SetStateAction<boolean>>;
-}
+import DateProp from '../interfaces/dateInterface';
 
 const DateBar: React.FC<DateProp> = ({
+  date,
+  setDate,
   showMonth,
   setShowMonth,
   showDay,
@@ -19,8 +12,6 @@ const DateBar: React.FC<DateProp> = ({
   showYear,
   setShowYear,
 }) => {
-  const [date, setDate] = useState(moment());
-
   const monthNames = [];
   for (let i = 0; i < 12; i++) {
     const monthName = moment().month(i).format('MMMM');

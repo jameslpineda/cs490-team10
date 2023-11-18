@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
-import './scroll.css';
+import '../components/scroll.css';
 import TaskModal from '../components/TaskModal';
 import Task from '../components/Task';
 import SideBar from '../components/SideBar';
@@ -9,9 +9,6 @@ import { coreConfig } from '../utils/config';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { logout, reset } from '../features/auth/authSlice';
-import crushItLogo from '../images/crush_it_logo.png';
-import useAppDispatch from '../features/auth/hooks/useAppDispatch';
 import { TaskProps } from '../interfaces/taskInterface';
 import { getUserID } from '../services/userServices';
 import { postTaskService } from '../services/taskServices';
@@ -20,6 +17,7 @@ export const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [tasks, setTasks] = useState<TaskProps[]>([]);
   const [username, setUsername] = useState('');
+  const [date, setDate] = useState(moment());
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
@@ -150,6 +148,8 @@ export const Home = () => {
         </div>
         <div className="bg-gray-100">
           <DateBar
+            date={date}
+            setDate={setDate}
             showMonth={showMonth}
             setShowMonth={setShowMonth}
             showDay={showDay}
