@@ -4,8 +4,8 @@ import { TaskProps } from '../interfaces/taskInterface';
 
 const Task: React.FC<TaskProps> = (props) => {
   const [extend, setExtend] = useState(false);
-  const [count, setCounter] = useState(props.pomodoroCount);
-  const [userNote, setNote] = useState(props.note);
+  const [count, setCounter] = useState(props.timers);
+  const [userNote, setNote] = useState(props.notes);
   const [isNoteReadOnly, setIsNoteReadOnly] = useState(true);
 
   function pomoButtons() {
@@ -50,9 +50,7 @@ const Task: React.FC<TaskProps> = (props) => {
     <div className="border bg-white px-3 py-2 mb-1 rounded-xl">
       <div className="flex pb-0.5">
         <IconCycleComponent />
-        <h3 className="pl-1 text-lg text-indigo-400 font-bold">
-          {props.title}
-        </h3>
+        <h3 className="pl-1 text-lg text-indigo-400 font-bold">{props.name}</h3>
         <div className="ml-auto flex">
           <svg
             className="pt-1.5"
