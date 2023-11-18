@@ -3,9 +3,7 @@ import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { coreConfig } from '../utils/config';
-import useAppDispatch from '../features/auth/hooks/useAppDispatch';
-import crushItLogo from '../images/crush_it_logo.png';
-import { logout, reset } from '../features/auth/authSlice';
+import SideBar from '../components/SideBar';
 
 const Settings: React.FC = () => {
   // TODO: update usestate with session values
@@ -21,14 +19,6 @@ const Settings: React.FC = () => {
     navigate('../home');
   };
 
-  const dispatch = useAppDispatch();
-  const routeLogout = () => {
-    dispatch(logout());
-    dispatch(reset());
-    navigate('../');
-  };
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { user } = useSelector((state: any) => state.auth);
 
   useEffect(() => {
@@ -57,28 +47,17 @@ const Settings: React.FC = () => {
           return response.json();
         })
         .then((data) => {
-          console.log(data);
-          console.log(data.first_name);
           setFirstName(data.first_name);
           setLastName(data.last_name);
           setPomoTimer(data.pomodoro);
           setShortBreak(data.short_break);
           setLongBreak(data.long_break);
-          if (
-            data.first_name == null &&
-            data.last_name == null &&
-            displayName == ''
-          ) {
-            setDisplayName(data.email);
-          } else {
-            setDisplayName(data.first_name + ' ' + data.last_name);
-          }
         })
         .catch((error) => {
           console.error('Error fetching user:', error);
         });
     }
-  }, []);
+  }, [displayName]);
 
   const validatePassword = async () => {
     const password = document.getElementById('oldpass') as HTMLInputElement;
@@ -159,8 +138,12 @@ const Settings: React.FC = () => {
                   }),
                 },
               );
-              alert(response.status);
               if (response.status == 200) {
+                if (firstName == '' && lastName == '') {
+                  setDisplayName(userObject.email);
+                } else {
+                  setDisplayName(firstName + ' ' + lastName);
+                }
                 toast.success('Settings and Password Updated', {
                   position: toast.POSITION.TOP_CENTER,
                   autoClose: 5000,
@@ -171,7 +154,7 @@ const Settings: React.FC = () => {
                   autoClose: 5000,
                 });
               } else if (response.status == 422) {
-                toast.error("2New password doesn't fit criteria", {
+                toast.error("New password doesn't fit criteria", {
                   position: toast.POSITION.TOP_CENTER,
                   autoClose: 5000,
                 });
@@ -196,7 +179,7 @@ const Settings: React.FC = () => {
           });
         }
       } else {
-        toast.error("1New password doesn't fit criteria", {
+        toast.error("New password doesn't fit criteria", {
           position: toast.POSITION.TOP_CENTER,
           autoClose: 5000,
         });
@@ -206,61 +189,8 @@ const Settings: React.FC = () => {
 
   return (
     <div className="flex">
-      <div className="flex flex-col h-screen w-1/6 bg-gray-900">
-        <div className="h-5/6">
-          <h2 className="text-2xl text-white pt-10 font-fredoka font-semibold text-center">
-            Crush It
-          </h2>
-          <div className="flex justify-center py-4">
-            <hr className="border-gray-600 w-2/3"></hr>
-          </div>
-          <div className="flex justify-center pt-8 pb-4">
-            <img
-              className="w-13 h-13"
-              src={crushItLogo}
-              alt="Crush It Image"
-            />
-          </div>
-          <div className="flex justify-center">
-            <p className="w-1/2 text-lg text-white font-semibold text-center">
-              It&apos;s time to plan your day!
-            </p>
-          </div>
-          <div className="flex justify-center items-center pb-20 mb-5">
-            <div className="flex space-x-6 pt-4">
-              <button
-                onClick={routeHome}
-                className="shadow-lg w-25 text-white border border-white bg-gray-900 hover:bg-gray-800 font-semibold py-2 px-8 rounded-md"
-                type="button"
-              >
-                Plan Day
-              </button>
-            </div>
-          </div>
-        </div>
-        <div className="h-1/6 flex-grow flex justify-center items-center">
-          <button
-            onClick={routeLogout}
-            className="flex shadow-lg w-25 text-white border border-white bg-gray-900 hover:bg-red-500 text-sm py-1 px-4 rounded-md"
-            type="button"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="1.5"
-              stroke="currentColor"
-              className="w-5 h-5"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"
-              />
-            </svg>
-            Logout
-          </button>
-        </div>
+      <div className="w-1/6">
+        <SideBar />
       </div>
       <div className="w-5/6">
         <div className="bg-gray-100 h-screen">
@@ -268,6 +198,7 @@ const Settings: React.FC = () => {
             <div className="w-1/2 text-left text-2xl font-bold">Profile</div>
             <div className="w-1/2 flex justify-end">
               <button
+                id="nameID"
                 data-testid="name"
                 className="flex p-2 text-black border border-back hover:bg-gray-100 font-semibold rounded-md"
               >
