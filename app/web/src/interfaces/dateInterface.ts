@@ -1,6 +1,5 @@
 import React from 'react';
 import moment from 'moment';
-
 interface DateProp {
   // eslint-disable-next-line no-unused-vars
   refreshView: (newDate: moment.Moment) => void;
