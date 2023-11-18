@@ -1,25 +1,9 @@
 import React, { useState } from 'react';
+import { taskModalProps, TaskProps } from '../interfaces/taskInterface';
+import { defaultTaskPropsValues } from '../interfaces/taskInterface';
 
-interface ModalProps {
-  onClose: () => void;
-  // eslint-disable-next-line no-unused-vars
-  onSubmit: (taskData: TaskData) => void;
-}
-
-interface TaskData {
-  title: string;
-  pomodoroCount: number;
-  note: string;
-  priority: string;
-}
-
-const TaskModal: React.FC<ModalProps> = ({ onClose, onSubmit }) => {
-  const [taskData, setTaskData] = useState({
-    title: '',
-    pomodoroCount: 1,
-    note: '',
-    priority: 'Other',
-  });
+const TaskModal: React.FC<taskModalProps> = (props) => {
+  const [taskData, setTaskData] = useState<TaskProps>(defaultTaskPropsValues);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -41,13 +25,12 @@ const TaskModal: React.FC<ModalProps> = ({ onClose, onSubmit }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Add logic to save the task data (e.g., send to the server, update state, etc.)
-    onSubmit(taskData);
-    onClose(); // Close the modal after submitting the form
+    props.onSubmit(taskData);
+    props.onClose();
   };
 
   const handleCancel = () => {
-    onClose(); // Close the modal without saving the task
+    props.onClose();
   };
 
   return (
@@ -55,19 +38,19 @@ const TaskModal: React.FC<ModalProps> = ({ onClose, onSubmit }) => {
       <div className="bg-white w-1/3 p-8 rounded-md">
         <h2 className="text-2xl font-bold mb-4">Add Task</h2>
         <form onSubmit={handleSubmit}>
-          {/* Title */}
+          {/* Name */}
           <div className="mb-4">
             <label
-              htmlFor="title"
+              htmlFor="name"
               className="block text-sm font-medium text-gray-600"
             >
-              Title
+              Name
             </label>
             <input
               type="text"
-              id="title"
-              name="title"
-              value={taskData.title}
+              id="name"
+              name="name"
+              value={taskData.name}
               onChange={handleInputChange}
               className="mt-1 p-2 border border-gray-300 rounded-md w-full"
               required
@@ -77,16 +60,16 @@ const TaskModal: React.FC<ModalProps> = ({ onClose, onSubmit }) => {
           {/* Pomodoro Count */}
           <div className="mb-4">
             <label
-              htmlFor="pomodoroCount"
+              htmlFor="timers"
               className="block text-sm font-medium text-gray-600"
             >
               Pomodoro Count
             </label>
             <input
               type="number"
-              id="pomodoroCount"
-              name="pomodoroCount"
-              value={taskData.pomodoroCount}
+              id="timers"
+              name="timers"
+              value={taskData.timers}
               onChange={handleInputChange}
               className="mt-1 p-2 border border-gray-300 rounded-md w-full"
               min="1"
@@ -97,15 +80,15 @@ const TaskModal: React.FC<ModalProps> = ({ onClose, onSubmit }) => {
           {/* Note/Description */}
           <div className="mb-4">
             <label
-              htmlFor="note"
+              htmlFor="notes"
               className="block text-sm font-medium text-gray-600"
             >
               Note/Description
             </label>
             <textarea
-              id="note"
-              name="note"
-              value={taskData.note}
+              id="notes"
+              name="notes"
+              value={taskData.notes}
               onChange={handleInputChange}
               className="mt-1 p-2 border border-gray-300 rounded-md w-full"
               rows={4}

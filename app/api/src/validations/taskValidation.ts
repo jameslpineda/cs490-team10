@@ -5,10 +5,14 @@ export const createTaskValidation = (data: TaskInterface) => {
   const schema = Joi.object({
     name: Joi.string().required(),
     notes: Joi.string().allow(''),
+    status: Joi.string().allow(''),
     priority: Joi.string()
       .valid('Top Priority', 'Important', 'Other')
       .required(),
     timers: Joi.number().min(1).required(),
+    date: Joi.date().required(),
+    user_id: Joi.string().required(),
+    _id: Joi.string().allow(''),
   });
 
   return schema.validate(data);

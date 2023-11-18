@@ -1,7 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable react/no-unescaped-entities */
-/* eslint-disable no-undef */
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import './scroll.css';
@@ -11,22 +7,18 @@ import SideBar from '../components/SideBar';
 import DateBar from '../components/DateBar';
 import { coreConfig } from '../utils/config';
 import { toast } from 'react-toastify';
-import { constants } from 'buffer';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { logout, reset } from '../features/auth/authSlice';
+import crushItLogo from '../images/crush_it_logo.png';
 import useAppDispatch from '../features/auth/hooks/useAppDispatch';
-
-interface TaskData {
-  title: string;
-  pomodoroCount: number;
-  note: string;
-  priority: string;
-}
+import { TaskProps } from '../interfaces/taskInterface';
+import { getUserID } from '../services/userServices';
+import { postTaskService } from '../services/taskServices';
 
 export const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [tasks, setTasks] = useState<TaskData[]>([]);
+  const [tasks, setTasks] = useState<TaskProps[]>([]);
   const [username, setUsername] = useState('');
 
   useEffect(() => {
@@ -73,30 +65,26 @@ export const Home = () => {
     setIsModalOpen(false);
   };
 
-  const addTask = (task: TaskData) => {
+  const addTask = (task: TaskProps) => {
     setTasks((prevTasks) => [...prevTasks, task]);
     closeModal();
-    // TODO: Add logic to post the task to the backend
-    // TODO: Use fetch for this purpose
-    fetch(`${coreConfig.apiBaseUrl}/tasks/create`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(task),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return response.json(); // Parse the JSON response
-      })
-      .then((data) => {
-        // Handle the success response from the server
-        console.log('Task created successfully:', data);
-      })
-      .catch((error) => {
-        // Handle errors during the fetch or server-side errors
-        console.error('Error creating task:', error.message);
-      });
+    task.date = date.format('YYYY-MM-DD');
+    task.user_id = getUserID();
+
+    const tt: TaskProps = {
+      user_id: '12345', // string
+      name: 'My Task', // string
+      timers: 2, // number
+      status: 'Task has not yet started',
+      _id: '12312321asdasd',
+      notes: 'Some notes about the task', // string
+      priority: 'High', // string
+      date: '2023-11-17', // string
+    };
+
+    console.log(tt);
+
+    postTaskService(task);
   };
 
   const [showMonth, setShowMonth] = useState(false);
@@ -108,8 +96,6 @@ export const Home = () => {
       const queryParams = new URLSearchParams({
         date: JSON.stringify(newDate),
       });
-
-      console.log(queryParams);
 
       const url = `${coreConfig.apiBaseUrl}/task/retrieve?${queryParams}`;
       const response = await fetch(url, {
