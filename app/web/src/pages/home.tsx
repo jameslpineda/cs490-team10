@@ -6,12 +6,14 @@ import Task from '../components/Task';
 import SideBar from '../components/SideBar';
 import DateBar from '../components/DateBar';
 import { coreConfig } from '../utils/config';
-import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { TaskProps } from '../interfaces/taskInterface';
 import { getUserID } from '../services/userServices';
-import { postTaskService } from '../services/taskServices';
+import {
+  postTaskService,
+  getTasksByDateService,
+} from '../services/taskServices';
 
 export const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -65,24 +67,10 @@ export const Home = () => {
 
   const addTask = (task: TaskProps) => {
     setTasks((prevTasks) => [...prevTasks, task]);
-    closeModal();
     task.date = date.format('YYYY-MM-DD');
     task.user_id = getUserID();
-
-    const tt: TaskProps = {
-      user_id: '12345', // string
-      name: 'My Task', // string
-      timers: 2, // number
-      status: 'Task has not yet started',
-      _id: '12312321asdasd',
-      notes: 'Some notes about the task', // string
-      priority: 'High', // string
-      date: '2023-11-17', // string
-    };
-
-    console.log(tt);
-
     postTaskService(task);
+    closeModal();
   };
 
   const [showMonth, setShowMonth] = useState(false);
@@ -90,23 +78,9 @@ export const Home = () => {
   const [showYear, setShowYear] = useState(false);
 
   const refreshView = async (newDate: moment.Moment) => {
-    try {
-      const queryParams = new URLSearchParams({
-        date: JSON.stringify(newDate),
-      });
-
-      const url = `${coreConfig.apiBaseUrl}/task/retrieve?${queryParams}`;
-      const response = await fetch(url, {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
-      });
-
-      const tasks = await response.json();
-      console.log(tasks);
-    } catch (error) {
-      console.error(error);
-      toast.error('Could not update tasks', { autoClose: 7000 });
-    }
+    const newTasks = getTasksByDateService(newDate.format('YYYY-MM-DD'));
+    setTasks(await newTasks);
+    console.log(newTasks);
   };
 
   const navigate = useNavigate();
@@ -148,6 +122,7 @@ export const Home = () => {
         </div>
         <div className="bg-gray-100">
           <DateBar
+            refreshView={refreshView}
             date={date}
             setDate={setDate}
             showMonth={showMonth}

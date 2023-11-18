@@ -3,6 +3,7 @@ import moment from 'moment';
 import DateProp from '../interfaces/dateInterface';
 
 const DateBar: React.FC<DateProp> = ({
+  refreshView,
   date,
   setDate,
   showMonth,
@@ -31,6 +32,7 @@ const DateBar: React.FC<DateProp> = ({
 
   const updateDate = (newDate: moment.Moment) => {
     setDate(newDate);
+    refreshView(newDate);
   };
 
   const decrementMonth = () => {
