@@ -61,6 +61,7 @@ export async function updateTask(task: TaskProps) {
   fetch(url, {
     method: 'PUT',
     headers: {
+      Authorization: `Bearer ${getBearerToken()}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(task),

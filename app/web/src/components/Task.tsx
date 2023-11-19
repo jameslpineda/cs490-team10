@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import IconCycleComponent from './IconCycleComponent';
 import { TaskProps } from '../interfaces/taskInterface';
+import { updateTask } from '../services/taskServices';
 
 const Task: React.FC<TaskProps> = (props) => {
   const [extend, setExtend] = useState(false);
@@ -33,6 +34,10 @@ const Task: React.FC<TaskProps> = (props) => {
   function incrementCount() {
     const newCount = +count + 1;
     setCounter(newCount);
+    const newProps = { ...props };
+    newProps.timers = newCount;
+    newProps._id = props._id;
+    updateTask(newProps);
   }
 
   function decrementCount() {
@@ -40,10 +45,22 @@ const Task: React.FC<TaskProps> = (props) => {
     if (newCount != 0) {
       setCounter(newCount);
     }
+    const newProps = { ...props };
+    newProps.timers = newCount;
+    newProps._id = props._id;
+    updateTask(newProps);
   }
 
   function noteButton() {
-    setIsNoteReadOnly((prevIsNoteReadOnly) => !prevIsNoteReadOnly);
+    if (isNoteReadOnly == false) {
+      setIsNoteReadOnly(true);
+      const newProps = { ...props };
+      newProps.notes = userNote;
+      newProps._id = props._id;
+      updateTask(newProps);
+    } else {
+      setIsNoteReadOnly(false);
+    }
   }
 
   return (
@@ -105,7 +122,7 @@ const Task: React.FC<TaskProps> = (props) => {
               >
                 <svg
                   id="pomoDec"
-                  className="pr-1 block"
+                  className="pr-1 hidden"
                   width="20"
                   height="20"
                   viewBox="0 0 20 20"
@@ -136,7 +153,7 @@ const Task: React.FC<TaskProps> = (props) => {
               >
                 <svg
                   id="pomoInc"
-                  className="pl-1 block"
+                  className="pl-1 hidden"
                   width="20"
                   height="20"
                   viewBox="0 0 20 20"
