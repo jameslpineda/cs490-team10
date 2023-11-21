@@ -1,11 +1,42 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { TaskProps } from '../interfaces/taskInterface';
+import { updateTask } from '../services/taskServices';
 
-const IconCycleComponent: React.FC = () => {
+const IconCycleComponent: React.FC<TaskProps> = (props) => {
   const [clickCount, setClickCount] = useState<number>(0);
 
+  useEffect(() => {
+    const initialStatusIndex = statusIndices[props.status || 'Task is deleted'];
+    setClickCount(initialStatusIndex || 0);
+  }, [props.status]);
+
   const handleClick = () => {
-    //backend call here figure out w anbar
-    setClickCount((clickCount + 1) % icons.length); // Cycle through icons
+    const newClickCount = (clickCount + 1) % icons.length; // Cycle through icons
+    setClickCount(newClickCount);
+
+    const newStatus = statusMapping[newClickCount];
+
+    const newProps = {
+      ...props,
+      status: newStatus,
+    };
+    updateTask(newProps);
+  };
+
+  const statusMapping: { [key: number]: string } = {
+    0: 'Task has not been started',
+    1: 'Task is in progress',
+    2: 'Task is complete',
+    3: 'Task rolled over to the next day',
+    4: 'Task is deleted',
+  };
+
+  const statusIndices: { [key: string]: number } = {
+    'Task has not been started': 0,
+    'Task is in progress': 1,
+    'Task is complete': 2,
+    'Task rolled over to the next day': 3,
+    'Task is deleted': 4,
   };
 
   const icons: React.JSX.Element[] = [

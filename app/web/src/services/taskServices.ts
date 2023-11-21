@@ -70,11 +70,12 @@ export async function updateTask(task: TaskProps) {
       timers: task.timers,
       priority: task.priority,
       status: task.status,
+      date: task.date,
     }),
   })
     .then((response) => response.json())
     .then((data) => {
-      console.log('Success:', data);
+      console.log('Success:', data.status);
     })
     .catch((error) => {
       console.error('Error:', error);

@@ -31,6 +31,7 @@ export const updateTaskValidation = (data: TaskInterface) => {
     timers: Joi.number().min(1),
     notes: Joi.string().allow(''),
     priority: Joi.string().valid('Top Priority', 'Important', 'Other'),
+    date: Joi.date(),
   });
 
   return schema.validate(data);
