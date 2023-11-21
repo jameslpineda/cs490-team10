@@ -64,7 +64,13 @@ export async function updateTask(task: TaskProps) {
       Authorization: `Bearer ${getBearerToken()}`,
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(task),
+    body: JSON.stringify({
+      name: task.name,
+      notes: task.notes,
+      timers: task.timers,
+      priority: task.priority,
+      status: task.status,
+    }),
   })
     .then((response) => response.json())
     .then((data) => {

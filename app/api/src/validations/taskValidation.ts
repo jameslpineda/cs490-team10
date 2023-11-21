@@ -20,7 +20,6 @@ export const createTaskValidation = (data: TaskInterface) => {
 
 export const updateTaskValidation = (data: TaskInterface) => {
   const schema = Joi.object({
-    _id: Joi.string(),
     name: Joi.string(),
     status: Joi.string().valid(
       'Task has not been started',
@@ -30,10 +29,8 @@ export const updateTaskValidation = (data: TaskInterface) => {
       'Task is deleted',
     ),
     timers: Joi.number().min(1),
-    user_id: Joi.string().required(),
     notes: Joi.string().allow(''),
     priority: Joi.string().valid('Top Priority', 'Important', 'Other'),
-    date: Joi.date(),
   });
 
   return schema.validate(data);
