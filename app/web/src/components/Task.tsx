@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import IconCycleComponent from './IconCycleComponent';
 import { TaskProps } from '../interfaces/taskInterface';
+import FocusTimeModal from './FocusTimeModal';
 
 const Task: React.FC<TaskProps> = (props) => {
   const [extend, setExtend] = useState(false);
   const [count, setCounter] = useState(props.timers);
   const [userNote, setNote] = useState(props.notes);
   const [isNoteReadOnly, setIsNoteReadOnly] = useState(true);
+  const [focusTime, showFocusTime] = useState(false);
 
   function pomoButtons() {
     const dec = document.getElementById('pomoDec') as HTMLElement;
@@ -46,14 +48,28 @@ const Task: React.FC<TaskProps> = (props) => {
     setIsNoteReadOnly((prevIsNoteReadOnly) => !prevIsNoteReadOnly);
   }
 
+  const openFocus = () => {
+    showFocusTime(true);
+  };
+
   return (
     <div className="border bg-white px-3 py-2 mb-1 rounded-xl">
       <div className="flex pb-0.5">
         <IconCycleComponent />
-        <h3 className="pl-1 text-lg text-indigo-400 font-bold">{props.name}</h3>
+        <button onClick={openFocus}>
+          <h3 className="pl-1 text-lg text-indigo-400 font-semibold">
+            {props.name}
+          </h3>
+        </button>
+        {focusTime && (
+          <FocusTimeModal
+            showFocusTime={showFocusTime}
+            props={props}
+          />
+        )}
         <div className="ml-auto flex">
           <svg
-            className="pt-1.5"
+            className="pt-2"
             width="22"
             height="22"
             viewBox="0 0 20 20"
