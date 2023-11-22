@@ -36,7 +36,6 @@ const Task: React.FC<TaskProps> = (props) => {
     setCounter(newCount);
     const newProps = { ...props };
     newProps.timers = newCount;
-    newProps._id = props._id;
     updateTask(newProps);
   }
 
@@ -47,7 +46,6 @@ const Task: React.FC<TaskProps> = (props) => {
     }
     const newProps = { ...props };
     newProps.timers = newCount;
-    newProps._id = props._id;
     updateTask(newProps);
   }
 
@@ -56,7 +54,6 @@ const Task: React.FC<TaskProps> = (props) => {
       setIsNoteReadOnly(true);
       const newProps = { ...props };
       newProps.notes = userNote;
-      newProps._id = props._id;
       updateTask(newProps);
     } else {
       setIsNoteReadOnly(false);
