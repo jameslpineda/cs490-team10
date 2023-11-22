@@ -32,29 +32,36 @@ const Task: React.FC<TaskProps> = (props) => {
   }
 
   function incrementCount() {
-    const newCount = +count + 1;
-    setCounter(newCount);
-    const newProps = { ...props };
-    newProps.timers = newCount;
-    updateTask(newProps);
+    if (count != undefined) {
+      const newCount = +count + 1;
+      setCounter(newCount);
+      const newProps = { timers: newCount };
+      if (props._id != undefined) {
+        updateTask(props._id, newProps);
+      }
+    }
   }
 
   function decrementCount() {
-    const newCount = count - 1;
-    if (newCount != 0) {
-      setCounter(newCount);
+    if (count != undefined) {
+      const newCount = count - 1;
+      if (newCount != 0) {
+        setCounter(newCount);
+      }
+      const newProps = { timers: newCount };
+      if (props._id != undefined) {
+        updateTask(props._id, newProps);
+      }
     }
-    const newProps = { ...props };
-    newProps.timers = newCount;
-    updateTask(newProps);
   }
 
   function noteButton() {
     if (isNoteReadOnly == false) {
       setIsNoteReadOnly(true);
-      const newProps = { ...props };
-      newProps.notes = userNote;
-      updateTask(newProps);
+      const newProps = { notes: userNote };
+      if (props._id != undefined) {
+        updateTask(props._id, newProps);
+      }
     } else {
       setIsNoteReadOnly(false);
     }

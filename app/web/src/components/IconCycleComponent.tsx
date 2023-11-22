@@ -16,11 +16,12 @@ const IconCycleComponent: React.FC<TaskProps> = (props) => {
 
     const newStatus = statusMapping[newClickCount];
 
-    const newProps = {
-      ...props,
+    const newProps: TaskProps = {
       status: newStatus,
     };
-    updateTask(newProps);
+    if (props._id != undefined) {
+      updateTask(props._id, newProps);
+    }
   };
 
   const statusMapping: { [key: number]: string } = {

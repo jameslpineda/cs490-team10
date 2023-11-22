@@ -1,21 +1,15 @@
 export const defaultTaskPropsValues = {
-  _id: undefined,
+  _id: undefined as string | undefined,
   user_id: '',
   name: '',
-  status: undefined,
+  status: undefined as string | undefined,
   timers: 1,
   notes: '',
   priority: 'Other',
   date: '',
 };
 
-export type TaskProps = Omit<
-  typeof defaultTaskPropsValues,
-  '_id' | 'status'
-> & {
-  _id?: string;
-  status?: string;
-};
+export type TaskProps = Partial<typeof defaultTaskPropsValues>;
 
 export interface taskModalProps {
   onClose: () => void;

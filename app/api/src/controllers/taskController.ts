@@ -96,7 +96,8 @@ export const updateTaskHandler = asyncHandler(
     if (req.body.date) {
       data.date = moment(req.body.date).startOf('day').toDate();
     }
-
+    console.log('DATA:' + data);
+    console.log('TASK ID' + task_id);
     const updatedTask = await updateTask({ _id: task_id }, data);
 
     if (!updatedTask) {

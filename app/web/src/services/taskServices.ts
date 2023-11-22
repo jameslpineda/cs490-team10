@@ -54,8 +54,8 @@ export async function getTasksByDateService(
   }
 }
 
-export async function updateTask(task: TaskProps) {
-  const taskId = task._id;
+export async function updateTask(id: string, task: TaskProps) {
+  const taskId = id;
   const url = `${coreConfig.apiBaseUrl}/task/update/${taskId}`;
 
   fetch(url, {
@@ -64,18 +64,11 @@ export async function updateTask(task: TaskProps) {
       Authorization: `Bearer ${getBearerToken()}`,
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({
-      name: task.name,
-      notes: task.notes,
-      timers: task.timers,
-      priority: task.priority,
-      status: task.status,
-      date: task.date,
-    }),
+    body: JSON.stringify(task),
   })
     .then((response) => response.json())
     .then((data) => {
-      console.log('Success:', data.status);
+      console.log('Success:', data);
     })
     .catch((error) => {
       console.error('Error:', error);

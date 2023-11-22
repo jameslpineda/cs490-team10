@@ -2,24 +2,14 @@ import React from 'react';
 import moment from 'moment';
 import DateProp from '../interfaces/dateInterface';
 
-const DateBar: React.FC<DateProp> = ({
-  refreshView,
-  date,
-  setDate,
-  showMonth,
-  setShowMonth,
-  showDay,
-  setShowDay,
-  showYear,
-  setShowYear,
-}) => {
+const DateBar: React.FC<DateProp> = (DateProp) => {
   const monthNames = [];
   for (let i = 0; i < 12; i++) {
     const monthName = moment().month(i).format('MMMM');
     monthNames.push(monthName);
   }
 
-  const daysInMonth = date.daysInMonth();
+  const daysInMonth = DateProp.date.daysInMonth();
   const daysArray = [];
   for (let i = 1; i <= daysInMonth; i++) {
     daysArray.push(i);
@@ -31,30 +21,30 @@ const DateBar: React.FC<DateProp> = ({
   }
 
   const updateDate = (newDate: moment.Moment) => {
-    setDate(newDate);
-    refreshView(newDate);
+    DateProp.setDate(newDate);
+    DateProp.refreshView(newDate);
   };
 
   const decrementMonth = () => {
-    const currDate = date.clone();
+    const currDate = DateProp.date.clone();
     if (currDate.year() == 2000 && currDate.month() == 0) {
       return;
     } else {
-      updateDate(date.clone().subtract(1, 'month'));
+      updateDate(DateProp.date.clone().subtract(1, 'month'));
     }
   };
 
   const incrementMonth = () => {
-    const currDate = date.clone();
+    const currDate = DateProp.date.clone();
     if (currDate.year() == 2500 && currDate.month() == 11) {
       return;
     } else {
-      updateDate(date.clone().add(1, 'month'));
+      updateDate(DateProp.date.clone().add(1, 'month'));
     }
   };
 
   const decrementDay = () => {
-    const currDate = date.clone();
+    const currDate = DateProp.date.clone();
     if (
       currDate.year() == 2000 &&
       currDate.month() == 0 &&
@@ -62,12 +52,12 @@ const DateBar: React.FC<DateProp> = ({
     ) {
       return;
     } else {
-      updateDate(date.clone().subtract(1, 'day'));
+      updateDate(DateProp.date.clone().subtract(1, 'day'));
     }
   };
 
   const incrementDay = () => {
-    const currDate = date.clone();
+    const currDate = DateProp.date.clone();
     if (
       currDate.year() == 2050 &&
       currDate.month() == 11 &&
@@ -75,19 +65,19 @@ const DateBar: React.FC<DateProp> = ({
     ) {
       return;
     } else {
-      updateDate(date.clone().add(1, 'day'));
+      updateDate(DateProp.date.clone().add(1, 'day'));
     }
   };
 
   const decrementYear = () => {
-    if (date.clone().year() > 2000) {
-      updateDate(date.clone().subtract(1, 'year'));
+    if (DateProp.date.clone().year() > 2000) {
+      updateDate(DateProp.date.clone().subtract(1, 'year'));
     }
   };
 
   const incrementYear = () => {
-    if (date.clone().year() < 2050) {
-      updateDate(date.clone().add(1, 'year'));
+    if (DateProp.date.clone().year() < 2050) {
+      updateDate(DateProp.date.clone().add(1, 'year'));
     }
   };
 
@@ -104,15 +94,15 @@ const DateBar: React.FC<DateProp> = ({
           </div>
         </button>
         <button
-          onClick={() => setShowMonth(!false)}
+          onClick={() => DateProp.setShowMonth(!false)}
           data-testid="monthID"
           className={`relative border border-indigo-400 w-40 p-1.5 pl-3 rounded-md font-semibold text-s text-left ${
-            showMonth ? 'bg-white' : ''
+            DateProp.showMonth ? 'bg-white' : ''
           } `}
         >
           <span className="text-black font-bold flex justify-between items-center">
-            <p>{date.format('MMMM')}</p>
-            {showMonth ? (
+            <p>{DateProp.date.format('MMMM')}</p>
+            {DateProp.showMonth ? (
               <svg
                 className="h-6"
                 viewBox="0 0 24 24"
@@ -168,15 +158,15 @@ const DateBar: React.FC<DateProp> = ({
               </svg>
             )}
           </span>
-          {showMonth && (
+          {DateProp.showMonth && (
             <div className="absolute top-8 left-0 p-2 bg-white w-full rounded-b-md outline-none border-l border-b border-r border-indigo-400">
               <select
                 size={5}
                 className=" text-black w-full outline-none myScroll"
-                value={date.format('MMMM')}
+                value={DateProp.date.format('MMMM')}
                 onChange={(e) => {
-                  updateDate(date.clone().month(e.target.value));
-                  setShowMonth(false);
+                  updateDate(DateProp.date.clone().month(e.target.value));
+                  DateProp.setShowMonth(false);
                 }}
               >
                 {monthNames.map((month) => {
@@ -215,15 +205,15 @@ const DateBar: React.FC<DateProp> = ({
           </div>
         </button>
         <button
-          onClick={() => setShowDay(!false)}
+          onClick={() => DateProp.setShowDay(!false)}
           data-testid="dayID"
           className={`relative border border-indigo-400 w-16 p-1.5 pl-3 rounded-md font-semibold text-s text-left ${
-            showDay ? 'bg-white' : ''
+            DateProp.showDay ? 'bg-white' : ''
           }`}
         >
           <span className="text-black font-bold flex justify-between  items-center">
-            <p>{date.format('D')}</p>
-            {showDay ? (
+            <p>{DateProp.date.format('D')}</p>
+            {DateProp.showDay ? (
               <svg
                 className="h-6"
                 viewBox="0 0 24 24"
@@ -279,15 +269,17 @@ const DateBar: React.FC<DateProp> = ({
               </svg>
             )}
           </span>
-          {showDay && (
+          {DateProp.showDay && (
             <div className="absolute top-8 left-0 p-2 bg-white w-full rounded-b-md outline-none border-l border-b border-r border-indigo-400">
               <select
                 size={5}
                 className=" text-black w-full outline-none pr-2 myScroll"
-                value={date.format('D')}
+                value={DateProp.date.format('D')}
                 onChange={(e) => {
-                  updateDate(date.clone().date(parseInt(e.target.value)));
-                  setShowDay(false);
+                  updateDate(
+                    DateProp.date.clone().date(parseInt(e.target.value)),
+                  );
+                  DateProp.setShowDay(false);
                 }}
               >
                 {daysArray.map((day) => {
@@ -326,14 +318,14 @@ const DateBar: React.FC<DateProp> = ({
           </div>
         </button>
         <button
-          onClick={() => setShowYear(!false)}
+          onClick={() => DateProp.setShowYear(!false)}
           className={`relative border border-indigo-400 w-28 p-1.5 pl-3 rounded-md font-semibold text-s text-left ${
-            showYear ? 'bg-white' : ''
+            DateProp.showYear ? 'bg-white' : ''
           }  `}
         >
           <span className="text-black font-bold flex justify-between  items-center">
-            <p data-testid="yearID">{date.format('YYYY')}</p>
-            {showYear ? (
+            <p data-testid="yearID">{DateProp.date.format('YYYY')}</p>
+            {DateProp.showYear ? (
               <svg
                 className="h-6"
                 viewBox="0 0 24 24"
@@ -389,15 +381,17 @@ const DateBar: React.FC<DateProp> = ({
               </svg>
             )}
           </span>
-          {showYear && (
+          {DateProp.showYear && (
             <div className="absolute top-8 left-0 p-2 bg-white w-full rounded-b-md outline-none border-l border-b border-r border-indigo-400">
               <select
                 size={5}
                 className=" text-black w-full outline-none pr-2 myScroll"
-                value={date.format('YYYY')}
+                value={DateProp.date.format('YYYY')}
                 onChange={(e) => {
-                  updateDate(date.clone().year(parseInt(e.target.value)));
-                  setShowDay(false);
+                  updateDate(
+                    DateProp.date.clone().year(parseInt(e.target.value)),
+                  );
+                  DateProp.setShowDay(false);
                 }}
               >
                 {allYears.map((year) => {
