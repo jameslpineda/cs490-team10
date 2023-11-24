@@ -14,8 +14,8 @@ const errorHandler = (
     `${err.name}: ${err.message}\t${req.method}\t${req.url}\t${req.headers.origin}`,
     'errLog.log',
   );
-
-  const statusCode = res.statusCode ? res.statusCode : 500; // Server error
+  const statusCode =
+    res.statusCode && res.statusCode !== 200 ? res.statusCode : 500; // Server error
 
   res.status(statusCode);
 

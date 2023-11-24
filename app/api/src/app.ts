@@ -6,8 +6,11 @@ import userRoutes from './routes/userRoutes';
 import taskRoutes from './routes/taskRoutes';
 import { corsConfig } from './utils/config';
 import { logger } from './middleware/logger';
+import credentials from './middleware/credentialsMiddleware';
 
 const app = express();
+
+app.use(credentials);
 
 app.use(cors(corsConfig));
 

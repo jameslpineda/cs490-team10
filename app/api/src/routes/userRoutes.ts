@@ -12,5 +12,6 @@ router.get('/verify', UserController.verify);
 router.post('/update', requireAuth, UserController.update);
 router.post('/forgot-password', UserController.forgotPassword);
 router.post('/reset-password', UserController.resetPassword);
+router.get('/refresh-token', UserController.refreshToken);
 
 export default router;

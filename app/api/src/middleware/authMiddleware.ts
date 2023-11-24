@@ -3,31 +3,27 @@ import { Response, NextFunction } from 'express';
 import { AuthRequestInterface as AuthRequest } from '../interfaces/authInterface';
 import asyncHandler from 'express-async-handler';
 import { jwtConfig } from '../utils/config';
-import { DecodedToken } from '../interfaces/authInterface';
 
 const requireAuth = asyncHandler(
   async (req: AuthRequest, res: Response, next: NextFunction) => {
-    const token = req.cookies.jwt;
-
-    if (token) {
-      try {
-        const decodedToken = jwt.verify(
-          token,
-          jwtConfig.secret!,
-        ) as DecodedToken;
-
-        // Get user_id from token
-        req.user_id = decodedToken._id;
-
-        next();
-      } catch (err) {
-        res.status(403);
-        throw new Error('Not authorized, invalid token');
-      }
-    } else {
+    const authHeader = req.headers['authorization'];
+    if (!authHeader) {
       res.status(401);
       throw new Error('Not authorized, no token');
     }
+
+    const token = authHeader.split(' ')[1];
+
+    jwt.verify(token, jwtConfig.access_token_secret!, (err, decoded) => {
+      if (err || !decoded || typeof decoded === 'string') {
+        res.status(403);
+        throw new Error('Not authorized, invalid token');
+      }
+
+      // Get user_id from token
+      req.user_id = decoded._id;
+      next();
+    });
   },
 );
 
