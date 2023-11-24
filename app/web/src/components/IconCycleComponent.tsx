@@ -6,7 +6,8 @@ const IconCycleComponent: React.FC<TaskProps> = (props) => {
   const [clickCount, setClickCount] = useState<number>(0);
 
   useEffect(() => {
-    const initialStatusIndex = statusIndices[props.status || 'Task is deleted'];
+    const initialStatusIndex =
+      statusIndices[props.status || 'Task has not been started'];
     setClickCount(initialStatusIndex || 0);
   }, [props.status]);
 

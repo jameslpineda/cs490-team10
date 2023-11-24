@@ -82,4 +82,3 @@ export function getLongBreak() {
       console.error('Error fetching user:', error);
     });
 }
-
