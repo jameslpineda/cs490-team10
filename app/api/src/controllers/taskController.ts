@@ -87,6 +87,9 @@ export const updateTaskHandler = asyncHandler(
     if (req.body.timers) {
       data.timers = req.body.timers;
     }
+    if (req.body.completed_timers) {
+      data.completed_timers = req.body.completed_timers;
+    }
     if (req.body.notes) {
       data.notes = req.body.notes;
     }

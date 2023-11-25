@@ -6,6 +6,7 @@ export const defaultTaskPropsValues = {
   timers: 1,
   notes: '',
   priority: 'Other',
+  completed_timers: 0,
   date: '',
 };
 
