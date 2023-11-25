@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { BrowserRouter } from 'react-router-dom';
 import SignUpForm from '../../components/SignUpForm';
 import { Provider } from 'react-redux';
-import store from '../../features/auth/store';
+import store from '../../app/store';
 
 // Mocking the react-toastify module to prevent actual toasts from being shown during tests
 jest.mock('react-toastify', () => ({
@@ -53,7 +53,9 @@ describe('SignUpForm', () => {
       'test@example.com',
     );
     expect(screen.getByLabelText('Password')).toHaveValue('Password123$Kapoor');
-    expect(screen.getByLabelText('Confirm Password')).toHaveValue('Password123$Kapoor');
+    expect(screen.getByLabelText('Confirm Password')).toHaveValue(
+      'Password123$Kapoor',
+    );
   });
 
   it('submits the form and displays verification email', async () => {
@@ -74,7 +76,10 @@ describe('SignUpForm', () => {
     // Simulate user filling in the form and submitting it
     userEvent.type(screen.getByLabelText('Email/Username'), 'test@example.com');
     userEvent.type(screen.getByLabelText('Password'), 'Password123$Kapoor');
-    userEvent.type(screen.getByLabelText('Confirm Password'), 'Password123$Kapoor');
+    userEvent.type(
+      screen.getByLabelText('Confirm Password'),
+      'Password123$Kapoor',
+    );
     userEvent.click(screen.getByRole('button', { name: 'Sign Up' }));
 
     // Wait for the asynchronous code to finish
@@ -86,7 +91,7 @@ describe('SignUpForm', () => {
 
   it('submits the form and displays error toast on failed sign up', async () => {
     render(
-     <Provider store={store}>
+      <Provider store={store}>
         <BrowserRouter>
           <SignUpForm />
         </BrowserRouter>
@@ -102,10 +107,7 @@ describe('SignUpForm', () => {
     // Simulate user filling in the form and submitting it
     userEvent.type(screen.getByLabelText('Email/Username'), 'test@example.com');
     userEvent.type(screen.getByLabelText('Password'), 'Password');
-    userEvent.type(
-      screen.getByLabelText('Confirm Password'),
-      'Password',
-    );
+    userEvent.type(screen.getByLabelText('Confirm Password'), 'Password');
     userEvent.click(screen.getByRole('button', { name: 'Sign Up' }));
 
     // Wait for the asynchronous code to finish

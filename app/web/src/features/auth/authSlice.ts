@@ -1,77 +1,25 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { UserData } from '../../interfaces/userInterface';
-import authService from './authService';
+import { createSlice } from '@reduxjs/toolkit';
+import { RootState } from '../../interfaces/stateInterface';
 
-// Get user from local storage
-const user = localStorage.getItem('user');
-
-const initialState = {
-  user: user ? JSON.parse(user) : null,
-  isError: false,
-  isSuccess: false,
-  isLoading: false,
-  message: '',
-};
-
-// Login user
-export const login = createAsyncThunk(
-  'user/login',
-  async (user: UserData, thunkAPI) => {
-    try {
-      return await authService.login(user);
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      return thunkAPI.rejectWithValue(error.response.data.message);
-    }
-  },
-);
-
-// Logout user
-export const logout = createAsyncThunk('user/logout', async (_, thunkAPI) => {
-  try {
-    return await authService.logout();
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (error: any) {
-    return thunkAPI.rejectWithValue(error.response.data.message);
-  }
-});
-
-export const authSlice = createSlice({
-  name: 'user',
-  initialState,
+const authSlice = createSlice({
+  name: 'auth',
+  initialState: { user: null, token: null },
   reducers: {
-    reset: (state) => {
-      state.isError = false;
-      state.isSuccess = false;
-      state.isLoading = false;
-      state.message = '';
+    setCredentials: (state, action) => {
+      const { user, accessToken } = action.payload;
+      state.user = user;
+      state.token = accessToken;
+    },
+    signOut: (state) => {
+      state.user = null;
+      state.token = null;
     },
   },
-  extraReducers: (builder) => {
-    builder
-      .addCase(logout.fulfilled, (state) => {
-        state.isLoading = false;
-        state.isSuccess = true;
-        state.message = 'Successfully signed-out!';
-        state.user = null;
-      })
-      .addCase(login.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(login.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isSuccess = true;
-        state.message = 'Successfully signed-in!';
-        state.user = action.payload;
-      })
-      .addCase(login.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isError = true;
-        state.message = action.payload as string;
-        state.user = null;
-      });
-  },
 });
 
-export const { reset } = authSlice.actions;
+export const { setCredentials, signOut } = authSlice.actions;
+
 export default authSlice.reducer;
+
+export const selectCurrentUser = (state: RootState) => state.auth.user;
+export const selectCurrentToken = (state: RootState) => state.auth.token;

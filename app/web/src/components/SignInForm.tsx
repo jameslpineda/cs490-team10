@@ -1,70 +1,71 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { login, reset } from '../features/auth/authSlice';
-import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import Spinner from '../components/Spinner';
-import useAppDispatch from '../features/auth/hooks/useAppDispatch';
+import { useNavigate } from 'react-router-dom';
+
+import { useDispatch } from 'react-redux';
+import { setCredentials } from '../features/auth/authSlice';
+import { useSignInMutation } from '../features/auth/authApiSlice';
 
 const SignInForm: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
   const [showPassword, setShowPassword] = useState(false);
-
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
 
-  const { user, isLoading, isError, isSuccess, message } = useSelector(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (state: any) => state.auth,
-  );
+  const [signIn, { isLoading }] = useSignInMutation();
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (isError) {
-      toast.error(message, {
-        position: toast.POSITION.TOP_RIGHT,
-        autoClose: 7000,
-      });
-    }
-
-    if (user || isSuccess) {
-      if (message) {
-        toast.success(message, {
-          position: toast.POSITION.TOP_RIGHT,
-          autoClose: 7000,
-        });
-      }
-      navigate('/home');
-      dispatch(reset());
-    }
-
-    dispatch(reset());
-  }, [user, isError, isSuccess, message, dispatch, navigate]);
+  const displayError = (message: string) => {
+    toast.error(message, {
+      position: toast.POSITION.TOP_RIGHT,
+      autoClose: 7000,
+    });
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const email = document.getElementById('email') as HTMLInputElement;
+    const emailInput = document.getElementById('email') as HTMLInputElement;
+    const email = emailInput.value;
     const r = /^[\w+-]+@[\w-]+\.[\w-]+$/;
 
-    if (!r.test(email.value)) {
+    if (email.length === 0 || password.length === 0) {
+      displayError('Email and password are required');
+    } else if (!r.test(email)) {
       toast.error('Invalid Email', { autoClose: 7000 });
     } else {
-      const userData = {
-        email: email.value,
-        password,
-      };
+      try {
+        const userData = await signIn({
+          email,
+          password,
+        }).unwrap();
+        dispatch(setCredentials({ ...userData, user: email }));
 
-      dispatch(login(userData));
+        toast.success('Successful sign in!', {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 7000,
+        });
+
+        setEmail('');
+        setPassword('');
+        navigate('/home');
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (err: any) {
+        if (err.data.message) {
+          displayError(err.data.message);
+        } else {
+          displayError('Unexpected error');
+        }
+      }
     }
   };
-
-  if (isLoading) return <Spinner />;
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+
+  if (isLoading) return <Spinner />;
 
   return (
     <div className="bg-white rounded-lg p-8 h-full flex flex-col justify-between">
@@ -97,7 +98,6 @@ const SignInForm: React.FC = () => {
               className="w-full p-2 border border-gray-300 rounded-xl focus:outline-none focus:border-blue-500"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              required
             />
           </div>
           <div className="mb-4 relative">
@@ -127,7 +127,7 @@ const SignInForm: React.FC = () => {
               className="w-full p-2 border border-gray-300 rounded-xl focus:outline-none focus:border-blue-500"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              required
+              autoComplete="current-password"
             />
             <span
               onClick={togglePasswordVisibility}

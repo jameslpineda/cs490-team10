@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import moment from 'moment';
 import '../components/scroll.css';
 import TaskModal from '../components/TaskModal';
 import Task from '../components/Task';
 import SideBar from '../components/SideBar';
 import DateBar from '../components/DateBar';
-import { coreConfig } from '../utils/config';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import { TaskProps } from '../interfaces/taskInterface';
+import { useSelector } from 'react-redux';
+import { selectCurrentUser } from '../features/auth/authSlice';
 import { getUserID } from '../services/userServices';
 import {
   postTaskService,
@@ -18,44 +18,8 @@ import {
 export const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [tasks, setTasks] = useState<TaskProps[]>([]);
-  const [username, setUsername] = useState('');
   const [date, setDate] = useState(moment());
-
-  useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      const userObject = JSON.parse(storedUser);
-      const token = userObject.token;
-
-      fetch(`${coreConfig.apiBaseUrl}/user/info`, {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-      })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-          }
-          return response.json();
-        })
-        .then((data) => {
-          if (
-            data.first_name == null &&
-            data.last_name == null &&
-            username == ''
-          ) {
-            setUsername(data.email);
-          } else {
-            setUsername(data.first_name + ' ' + data.last_name);
-          }
-        })
-        .catch((error) => {
-          console.error('Error fetching user:', error);
-        });
-    }
-  }, []);
+  const username = useState(useSelector(selectCurrentUser));
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -88,22 +52,6 @@ export const Home = () => {
     navigate('../settings');
   };
 
-  const dispatch = useAppDispatch();
-  const routeLogout = () => {
-    dispatch(logout());
-    navigate('/');
-    dispatch(reset());
-  };
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { user } = useSelector((state: any) => state.auth);
-
-  useEffect(() => {
-    if (!user) {
-      navigate('../');
-    }
-  }, [user, navigate]);
-
   return (
     <div
       className="flex"
@@ -124,7 +72,7 @@ export const Home = () => {
             data-testid="name"
             className="flex p-2 text-black border border-black hover:bg-gray-100 font-semibold rounded-md"
           >
-            {username}
+            {username.toString()}
           </button>
         </div>
         <div className="bg-gray-100">

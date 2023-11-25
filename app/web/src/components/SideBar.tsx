@@ -2,18 +2,9 @@ import React, { useEffect } from 'react';
 import crushItLogo from '../images/crush_it_logo.png';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { logout, reset } from '../features/auth/authSlice';
-import useAppDispatch from '../features/auth/hooks/useAppDispatch';
 
 const SideBar: React.FC = () => {
   const navigate = useNavigate();
-
-  const dispatch = useAppDispatch();
-  const routeLogout = () => {
-    dispatch(logout());
-    dispatch(reset());
-    navigate('../');
-  };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { user } = useSelector((state: any) => state.auth);
@@ -58,7 +49,6 @@ const SideBar: React.FC = () => {
       </div>
       <div className="h-1/6 flex-grow flex justify-center items-center">
         <button
-          onClick={routeLogout}
           className="flex shadow-lg w-25 text-white border border-white bg-gray-900 hover:bg-red-500 text-sm py-1 px-4 rounded-md"
           type="button"
         >
