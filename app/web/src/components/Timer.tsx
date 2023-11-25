@@ -1,18 +1,27 @@
 import React, { useState, useEffect, useRef, MutableRefObject } from 'react';
 import moment from 'moment';
 import timerInterface from '../interfaces/timerInterface';
-//import { getPomo } from '../services/userServices';
+import { getPomo } from '../services/userServices';
 
 const Timer: React.FC<timerInterface> = ({ handleFinishTime }) => {
-  const [remainingTime, setRemainingTime] = useState(1500);
+  const [remainingTime, setRemainingTime] = useState(0);
   const [start, setStart] = useState(false);
   const firstStart = useRef(true);
   // eslint-disable-next-line no-undef
   const tick: MutableRefObject<NodeJS.Timer | undefined> = useRef();
 
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const initialRemainingTime = await getPomo();
+        setRemainingTime(initialRemainingTime * 60);
+      } catch (error) {
+        console.error('Error fetching inital remaining time: ', error);
+      }
+    };
     if (firstStart.current) {
       firstStart.current = !firstStart.current;
+      fetchData();
       return;
     }
     if (start) {
