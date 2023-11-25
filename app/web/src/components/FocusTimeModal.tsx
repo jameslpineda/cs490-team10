@@ -1,16 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import focusTimeInterface from '../interfaces/focusTimeInterface';
+import Timer from './Timer';
 
 const FocusTimeModal: React.FC<focusTimeInterface> = (focusTimeProps) => {
+  const [finishTime, setFinishTime] = useState<string>();
   const closeFocus = () => {
     focusTimeProps.showFocusTime(false);
+  };
+
+  const handleFinishTime = (value: string) => {
+    setFinishTime(value);
   };
 
   return (
     <div className="bg-black bg-opacity-50 z-50 fixed inset-0 flex justify-center items-center">
       <div className="bg-white w-1/3 p-4 rounded-md">
         <div className="flex flex-row w-full">
-          <div className="w-1/3 pt-2 font-medium">Pomodoro</div>
+          <div className="flex flex-col w-1/3 pt-2 font-medium text-indigo-500">
+            Pomodoro
+            <hr className="border-t-4 border-indigo-500 rounded-md w-10"></hr>
+          </div>
           <div className="w-1/3 pt-2 font-medium">Short Break</div>
           <div className="pt-2 w-5/12 font-medium">Long Break</div>
           <div className="w-1/12 text-right">
@@ -50,17 +59,8 @@ const FocusTimeModal: React.FC<focusTimeInterface> = (focusTimeProps) => {
             </button>
           </div>
         </div>
-        <div className="bg-gray-100 rounded-md pt-6 mt-2">
-          <div className="flex text-8xl justify-center items-center font-semibold">
-            25:00
-          </div>
-          <div className="flex justify-center items-center pb-6 mt-4">
-            <button className="h-10 w-24 bg-indigo-500 text-white rounded-md font-medium">
-              Start
-            </button>
-          </div>
-        </div>
-        <h1 className="text-2xl font-semibold py-4">
+        <Timer handleFinishTime={handleFinishTime} />
+        <h1 className="text-xl font-semibold py-3">
           {focusTimeProps.props.name}
         </h1>
         <div className="bg-gray-100 rounded-md p-3">
@@ -73,7 +73,7 @@ const FocusTimeModal: React.FC<focusTimeInterface> = (focusTimeProps) => {
             0/{focusTimeProps.props.timers}
           </div>
           <div className="text-white text-xl">Finish At:&nbsp;</div>
-          <div className="text-indigo-400 text-xl">{}</div>
+          <div className="text-indigo-400 text-xl">{finishTime}</div>
         </div>
       </div>
     </div>
