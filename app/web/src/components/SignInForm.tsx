@@ -17,13 +17,6 @@ const SignInForm: React.FC = () => {
   const [signIn, { isLoading }] = useSignInMutation();
   const dispatch = useDispatch();
 
-  const displayError = (message: string) => {
-    toast.error(message, {
-      position: toast.POSITION.TOP_RIGHT,
-      autoClose: 7000,
-    });
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const emailInput = document.getElementById('email') as HTMLInputElement;
@@ -31,16 +24,19 @@ const SignInForm: React.FC = () => {
     const r = /^[\w+-]+@[\w-]+\.[\w-]+$/;
 
     if (email.length === 0 || password.length === 0) {
-      displayError('Email and password are required');
+      toast.error('Email and password are required', {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 7000,
+      });
     } else if (!r.test(email)) {
       toast.error('Invalid Email', { autoClose: 7000 });
     } else {
       try {
-        const userData = await signIn({
+        const { accessToken, user } = await signIn({
           email,
           password,
         }).unwrap();
-        dispatch(setCredentials({ ...userData, user: email }));
+        dispatch(setCredentials({ accessToken, user }));
 
         toast.success('Successful sign in!', {
           position: toast.POSITION.TOP_RIGHT,
@@ -53,9 +49,15 @@ const SignInForm: React.FC = () => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
         if (err.data.message) {
-          displayError(err.data.message);
+          toast.error(err.data.message, {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 7000,
+          });
         } else {
-          displayError('Unexpected error');
+          toast.error('An unexpected error has occurred', {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 7000,
+          });
         }
       }
     }

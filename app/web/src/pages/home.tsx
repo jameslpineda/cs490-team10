@@ -19,7 +19,6 @@ export const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [tasks, setTasks] = useState<TaskProps[]>([]);
   const [date, setDate] = useState(moment());
-  const username = useState(useSelector(selectCurrentUser));
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -40,6 +39,12 @@ export const Home = () => {
   const [showMonth, setShowMonth] = useState(false);
   const [showDay, setShowDay] = useState(false);
   const [showYear, setShowYear] = useState(false);
+
+  const user = useSelector(selectCurrentUser);
+  const username =
+    user.first_name || user.last_name
+      ? `${user.first_name} ${user.last_name}`.trim()
+      : user.email;
 
   const refreshView = async (newDate: moment.Moment) => {
     const newTasks = getTasksByDateService(newDate.format('YYYY-MM-DD'));

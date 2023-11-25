@@ -129,7 +129,7 @@ export const signIn = asyncHandler(async (req, res) => {
     httpOnly: true,
     secure: true, // secure: true - only serves on https
     sameSite: 'none',
-    maxAge: 60 * 1000, // 60,000 milliseconds
+    maxAge: 30 * 1000, // 60,000 milliseconds
   });
 
   // Save refresh token to User
@@ -144,7 +144,17 @@ export const signIn = asyncHandler(async (req, res) => {
   }
 
   // Send the token in the response
-  res.status(200).json({ accessToken });
+  res.status(200).json({
+    accessToken,
+    user: {
+      email: user.email,
+      first_name: user.first_name,
+      last_name: user.last_name,
+      pomodoro: user.pomodoro,
+      short_break: user.short_break,
+      long_break: user.long_break,
+    },
+  });
 });
 
 // @desc Signs out a user
@@ -267,6 +277,14 @@ export const update = asyncHandler(async (req: AuthRequest, res: Response) => {
 
   res.status(200).json({
     message: 'Successfully updated values',
+    user: {
+      email: updatedUser.email,
+      first_name: updatedUser.first_name,
+      last_name: updatedUser.last_name,
+      pomodoro: updatedUser.pomodoro,
+      short_break: updatedUser.short_break,
+      long_break: updatedUser.long_break,
+    },
     updatedValues: Object.keys(data),
   });
 });

@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { setCredentials, signOut } from '../../features/auth/authSlice';
 import { RootState } from '../../interfaces/stateInterface';
+import { toast } from 'react-toastify';
 
 const baseQuery = fetchBaseQuery({
   baseUrl: 'http://localhost:443',
@@ -18,11 +19,7 @@ const baseQuery = fetchBaseQuery({
 const baseQueryWithReAuth = async (args: any, api: any, extraOptions: any) => {
   let result = await baseQuery(args, api, extraOptions);
 
-  if (
-    result?.error &&
-    'originalStatus' in result.error &&
-    result.error.originalStatus === 403
-  ) {
+  if (result?.error?.status === 403) {
     console.log('Sending refresh token');
     // Send refresh token to get new access token
     const refreshResult = await baseQuery(
@@ -40,7 +37,14 @@ const baseQueryWithReAuth = async (args: any, api: any, extraOptions: any) => {
       // Retry the original query with new access token
       result = await baseQuery(args, api, extraOptions);
     } else {
-      api.dispatch(signOut());
+      if (refreshResult?.error?.status) {
+        toast.error('Your credentials have expired', {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 7000,
+        });
+        api.dispatch(signOut());
+      }
+      return refreshResult;
     }
   }
 

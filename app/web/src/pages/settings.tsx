@@ -1,193 +1,143 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { coreConfig } from '../utils/config';
 import SideBar from '../components/SideBar';
+import { useSelector } from 'react-redux';
+import {
+  selectCurrentUser,
+  // updateUserSettings,
+} from '../features/auth/authSlice';
+import { useUpdateUserMutation } from '../features/user/userSlice';
+// import { useDispatch } from 'react-redux';
 
 const Settings: React.FC = () => {
-  // TODO: update usestate with session values
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [pomoTimer, setPomoTimer] = useState('25');
-  const [shortBreak, setShortBreak] = useState('5');
-  const [longBreak, setLongBreak] = useState('15');
-  const [displayName, setDisplayName] = useState('');
+  const user = useSelector(selectCurrentUser);
+
+  const [firstName, setFirstName] = useState(
+    user.first_name ? user.first_name : '',
+  );
+  const [lastName, setLastName] = useState(
+    user.last_name ? user.last_name : '',
+  );
+  const [pomoTimer, setPomoTimer] = useState(user.pomodoro.toString());
+  const [shortBreak, setShortBreak] = useState(user.short_break.toString());
+  const [longBreak, setLongBreak] = useState(user.long_break.toString());
+
+  const [updateUser] = useUpdateUserMutation();
+
+  // const dispatch = useDispatch();
+
+  const username =
+    user.first_name || user.last_name
+      ? `${user.first_name} ${user.last_name}`.trim()
+      : user.email;
 
   const navigate = useNavigate();
   const routeHome = () => {
-    navigate('../home');
+    navigate('/home');
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { user } = useSelector((state: any) => state.auth);
+  const handleSave = async () => {
+    // const password = document.getElementById('oldpass') as HTMLInputElement;
+    // const newPassword = document.getElementById('newpass') as HTMLInputElement;
+    // const confirmNewPassword = document.getElementById(
+    //   'confirmnewpass',
+    // ) as HTMLInputElement;
+    // const r =
+    //   /^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[@$!%*#?&])[A-Za-z0-9@$!%*#?&]{8,}$/;
 
-  useEffect(() => {
-    if (!user) {
-      navigate('/');
-    }
-  }, [user, navigate]);
+    const updatePayload = {
+      first_name: firstName,
+      last_name: lastName,
+      pomodoro: parseInt(pomoTimer),
+      short_break: parseInt(shortBreak),
+      long_break: parseInt(longBreak),
+    };
 
-  useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      const userObject = JSON.parse(storedUser);
-      const token = userObject.token;
+    try {
+      await updateUser(updatePayload).unwrap();
+      // dispatch(updateUserSettings(response.updatedUser));
 
-      fetch(`${coreConfig.apiBaseUrl}/user/info`, {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-      })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-          }
-          return response.json();
-        })
-        .then((data) => {
-          setFirstName(data.first_name);
-          setLastName(data.last_name);
-          setPomoTimer(data.pomodoro);
-          setShortBreak(data.short_break);
-          setLongBreak(data.long_break);
-        })
-        .catch((error) => {
-          console.error('Error fetching user:', error);
+      toast.success('Settings Updated', {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 5000,
+      });
+      routeHome();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      console.log(err);
+      if (err?.data?.message) {
+        toast.error(err.data.message, {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 7000,
         });
-    }
-  }, [displayName]);
-
-  const validatePassword = async () => {
-    const password = document.getElementById('oldpass') as HTMLInputElement;
-    const newPassword = document.getElementById('newpass') as HTMLInputElement;
-    const confirmNewPassword = document.getElementById(
-      'confirmnewpass',
-    ) as HTMLInputElement;
-    const r =
-      /^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[@$!%*#?&])[A-Za-z0-9@$!%*#?&]{8,}$/;
-
-    // TODO: Update first name, last name, and timer settings
-    if (password.value === '') {
-      const storedUser = localStorage.getItem('user');
-
-      if (storedUser) {
-        const userObject = JSON.parse(storedUser);
-        const token = userObject.token;
-
-        try {
-          const response = await fetch(`${coreConfig.apiBaseUrl}/user/update`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify({
-              first_name: firstName,
-              last_name: lastName,
-              pomodoro: pomoTimer,
-              short_break: shortBreak,
-              long_break: longBreak,
-            }),
-          });
-          if (!response.ok) {
-            toast.error('Server Error', {
-              position: toast.POSITION.TOP_CENTER,
-              autoClose: 5000,
-            });
-            throw new Error(`HTTP error! Status: ${response.status}`);
-          } else {
-            toast.success('Settings Updated', {
-              position: toast.POSITION.TOP_CENTER,
-              autoClose: 5000,
-            });
-          }
-        } catch (error) {
-          console.error('Error updating user settings:', error);
-          toast.error('Unable to find User', {
-            position: toast.POSITION.TOP_CENTER,
-            autoClose: 5000,
-          });
-        }
-      }
-    } else {
-      if (r.test(newPassword.value)) {
-        if (newPassword.value === confirmNewPassword.value) {
-          const storedUser = localStorage.getItem('user');
-          if (storedUser) {
-            const userObject = JSON.parse(storedUser);
-            const token = userObject.token;
-            try {
-              const response = await fetch(
-                `${coreConfig.apiBaseUrl}/user/update`,
-                {
-                  method: 'POST',
-                  headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`,
-                  },
-                  body: JSON.stringify({
-                    first_name: firstName,
-                    last_name: lastName,
-                    new_password: newPassword.value,
-                    current_password: password.value,
-                    pomodoro: pomoTimer,
-                    short_break: shortBreak,
-                    long_break: longBreak,
-                  }),
-                },
-              );
-              if (response.status == 200) {
-                if (firstName == '' && lastName == '') {
-                  setDisplayName(userObject.email);
-                } else {
-                  setDisplayName(firstName + ' ' + lastName);
-                }
-                toast.success('Settings and Password Updated', {
-                  position: toast.POSITION.TOP_CENTER,
-                  autoClose: 5000,
-                });
-              } else if (response.status == 401) {
-                toast.error('Current password is invalid', {
-                  position: toast.POSITION.TOP_CENTER,
-                  autoClose: 5000,
-                });
-              } else if (response.status == 422) {
-                toast.error("New password doesn't fit criteria", {
-                  position: toast.POSITION.TOP_CENTER,
-                  autoClose: 5000,
-                });
-              } else {
-                toast.error(response.status + ' Error', {
-                  position: toast.POSITION.TOP_CENTER,
-                  autoClose: 5000,
-                });
-              }
-            } catch (error) {
-              console.error('Error updating user settings:', error);
-              toast.error('Unable to find User', {
-                position: toast.POSITION.TOP_CENTER,
-                autoClose: 5000,
-              });
-            }
-          }
-        } else {
-          toast.error("Password confirmation doesn't match", {
-            position: toast.POSITION.TOP_CENTER,
-            autoClose: 5000,
-          });
-        }
       } else {
-        toast.error("New password doesn't fit criteria", {
-          position: toast.POSITION.TOP_CENTER,
-          autoClose: 5000,
+        toast.error('An unexpected error has occurred', {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 7000,
         });
       }
     }
-  };
 
+    // if (password.value === '') {
+    //   if (storedUser) {
+    //     const userObject = JSON.parse(storedUser);
+    //     const token = userObject.token;
+
+    //     try {
+    //       const response = await fetch(`${coreConfig.apiBaseUrl}/user/update`, {
+    //         method: 'POST',
+    //         headers: {
+    //           'Content-Type': 'application/json',
+    //           Authorization: `Bearer ${token}`,
+    //         },
+    //         body: JSON.stringify({
+    //           first_name: firstName,
+    //           last_name: lastName,
+    //           pomodoro: pomoTimer,
+    //           short_break: shortBreak,
+    //           long_break: longBreak,
+    //         }),
+    //       });
+    //       if (!response.ok) {
+    //         toast.error('Server Error', {
+    //           position: toast.POSITION.TOP_CENTER,
+    //           autoClose: 5000,
+    //         });
+    //         throw new Error(`HTTP error! Status: ${response.status}`);
+    //       } else {
+    //         toast.success('Settings Updated', {
+    //           position: toast.POSITION.TOP_CENTER,
+    //           autoClose: 5000,
+    //         });
+    //       }
+    //     } catch (error) {
+    //       console.error('Error updating user settings:', error);
+    //       toast.error('Unable to find User', {
+    //         position: toast.POSITION.TOP_CENTER,
+    //         autoClose: 5000,
+    //       });
+    //     }
+    //   }
+    // } else {
+    //   if (r.test(newPassword.value)) {
+    //     if (newPassword.value === confirmNewPassword.value) {
+    //       const storedUser = localStorage.getItem('user');
+    //       console.log(storedUser);
+    //     } else {
+    //       toast.error("Password confirmation doesn't match", {
+    //         position: toast.POSITION.TOP_CENTER,
+    //         autoClose: 5000,
+    //       });
+    //     }
+    //   } else {
+    //     toast.error("New password doesn't fit criteria", {
+    //       position: toast.POSITION.TOP_CENTER,
+    //       autoClose: 5000,
+    //     });
+    //   }
+    // }
+  };
   return (
     <div className="flex">
       <div className="w-1/6">
@@ -203,7 +153,7 @@ const Settings: React.FC = () => {
                 data-testid="name"
                 className="flex p-2 text-black border border-back hover:bg-gray-100 font-semibold rounded-md"
               >
-                {displayName}
+                {username}
               </button>
             </div>
           </div>
@@ -488,7 +438,7 @@ const Settings: React.FC = () => {
                 Cancel
               </button>
               <button
-                onClick={validatePassword}
+                onClick={handleSave}
                 className="shadow-md shadow-blue-200 w-40 bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-md"
                 type="button"
               >

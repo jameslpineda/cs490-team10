@@ -4,7 +4,7 @@ import { ObjectId } from 'mongodb';
 import { jwtConfig } from '../utils/config';
 
 const ACCESS_TOKEN_EXP_TIME = '15s';
-const REFRESH_TOKEN_EXP_TIME = '60s';
+const REFRESH_TOKEN_EXP_TIME = '30s';
 
 // Function to hash a password using bcrypt
 export const hashPassword = async (password: string) => {
