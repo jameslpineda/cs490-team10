@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import IconCycleComponent from './IconCycleComponent';
 import { TaskProps } from '../interfaces/taskInterface';
-import { updateTask } from '../services/taskServices';
 
 const Task: React.FC<TaskProps> = (props) => {
   const [extend, setExtend] = useState(false);
@@ -35,10 +34,7 @@ const Task: React.FC<TaskProps> = (props) => {
     if (count != undefined) {
       const newCount = +count + 1;
       setCounter(newCount);
-      const newProps = { timers: newCount };
-      if (props._id != undefined) {
-        updateTask(props._id, newProps);
-      }
+      //update task here
     }
   }
 
@@ -48,20 +44,14 @@ const Task: React.FC<TaskProps> = (props) => {
       if (newCount != 0) {
         setCounter(newCount);
       }
-      const newProps = { timers: newCount };
-      if (props._id != undefined) {
-        updateTask(props._id, newProps);
-      }
+      //update task here
     }
   }
 
   function noteButton() {
     if (isNoteReadOnly == false) {
       setIsNoteReadOnly(true);
-      const newProps = { notes: userNote };
-      if (props._id != undefined) {
-        updateTask(props._id, newProps);
-      }
+      //update task here
     } else {
       setIsNoteReadOnly(false);
     }

@@ -54,6 +54,7 @@ export async function getTasksByDateService(
   }
 }
 
+/*
 export async function updateTask(id: string, task: TaskProps) {
   const taskId = id;
   const url = `${coreConfig.apiBaseUrl}/task/update/${taskId}`;
@@ -74,3 +75,4 @@ export async function updateTask(id: string, task: TaskProps) {
       console.error('Error:', error);
     });
 }
+*/

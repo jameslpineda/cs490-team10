@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { TaskProps } from '../interfaces/taskInterface';
-import { updateTask } from '../services/taskServices';
 
 const IconCycleComponent: React.FC<TaskProps> = (props) => {
   const [clickCount, setClickCount] = useState<number>(0);
@@ -17,12 +16,12 @@ const IconCycleComponent: React.FC<TaskProps> = (props) => {
 
     const newStatus = statusMapping[newClickCount];
 
+    // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
     const newProps: TaskProps = {
       status: newStatus,
     };
-    if (props._id != undefined) {
-      updateTask(props._id, newProps);
-    }
+
+    // call update endpoint here w the newstatus
   };
 
   const statusMapping: { [key: number]: string } = {
