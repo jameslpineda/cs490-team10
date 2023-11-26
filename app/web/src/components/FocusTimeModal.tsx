@@ -87,6 +87,7 @@ const FocusTimeModal: React.FC<focusTimeInterface> = (focusTimeProps) => {
             <button
               className=""
               onClick={closeFocus}
+              data-testid="closeButton"
             >
               <svg
                 width="24"
