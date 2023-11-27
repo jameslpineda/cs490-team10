@@ -129,7 +129,7 @@ export const signIn = asyncHandler(async (req, res) => {
     httpOnly: true,
     secure: true, // secure: true - only serves on https
     sameSite: 'none',
-    maxAge: 30 * 1000, // 60,000 milliseconds
+    maxAge: 60 * 60 * 1000, // 1 hour
   });
 
   // Save refresh token to User
@@ -226,9 +226,9 @@ export const update = asyncHandler(async (req: AuthRequest, res: Response) => {
   const data: UserInterface = {};
 
   // If new password in request body
-  if (req.body.new_password) {
+  if ('new_password' in req.body) {
     // First check that they provide a current password
-    if (!req.body.current_password) {
+    if (!('current_password' in req.body)) {
       res.status(400);
       throw new Error('Current password is required');
     }
@@ -242,7 +242,7 @@ export const update = asyncHandler(async (req: AuthRequest, res: Response) => {
       !(await bcrypt.compare(req.body.current_password, user.password!))
     ) {
       res.status(401);
-      throw new Error('Current password is incorrect');
+      throw new Error('Current Password is incorrect');
     }
 
     // Encrypt and add new password to update field
@@ -251,19 +251,19 @@ export const update = asyncHandler(async (req: AuthRequest, res: Response) => {
   }
 
   // Add parameters to be updated
-  if (req.body.first_name) {
+  if ('first_name' in req.body) {
     data.first_name = req.body.first_name;
   }
-  if (req.body.last_name) {
+  if ('last_name' in req.body) {
     data.last_name = req.body.last_name;
   }
-  if (req.body.pomodoro) {
+  if ('pomodoro' in req.body) {
     data.pomodoro = req.body.pomodoro;
   }
-  if (req.body.short_break) {
+  if ('short_break' in req.body) {
     data.short_break = req.body.short_break;
   }
-  if (req.body.long_break) {
+  if ('long_break' in req.body) {
     data.long_break = req.body.long_break;
   }
 

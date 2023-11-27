@@ -3,8 +3,8 @@ import bcrypt from 'bcrypt';
 import { ObjectId } from 'mongodb';
 import { jwtConfig } from '../utils/config';
 
-const ACCESS_TOKEN_EXP_TIME = '15s';
-const REFRESH_TOKEN_EXP_TIME = '30s';
+const ACCESS_TOKEN_EXP_TIME = '15m';
+const REFRESH_TOKEN_EXP_TIME = '60m';
 
 // Function to hash a password using bcrypt
 export const hashPassword = async (password: string) => {
