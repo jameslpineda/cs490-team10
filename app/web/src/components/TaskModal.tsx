@@ -2,8 +2,12 @@ import React, { useState } from 'react';
 import { taskModalProps, TaskProps } from '../interfaces/taskInterface';
 import { defaultTaskPropsValues } from '../interfaces/taskInterface';
 
+import { useCreateTaskMutation } from '../features/tasks/tasksApiSlice';
+
 const TaskModal: React.FC<taskModalProps> = (props) => {
   const [taskData, setTaskData] = useState<TaskProps>(defaultTaskPropsValues);
+
+  const [createTask] = useCreateTaskMutation();
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -25,7 +29,14 @@ const TaskModal: React.FC<taskModalProps> = (props) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    props.onSubmit(taskData);
+    createTask({
+      name: taskData.name,
+      notes: taskData.notes,
+      status: taskData.status,
+      priority: taskData.priority,
+      timers: taskData.timers,
+      date: props.date.format('YYYY-MM-DD'),
+    });
     props.onClose();
   };
 

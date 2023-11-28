@@ -10,10 +10,8 @@ export const createTaskValidation = (data: TaskInterface) => {
       .valid('Top Priority', 'Important', 'Other')
       .required(),
     timers: Joi.number().min(1).required(),
-    date: Joi.date().required(),
-    user_id: Joi.string().required(),
-    _id: Joi.string().allow(''),
     completed_timers: Joi.number().min(0),
+    date: Joi.date().required(),
   });
 
   return schema.validate(data);

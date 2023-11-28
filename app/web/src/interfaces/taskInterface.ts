@@ -1,3 +1,5 @@
+import { Moment } from 'moment';
+
 export const defaultTaskPropsValues = {
   _id: undefined,
   user_id: '',
@@ -22,4 +24,9 @@ export interface taskModalProps {
   onClose: () => void;
   // eslint-disable-next-line no-unused-vars
   onSubmit: (taskData: TaskProps) => void;
+  date: Moment;
+}
+
+export interface TaskCardProps {
+  tasks: TaskProps[];
 }
