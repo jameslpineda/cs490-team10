@@ -8,22 +8,20 @@ import { Home } from './pages/home';
 import Settings from './pages/settings';
 import SignInPage from './pages/signIn';
 import SignUpPage from './pages/signUp';
+import RequireAuth from './features/auth/RequireAuth';
 
 function App() {
   return (
     <>
       <Routes>
-        <Route
-          path="/"
-          element={<SignInPage />}
-        />
-        <Route
-          path="/home"
-          element={<Home />}
-        />
+        {/* public routes */}
         <Route
           path="/signUp"
           element={<SignUpPage />}
+        />
+        <Route
+          path="/"
+          element={<SignInPage />}
         />
         <Route
           path="/forgot-password"
@@ -33,10 +31,18 @@ function App() {
           path="/reset-password/:id/:token"
           element={<ResetPassword />}
         />
-        <Route
-          path="/settings"
-          element={<Settings />}
-        />
+
+        {/* private routes */}
+        <Route element={<RequireAuth />}>
+          <Route
+            path="/home"
+            element={<Home />}
+          />
+          <Route
+            path="/settings"
+            element={<Settings />}
+          />
+        </Route>
       </Routes>
       <ToastContainer
         position="top-right"

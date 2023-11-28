@@ -1,35 +1,39 @@
 import React, { useEffect } from 'react';
 import crushItLogo from '../images/crush_it_logo.png';
-import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { logout, reset } from '../features/auth/authSlice';
-import useAppDispatch from '../features/auth/hooks/useAppDispatch';
+import { useNavigate, Link } from 'react-router-dom';
+
+import { useSendSignOutMutation } from '../features/auth/authApiSlice';
+import { toast } from 'react-toastify';
 
 const SideBar: React.FC = () => {
   const navigate = useNavigate();
 
-  const dispatch = useAppDispatch();
-  const routeLogout = () => {
-    dispatch(logout());
-    dispatch(reset());
-    navigate('../');
-  };
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { user } = useSelector((state: any) => state.auth);
+  /* eslint-disable */
+  const [sendSignOut, { isLoading, isSuccess, isError, error }] =
+    useSendSignOutMutation();
+  /* eslint-enable */
 
   useEffect(() => {
-    if (!user) {
-      navigate('../');
+    if (isSuccess) {
+      navigate('/');
     }
-  }, [user, navigate]);
+
+    if (isError && error) {
+      toast.error('An error occurred when signing out', { autoClose: 7000 });
+      console.log(error);
+    }
+  }, [isSuccess, isError, error, navigate]);
+
+  const onSignOutClick = () => sendSignOut();
 
   return (
     <div className="flex flex-col h-screen bg-gray-900">
       <div className="h-5/6">
-        <h2 className="text-2xl text-white pt-10 font-semibold text-center">
-          Crush It
-        </h2>
+        <Link to="/home">
+          <h2 className="text-2xl text-white pt-10 font-semibold text-center">
+            Crush It
+          </h2>
+        </Link>
         <div className="flex justify-center py-4">
           <hr className="border-gray-600 w-2/3"></hr>
         </div>
@@ -58,9 +62,9 @@ const SideBar: React.FC = () => {
       </div>
       <div className="h-1/6 flex-grow flex justify-center items-center">
         <button
-          onClick={routeLogout}
           className="flex shadow-lg w-25 text-white border border-white bg-gray-900 hover:bg-red-500 text-sm py-1 px-4 rounded-md"
           type="button"
+          onClick={onSignOutClick}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

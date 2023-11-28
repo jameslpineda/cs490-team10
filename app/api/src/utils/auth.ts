@@ -1,10 +1,10 @@
+import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { ObjectId } from 'mongodb';
-import jwt from 'jsonwebtoken';
 import { jwtConfig } from '../utils/config';
-import { DecodedToken } from '../interfaces/authInterface';
 
-const TOKEN_EXP_TIME = '1d';
+const ACCESS_TOKEN_EXP_TIME = '15m';
+const REFRESH_TOKEN_EXP_TIME = '60m';
 
 // Function to hash a password using bcrypt
 export const hashPassword = async (password: string) => {
@@ -13,18 +13,26 @@ export const hashPassword = async (password: string) => {
 };
 
 // Create a JWT token
-export const generateJwtToken = (_id: ObjectId) => {
+export const generateAccessToken = (_id: ObjectId) => {
   try {
-    return jwt.sign({ _id }, jwtConfig.secret!, { expiresIn: TOKEN_EXP_TIME });
+    const accessToken = jwt.sign({ _id }, jwtConfig.access_token_secret!, {
+      expiresIn: ACCESS_TOKEN_EXP_TIME,
+    });
+
+    return accessToken;
   } catch (error) {
     return null;
   }
 };
 
-// Helper function return 403 code on verification error
-export const verifyJwtToken = (token: string) => {
+// Create a JWT token
+export const generateRefreshToken = (_id: ObjectId) => {
   try {
-    return jwt.verify(token, jwtConfig.secret!) as DecodedToken;
+    const token = jwt.sign({ _id }, jwtConfig.refresh_token_secret!, {
+      expiresIn: REFRESH_TOKEN_EXP_TIME,
+    });
+
+    return token;
   } catch (error) {
     return null;
   }

@@ -22,7 +22,8 @@ const {
   NODE_ENV,
   REST_API_URL,
   FRONTEND_BASE_URL,
-  JWT_SECRET,
+  ACCESS_TOKEN_SECRET,
+  REFRESH_TOKEN_SECRET,
 } = process.env;
 
 export const coreConfig = {
@@ -55,11 +56,14 @@ export const nodemailerConfig = {
   },
 };
 
+export const allowedOrigins = ['http://localhost:3000'];
+
 export const corsConfig = {
-  origin: ['http://localhost:3000'],
-  credentials: true,
+  origin: allowedOrigins,
+  // credentials: true,
 };
 
 export const jwtConfig = {
-  secret: JWT_SECRET,
+  access_token_secret: ACCESS_TOKEN_SECRET,
+  refresh_token_secret: REFRESH_TOKEN_SECRET,
 };

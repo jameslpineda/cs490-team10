@@ -1,8 +1,11 @@
 import { Response, Request } from 'express';
 import bcrypt from 'bcrypt';
 import { sendVerificationEmail } from '../utils/sendVerificationEmail';
-import { AuthRequestInterface as AuthRequest } from '../interfaces/authInterface';
-import { generateJwtToken } from '../utils/auth';
+import {
+  AuthRequestInterface as AuthRequest,
+  DecodedToken,
+} from '../interfaces/authInterface';
+import { generateAccessToken, generateRefreshToken } from '../utils/auth';
 import { getUser, updateUser, createUser } from '../services/userService';
 import { randomUUID } from 'crypto';
 import { coreConfig } from '../utils/config';
@@ -18,6 +21,8 @@ import {
 } from '../validations/userValidation';
 import { UserInterface } from '../interfaces/userInterface';
 import asyncHandler from 'express-async-handler';
+import jwt, { VerifyErrors } from 'jsonwebtoken';
+import { jwtConfig } from '../utils/config';
 
 const RESET_TIME = 300000; // 5 minutes = 300000 milliseconds
 
@@ -56,7 +61,7 @@ export const signUp = asyncHandler(async (req, res) => {
   const userExists = await getUser({ email });
   if (userExists) {
     res.status(409);
-    throw new Error('Email/username already exists.');
+    throw new Error('Email/username already exists');
   }
 
   const verificationToken = randomUUID();
@@ -71,7 +76,7 @@ export const signUp = asyncHandler(async (req, res) => {
     verification_token: verificationToken,
   });
   if (!user) {
-    throw new Error('Failed to create new user.');
+    throw new Error('Failed to create new user');
   }
 
   // Send verification email
@@ -79,7 +84,7 @@ export const signUp = asyncHandler(async (req, res) => {
 
   res.status(201).json({
     email: user.email,
-    message: 'User registered and verification email sent.',
+    message: 'User registered and verification email sent',
   });
 });
 
@@ -100,29 +105,90 @@ export const signIn = asyncHandler(async (req, res) => {
   // If the user is not found or the password is incorrect
   if (!user || !(await bcrypt.compare(password, user.password))) {
     res.status(401);
-    throw new Error('Invalid email or password.');
+    throw new Error('Invalid email or password');
   }
 
   // Check if user is verified
   if (!user.is_verified) {
     res.status(401);
-    throw new Error('User is not yet verified.');
+    throw new Error('User is not yet verified');
   }
 
-  // Generate JWT Token
-  const token = generateJwtToken(user._id);
-  if (!token) {
-    throw new Error('Failed to create JWT Token');
+  // Generate Access Token
+  const accessToken = generateAccessToken(user._id);
+  if (!accessToken) {
+    throw new Error('Failed to create Access Token');
+  }
+  // Generate Refresh Token
+  const refreshToken = generateRefreshToken(user._id);
+  if (!refreshToken) {
+    throw new Error('Failed to create Refresh Token');
+  }
+
+  res.cookie('jwt', refreshToken, {
+    httpOnly: true,
+    secure: true, // secure: true - only serves on https
+    sameSite: 'none',
+    maxAge: 60 * 60 * 1000, // 1 hour
+  });
+
+  // Save refresh token to User
+  const updatedUser = await updateUser(
+    { _id: user._id },
+    { refresh_token: refreshToken },
+  );
+
+  // If the update failed
+  if (!updatedUser) {
+    throw new Error('Failed to update user');
   }
 
   // Send the token in the response
   res.status(200).json({
-    _id: user._id,
-    first_name: user.first_name,
-    last_name: user.last_name,
-    email,
-    token,
+    accessToken,
+    user: {
+      email: user.email,
+      first_name: user.first_name,
+      last_name: user.last_name,
+      pomodoro: user.pomodoro,
+      short_break: user.short_break,
+      long_break: user.long_break,
+    },
   });
+});
+
+// @desc Signs out a user
+// @route POST /user/sign-out
+// @access Public
+export const signOut = asyncHandler(async (req, res) => {
+  const cookies = req.cookies;
+  if (!cookies?.jwt) {
+    res.sendStatus(204);
+  }
+  const refreshToken = cookies.jwt;
+
+  // Find the user by email
+  const user = await getUser({ refresh_token: refreshToken });
+  if (!user) {
+    res.clearCookie('jwt', { httpOnly: true });
+    res.sendStatus(204);
+  }
+
+  // Delete refresh token in db
+  // Save refresh token to User
+  const updatedUser = await updateUser(
+    { _id: user!._id },
+    { refresh_token: '' },
+  );
+
+  // If the update failed
+  if (!updatedUser) {
+    throw new Error('Failed to update user.');
+  }
+
+  res.clearCookie('jwt', { httpOnly: true, secure: true, sameSite: 'none' });
+
+  res.status(200).json({ message: 'Successfully signed out' });
 });
 
 // @desc Verifies a registered user
@@ -160,11 +226,11 @@ export const update = asyncHandler(async (req: AuthRequest, res: Response) => {
   const data: UserInterface = {};
 
   // If new password in request body
-  if (req.body.new_password) {
+  if ('new_password' in req.body) {
     // First check that they provide a current password
-    if (!req.body.current_password) {
+    if (!('current_password' in req.body)) {
       res.status(400);
-      throw new Error('Current password is required.');
+      throw new Error('Current password is required');
     }
 
     // Find the user by email
@@ -176,7 +242,7 @@ export const update = asyncHandler(async (req: AuthRequest, res: Response) => {
       !(await bcrypt.compare(req.body.current_password, user.password!))
     ) {
       res.status(401);
-      throw new Error('Current password is incorrect.');
+      throw new Error('Current Password is incorrect');
     }
 
     // Encrypt and add new password to update field
@@ -185,19 +251,19 @@ export const update = asyncHandler(async (req: AuthRequest, res: Response) => {
   }
 
   // Add parameters to be updated
-  if (req.body.first_name) {
+  if ('first_name' in req.body) {
     data.first_name = req.body.first_name;
   }
-  if (req.body.last_name) {
+  if ('last_name' in req.body) {
     data.last_name = req.body.last_name;
   }
-  if (req.body.pomodoro) {
+  if ('pomodoro' in req.body) {
     data.pomodoro = req.body.pomodoro;
   }
-  if (req.body.short_break) {
+  if ('short_break' in req.body) {
     data.short_break = req.body.short_break;
   }
-  if (req.body.long_break) {
+  if ('long_break' in req.body) {
     data.long_break = req.body.long_break;
   }
 
@@ -206,11 +272,19 @@ export const update = asyncHandler(async (req: AuthRequest, res: Response) => {
 
   // If the update failed
   if (!updatedUser) {
-    throw new Error('Failed to update user.');
+    throw new Error('Failed to update user');
   }
 
   res.status(200).json({
     message: 'Successfully updated values',
+    user: {
+      email: updatedUser.email,
+      first_name: updatedUser.first_name,
+      last_name: updatedUser.last_name,
+      pomodoro: updatedUser.pomodoro,
+      short_break: updatedUser.short_break,
+      long_break: updatedUser.long_break,
+    },
     updatedValues: Object.keys(data),
   });
 });
@@ -241,7 +315,7 @@ export const forgotPassword = asyncHandler(
       // If the user exists, update their reset information
       const updatedUser = await updateUser({ _id: user._id }, data);
       if (!updatedUser) {
-        throw new Error('Failed to update user with reset information.');
+        throw new Error('Failed to update user with reset information');
       }
 
       // Create a reset URL and email template
@@ -307,3 +381,43 @@ export const resetPassword = asyncHandler(
     res.json({ message: 'Successfully, updated the password' });
   },
 );
+
+// @desc Refreshes the authentication token
+// @route POST /user/refresh-token
+// @access Public
+export const refreshToken = asyncHandler(async (req, res) => {
+  const cookies = req.cookies;
+  if (!cookies?.jwt) {
+    res.status(401);
+    throw new Error('Not authorized, no refresh token');
+  }
+
+  const refreshToken = cookies.jwt;
+
+  // Find the user by refreshToken
+  const user = await getUser({ refresh_token: refreshToken });
+  if (!user) {
+    res.status(403);
+    throw new Error('Forbidden, invalid refresh token');
+  }
+  const user_id = user._id.toString();
+
+  jwt.verify(
+    refreshToken,
+    jwtConfig.refresh_token_secret!,
+    (err: VerifyErrors | null, decoded: string | object | undefined) => {
+      const decodedToken = decoded as DecodedToken;
+      if (err || user_id !== decodedToken._id.toString()) {
+        res.status(403);
+        throw new Error('Not authorized, invalid refresh token');
+      }
+
+      // Generate Access Token
+      const accessToken = generateAccessToken(user._id);
+      if (!accessToken) {
+        throw new Error('Failed to create Access Token');
+      }
+      res.status(200).json({ accessToken });
+    },
+  );
+});

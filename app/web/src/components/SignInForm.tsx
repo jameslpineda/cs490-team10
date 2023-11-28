@@ -1,70 +1,76 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { login, reset } from '../features/auth/authSlice';
-import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import Spinner from '../components/Spinner';
-import useAppDispatch from '../features/auth/hooks/useAppDispatch';
+import { useNavigate } from 'react-router-dom';
+
+import { ReactComponent as EyeIcon } from '../assets/eye.svg';
+import { ReactComponent as EyeSlashIcon } from '../assets/eye-slash.svg';
+
+import { useDispatch } from 'react-redux';
+import { setCredentials } from '../features/auth/authSlice';
+import { useSignInMutation } from '../features/auth/authApiSlice';
 
 const SignInForm: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
   const [showPassword, setShowPassword] = useState(false);
 
+  const [signIn, { isLoading }] = useSignInMutation();
+
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
-
-  const { user, isLoading, isError, isSuccess, message } = useSelector(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (state: any) => state.auth,
-  );
-
-  useEffect(() => {
-    if (isError) {
-      toast.error(message, {
-        position: toast.POSITION.TOP_RIGHT,
-        autoClose: 7000,
-      });
-    }
-
-    if (user) {
-      if (message) {
-        toast.success(message, {
-          position: toast.POSITION.TOP_RIGHT,
-          autoClose: 7000,
-        });
-      }
-      navigate('/home');
-      dispatch(reset());
-    }
-
-    dispatch(reset());
-  }, [user, isError, isSuccess, message, dispatch, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const email = document.getElementById('email') as HTMLInputElement;
+
     const r = /^[\w+-]+@[\w-]+\.[\w-]+$/;
 
-    if (!r.test(email.value)) {
+    if (email.length === 0 || password.length === 0) {
+      toast.error('Email and password are required', {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 7000,
+      });
+    } else if (!r.test(email)) {
       toast.error('Invalid Email', { autoClose: 7000 });
     } else {
-      const userData = {
-        email: email.value,
-        password,
-      };
+      try {
+        const { accessToken, user } = await signIn({
+          email,
+          password,
+        }).unwrap();
+        dispatch(setCredentials({ accessToken, user }));
 
-      dispatch(login(userData));
+        toast.success('Successful sign in!', {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 7000,
+        });
+
+        setEmail('');
+        setPassword('');
+        navigate('/home');
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (err: any) {
+        if (err.data.message) {
+          toast.error(err.data.message, {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 7000,
+          });
+        } else {
+          toast.error('An unexpected error has occurred', {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 7000,
+          });
+        }
+      }
     }
   };
-
-  if (isLoading) return <Spinner />;
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+
+  if (isLoading) return <Spinner />;
 
   return (
     <div className="bg-white rounded-lg p-8 h-full flex flex-col justify-between">
@@ -97,7 +103,6 @@ const SignInForm: React.FC = () => {
               className="w-full p-2 border border-gray-300 rounded-xl focus:outline-none focus:border-blue-500"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              required
             />
           </div>
           <div className="mb-4 relative">
@@ -127,48 +132,13 @@ const SignInForm: React.FC = () => {
               className="w-full p-2 border border-gray-300 rounded-xl focus:outline-none focus:border-blue-500"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              required
+              autoComplete="current-password"
             />
             <span
               onClick={togglePasswordVisibility}
               className="absolute bottom-0 right-10 transform -translate-y-1/3 cursor-pointer -mr-8"
             >
-              {showPassword ? (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="gray"
-                  className="w-6 h-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88"
-                  />
-                </svg>
-              ) : (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="gray"
-                  className="w-6 h-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"
-                  />
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                  />
-                </svg>
-              )}
+              {showPassword ? <EyeSlashIcon /> : <EyeIcon />}
             </span>
           </div>
           <div className="flex justify-center">
