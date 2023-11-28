@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import IconCycleComponent from './IconCycleComponent';
 import { TaskProps } from '../interfaces/taskInterface';
+import FocusTimeModal from './FocusTimeModal';
 
 const Task: React.FC<TaskProps> = (props) => {
   const [extend, setExtend] = useState(false);
   const [count, setCounter] = useState(props.timers);
   const [userNote, setNote] = useState(props.notes);
   const [isNoteReadOnly, setIsNoteReadOnly] = useState(true);
+  const [editPomo, setEditPomo] = useState(false);
+  const [focusTime, showFocusTime] = useState(false);
 
   function pomoButtons() {
     const dec = document.getElementById('pomoDec') as HTMLElement;
@@ -25,7 +28,7 @@ const Task: React.FC<TaskProps> = (props) => {
         element.style.display = 'block';
       }
     }
-
+    setEditPomo(!editPomo);
     toggleDisplay(dec);
     toggleDisplay(inc);
   }
@@ -46,14 +49,29 @@ const Task: React.FC<TaskProps> = (props) => {
     setIsNoteReadOnly((prevIsNoteReadOnly) => !prevIsNoteReadOnly);
   }
 
+  const openFocus = () => {
+    showFocusTime(true);
+  };
+
   return (
     <div className="border bg-white px-3 py-2 mb-1 rounded-xl">
       <div className="flex pb-0.5">
         <IconCycleComponent />
-        <h3 className="pl-1 text-lg text-indigo-400 font-bold">{props.name}</h3>
+        <button onClick={openFocus}>
+          <h3 className="pl-1 text-lg text-indigo-400 font-semibold">
+            {props.name}
+          </h3>
+        </button>
+        {focusTime && (
+          <FocusTimeModal
+            showFocusTime={showFocusTime}
+            props={props}
+            setNote={setNote}
+          />
+        )}
         <div className="ml-auto flex">
           <svg
-            className="pt-1.5"
+            className="pt-2"
             width="22"
             height="22"
             viewBox="0 0 20 20"
@@ -105,7 +123,7 @@ const Task: React.FC<TaskProps> = (props) => {
               >
                 <svg
                   id="pomoDec"
-                  className="pr-1 block"
+                  className="pr-1 hidden"
                   width="20"
                   height="20"
                   viewBox="0 0 20 20"
@@ -136,7 +154,7 @@ const Task: React.FC<TaskProps> = (props) => {
               >
                 <svg
                   id="pomoInc"
-                  className="pl-1 block"
+                  className="pl-1 hidden"
                   width="20"
                   height="20"
                   viewBox="0 0 20 20"
@@ -172,6 +190,66 @@ const Task: React.FC<TaskProps> = (props) => {
                   pomoButtons();
                 }}
               >
+                {editPomo ? (
+                  <div className="border border-indigo-400 rounded-sm">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="12"
+                      height="12"
+                      className="text-indigo-400"
+                      style={{ fill: 'currentColor' }}
+                      viewBox="0 0 24 24"
+                    >
+                      <path d="M0 11c2.761.575 6.312 1.688 9 3.438 3.157-4.23 8.828-8.187 15-11.438-5.861 5.775-10.711 12.328-14 18.917-2.651-3.766-5.547-7.271-10-10.917z" />
+                    </svg>
+                  </div>
+                ) : (
+                  <svg
+                    className="pl-1"
+                    width="18"
+                    height="18"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M8.83994 2.39997L3.36661 8.1933C3.15994 8.4133 2.95994 8.84664 2.91994 9.14664L2.67328 11.3066C2.58661 12.0866 3.14661 12.62 3.91994 12.4866L6.06661 12.12C6.36661 12.0666 6.78661 11.8466 6.99327 11.62L12.4666 5.82664C13.4133 4.82664 13.8399 3.68664 12.3666 2.2933C10.8999 0.913305 9.78661 1.39997 8.83994 2.39997Z"
+                      stroke="#6284FF"
+                      strokeWidth="1.2"
+                      strokeMiterlimit="10"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M7.92664 3.36667C8.2133 5.20667 9.70664 6.61334 11.56 6.8"
+                      stroke="#6284FF"
+                      strokeWidth="1.2"
+                      strokeMiterlimit="10"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M2 14.6667H14"
+                      stroke="#6284FF"
+                      strokeWidth="1.2"
+                      strokeMiterlimit="10"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                )}
+              </button>
+            </p>
+          </div>
+          <div className="flex">
+            <p className="text-sm text-gray-600">Note:</p>
+            <button
+              className="ml-auto"
+              onClick={() => {
+                noteButton();
+              }}
+            >
+              {isNoteReadOnly ? (
                 <svg
                   className="pl-1"
                   width="18"
@@ -205,50 +283,20 @@ const Task: React.FC<TaskProps> = (props) => {
                     strokeLinejoin="round"
                   />
                 </svg>
-              </button>
-            </p>
-          </div>
-          <div className="flex">
-            <p className="text-sm text-gray-600">Note:</p>
-            <button
-              className="ml-auto"
-              onClick={() => {
-                noteButton();
-              }}
-            >
-              <svg
-                className="pl-1"
-                width="18"
-                height="18"
-                viewBox="0 0 16 16"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M8.83994 2.39997L3.36661 8.1933C3.15994 8.4133 2.95994 8.84664 2.91994 9.14664L2.67328 11.3066C2.58661 12.0866 3.14661 12.62 3.91994 12.4866L6.06661 12.12C6.36661 12.0666 6.78661 11.8466 6.99327 11.62L12.4666 5.82664C13.4133 4.82664 13.8399 3.68664 12.3666 2.2933C10.8999 0.913305 9.78661 1.39997 8.83994 2.39997Z"
-                  stroke="#6284FF"
-                  strokeWidth="1.2"
-                  strokeMiterlimit="10"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M7.92664 3.36667C8.2133 5.20667 9.70664 6.61334 11.56 6.8"
-                  stroke="#6284FF"
-                  strokeWidth="1.2"
-                  strokeMiterlimit="10"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M2 14.6667H14"
-                  stroke="#6284FF"
-                  strokeWidth="1.2"
-                  strokeMiterlimit="10"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
+              ) : (
+                <div className="border border-indigo-400 rounded-sm">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="12"
+                    height="12"
+                    className="text-indigo-400"
+                    style={{ fill: 'currentColor' }}
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M0 11c2.761.575 6.312 1.688 9 3.438 3.157-4.23 8.828-8.187 15-11.438-5.861 5.775-10.711 12.328-14 18.917-2.651-3.766-5.547-7.271-10-10.917z" />
+                  </svg>
+                </div>
+              )}
             </button>
           </div>
           <textarea
