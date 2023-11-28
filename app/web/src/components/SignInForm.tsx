@@ -15,15 +15,15 @@ const SignInForm: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const navigate = useNavigate();
 
   const [signIn, { isLoading }] = useSignInMutation();
+
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const emailInput = document.getElementById('email') as HTMLInputElement;
-    const email = emailInput.value;
+
     const r = /^[\w+-]+@[\w-]+\.[\w-]+$/;
 
     if (email.length === 0 || password.length === 0) {

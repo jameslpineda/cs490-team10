@@ -140,7 +140,7 @@ export const signIn = asyncHandler(async (req, res) => {
 
   // If the update failed
   if (!updatedUser) {
-    throw new Error('Failed to update user.');
+    throw new Error('Failed to update user');
   }
 
   // Send the token in the response
