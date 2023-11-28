@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import SideBar from '../components/SideBar';
 import { useSelector } from 'react-redux';
@@ -11,6 +10,13 @@ import { selectCurrentUser } from '../features/auth/authSlice';
 
 import { ReactComponent as EyeIcon } from '../assets/eye.svg';
 import { ReactComponent as EyeSlashIcon } from '../assets/eye-slash.svg';
+
+import {
+  validateName,
+  validatePassword,
+  validateTimer,
+  displayValidationError,
+} from '../utils/validation';
 
 const Settings: React.FC = () => {
   const userInfo = useSelector(selectCurrentUser);
@@ -37,30 +43,6 @@ const Settings: React.FC = () => {
   const navigate = useNavigate();
   const routeHome = () => {
     navigate('/home');
-  };
-
-  const validateName = (value: string) => {
-    // Regex pattern for a valid name (alpha)
-    const regex = /^[a-zA-Z ]*$/;
-    return regex.test(value);
-  };
-  const validatePassword = (value: string) => {
-    // Regex pattern for a valid timer (numeric 1+)
-    const regex =
-      /^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[@$!%*#?&])[A-Za-z0-9@$!%*#?&]{8,}$/;
-    return regex.test(value);
-  };
-  const validateTimer = (value: string) => {
-    // Regex pattern for a valid timer (numeric 1+)
-    const regex = /^[1-9]\d*$/;
-    return regex.test(value);
-  };
-
-  const displayValidationError = (message: string) => {
-    toast.error(message, {
-      position: toast.POSITION.TOP_CENTER,
-      autoClose: 5000,
-    });
   };
 
   const togglePasswordVisibility = () => {
@@ -126,64 +108,6 @@ const Settings: React.FC = () => {
       }
     }
   };
-  //   //   if (storedUser) {
-  //   //     const userObject = JSON.parse(storedUser);
-  //   //     const token = userObject.token;
-
-  //   //     try {
-  //   //       const response = await fetch(`${coreConfig.apiBaseUrl}/user/update`, {
-  //   //         method: 'POST',
-  //   //         headers: {
-  //   //           'Content-Type': 'application/json',
-  //   //           Authorization: `Bearer ${token}`,
-  //   //         },
-  //   //         body: JSON.stringify({
-  //   //           first_name: firstName,
-  //   //           last_name: lastName,
-  //   //           pomodoro: pomoTimer,
-  //   //           short_break: shortBreak,
-  //   //           long_break: longBreak,
-  //   //         }),
-  //   //       });
-  //   //       if (!response.ok) {
-  //   //         toast.error('Server Error', {
-  //   //           position: toast.POSITION.TOP_CENTER,
-  //   //           autoClose: 5000,
-  //   //         });
-  //   //         throw new Error(`HTTP error! Status: ${response.status}`);
-  //   //       } else {
-  //   //         toast.success('Settings Updated', {
-  //   //           position: toast.POSITION.TOP_CENTER,
-  //   //           autoClose: 5000,
-  //   //         });
-  //   //       }
-  //   //     } catch (error) {
-  //   //       console.error('Error updating user settings:', error);
-  //   //       toast.error('Unable to find User', {
-  //   //         position: toast.POSITION.TOP_CENTER,
-  //   //         autoClose: 5000,
-  //   //       });
-  //   //     }
-  //   //   }
-  //   // } else {
-  //   //   if (r.test(newPassword.value)) {
-  //   //     if (newPassword.value === confirmNewPassword.value) {
-  //   //       const storedUser = localStorage.getItem('user');
-  //   //       console.log(storedUser);
-  //   //     } else {
-  //   //       toast.error("Password confirmation doesn't match", {
-  //   //         position: toast.POSITION.TOP_CENTER,
-  //   //         autoClose: 5000,
-  //   //       });
-  //   //     }
-  //   //   } else {
-  //   //     toast.error("New password doesn't fit criteria", {
-  //   //       position: toast.POSITION.TOP_CENTER,
-  //   //       autoClose: 5000,
-  //   //     });
-  //   //   }
-  //   // }
-  // };
 
   const content = (
     <div className="w-5/6">

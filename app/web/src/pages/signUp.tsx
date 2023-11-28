@@ -1,6 +1,6 @@
 import React from 'react';
 import SignUpForm from '../components/SignUpForm';
-import crushItLogo from '../images/crush_it_logo.png';
+import crushItLogo from '../assets/images/crush_it_logo.png';
 
 const SignUpPage: React.FC = () => {
   return (

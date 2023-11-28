@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { toast } from 'react-toastify';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { useCreateUserMutation } from '../features/user/userApiSlice';
 
 import { ReactComponent as EyeIcon } from '../assets/eye.svg';
 import { ReactComponent as EyeSlashIcon } from '../assets/eye-slash.svg';
+
+import {
+  validateEmail,
+  validatePassword,
+  displayValidationError,
+} from '../utils/validation';
 
 const SignUpForm: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -24,25 +29,6 @@ const SignUpForm: React.FC = () => {
       navigate('/');
     }
   }, [isSuccess, navigate]);
-
-  const validateEmail = (value: string) => {
-    // Regex pattern for a valid email
-    const regex = /^[\w+-]+@[\w-]+\.[\w-]+$/;
-    return regex.test(value);
-  };
-  const validatePassword = (value: string) => {
-    // Regex pattern for a valid timer (numeric 1+)
-    const regex =
-      /^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[@$!%*#?&])[A-Za-z0-9@$!%*#?&]{8,}$/;
-    return regex.test(value);
-  };
-
-  const displayValidationError = (message: string) => {
-    toast.error(message, {
-      position: toast.POSITION.TOP_RIGHT,
-      autoClose: 7000,
-    });
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
