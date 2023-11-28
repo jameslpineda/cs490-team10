@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import crushItLogo from '../images/crush_it_logo.png';
+import crushItLogo from '../assets/images/crush_it_logo.png';
 import { useNavigate, Link } from 'react-router-dom';
 
 import { useSendSignOutMutation } from '../features/auth/authApiSlice';

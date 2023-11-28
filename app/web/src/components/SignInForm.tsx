@@ -11,6 +11,8 @@ import { useDispatch } from 'react-redux';
 import { setCredentials } from '../features/auth/authSlice';
 import { useSignInMutation } from '../features/auth/authApiSlice';
 
+import { validateEmail, displayValidationError } from '../utils/validation';
+
 const SignInForm: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -24,15 +26,10 @@ const SignInForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const r = /^[\w+-]+@[\w-]+\.[\w-]+$/;
-
     if (email.length === 0 || password.length === 0) {
-      toast.error('Email and password are required', {
-        position: toast.POSITION.TOP_RIGHT,
-        autoClose: 7000,
-      });
-    } else if (!r.test(email)) {
-      toast.error('Invalid Email', { autoClose: 7000 });
+      displayValidationError('Email and password are required');
+    } else if (!validateEmail(email)) {
+      displayValidationError('Invalid Email');
     } else {
       try {
         const { accessToken, user } = await signIn({
