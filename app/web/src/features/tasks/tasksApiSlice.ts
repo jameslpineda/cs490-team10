@@ -4,9 +4,10 @@ import { toast } from 'react-toastify';
 type CreateTaskPayload = {
   name: string;
   notes: string;
-  status: string;
+  status?: string;
   priority: string;
   timers: number;
+  date: string;
 };
 type CreateTaskResponse = {
   message: string;
@@ -38,7 +39,7 @@ export const tasksApiSlice = apiSlice.injectEndpoints({
       }),
       providesTags: ['Tasks'],
     }),
-    createUser: builder.mutation<CreateTaskResponse, CreateTaskPayload>({
+    createTask: builder.mutation<CreateTaskResponse, CreateTaskPayload>({
       query: (payload) => ({
         url: '/task/create',
         method: 'POST',
@@ -83,6 +84,6 @@ export const tasksApiSlice = apiSlice.injectEndpoints({
 
 export const {
   useGetTasksQuery,
-  useCreateUserMutation,
+  useCreateTaskMutation,
   useUpdateTaskMutation,
 } = tasksApiSlice;

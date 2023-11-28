@@ -10,15 +10,28 @@ import { TaskProps } from '../interfaces/taskInterface';
 import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '../features/auth/authSlice';
 import { getUserID } from '../services/userServices';
-import {
-  postTaskService,
-  getTasksByDateService,
-} from '../services/taskServices';
+import Spinner from '../components/Spinner';
+
+import { useGetTasksQuery } from '../features/tasks/tasksApiSlice';
 
 export const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [tasks, setTasks] = useState<TaskProps[]>([]);
   const [date, setDate] = useState(moment());
+
+  const {
+    data: tasks,
+    isLoading,
+    isSuccess,
+  } = useGetTasksQuery(date.format('YYYY-MM-DD'));
+
+  let content = <TaskList tasks={[]} />;
+
+  if (isLoading) {
+    content = <Spinner />;
+  } else if (isSuccess) {
+    console.log('Tasks: ', tasks);
+    content = <TaskList tasks={tasks} />;
+  }
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -29,10 +42,8 @@ export const Home = () => {
   };
 
   const addTask = (task: TaskProps) => {
-    setTasks((prevTasks) => [...prevTasks, task]);
     task.date = date.format('YYYY-MM-DD');
     task.user_id = getUserID();
-    postTaskService(task);
     closeModal();
   };
 
@@ -45,12 +56,6 @@ export const Home = () => {
     user.first_name || user.last_name
       ? `${user.first_name} ${user.last_name}`.trim()
       : user.email;
-
-  const refreshView = async (newDate: moment.Moment) => {
-    const newTasks = getTasksByDateService(newDate.format('YYYY-MM-DD'));
-    setTasks(await newTasks);
-    console.log(newTasks);
-  };
 
   const navigate = useNavigate();
   const routeSettings = () => {
@@ -82,7 +87,6 @@ export const Home = () => {
         </div>
         <div className="bg-gray-100">
           <DateBar
-            refreshView={refreshView}
             date={date}
             setDate={setDate}
             showMonth={showMonth}
@@ -147,10 +151,11 @@ export const Home = () => {
                 <TaskModal
                   onClose={closeModal}
                   onSubmit={addTask}
+                  date={date}
                 />
               )}
             </div>
-            <TaskList tasks={tasks} />
+            {content}
           </div>
           <div className="w-1/2 pl-4">
             <h2 className="text-2xl font-semibold pb-2">Appointment</h2>
