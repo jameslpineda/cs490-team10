@@ -5,7 +5,7 @@ import { BrowserRouter } from 'react-router-dom';
 import SignUpForm from '../../components/SignUpForm';
 import SignInForm from '../../components/SignInForm';
 import { Provider } from 'react-redux';
-import store from '../../app/store';
+import store from '../../features/auth/store';
 
 describe('Show/Hide Password Functionality', () => {
   it('toggles password visibility when the icon button is clicked', () => {

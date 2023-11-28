@@ -1,7 +1,10 @@
+/* eslint-disable no-undef */
 import React from 'react';
 import { render, fireEvent, waitFor, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import ForgotPassword from '../forgotPassword';
+import { Provider } from 'react-redux';
+import store from '../../features/auth/store';
 
 const mockedUsedNavigate = jest.fn();
 
@@ -11,14 +14,22 @@ jest.mock('react-router-dom', () => ({
 
 describe('ForgotPassword Component', () => {
   it('renders the ForgotPassword component', () => {
-    render(<ForgotPassword />);
+    render(
+      <Provider store={store}>
+        <ForgotPassword />
+      </Provider>,
+    );
 
     const title = screen.getByText('Forgot Password');
     expect(title).toBeInTheDocument();
   });
 
   it('submits the form with valid email', async () => {
-    render(<ForgotPassword/>);
+    render(
+      <Provider store={store}>
+        <ForgotPassword />
+      </Provider>,
+    );
 
     const emailInput = screen.getByPlaceholderText('Enter Your Email Address');
     fireEvent.change(emailInput, { target: { value: 'jlp4@njit.edu' } });
@@ -36,8 +47,11 @@ describe('ForgotPassword Component', () => {
     });
   });
   it('displays an error message for invalid email', async () => {
-    render(<ForgotPassword />);
-
+    render(
+      <Provider store={store}>
+        <ForgotPassword />
+      </Provider>,
+    );
     const emailInput = screen.getByPlaceholderText('Enter Your Email Address');
     fireEvent.change(emailInput, { target: { value: 'invalidemail' } });
 

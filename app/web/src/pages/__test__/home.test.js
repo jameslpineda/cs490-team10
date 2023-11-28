@@ -1,9 +1,20 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
+import configureMockStore from 'redux-mock-store';
 import { BrowserRouter } from 'react-router-dom';
 import Home from '../home';
 import { Provider } from 'react-redux';
-import store from '../../app/store';
+
+const mockStore = configureMockStore();
+const store = mockStore({
+  yourReducer: {
+    user: {
+      first_name: 'John',
+      last_name: 'Doe',
+      email: 'john.doe@example.com',
+    },
+  },
+});
 
 test('Testing decrement button', () => {
   const { getByTestId } = render(

@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { toast } from 'react-toastify';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import store from '../../app/store';
+import store from '../../features/auth/store';
 import SignInForm from '../../components/SignInForm';
 
 // Mocking the react-toastify module to prevent actual toasts from being shown during tests

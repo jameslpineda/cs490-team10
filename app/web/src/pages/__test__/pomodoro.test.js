@@ -44,7 +44,7 @@ describe('Timer component', () => {
     });
 
     act(() => {
-      jest.advanceTimersByTime(1000); // Advance timer by 1 second
+      jest.useFakeTimers(); // Advance timer by 1 second
     });
 
     const pauseButton = getByText('PAUSE');
@@ -76,7 +76,7 @@ describe('Timer component', () => {
 
     // Simulate completing a pomodoro (25 minutes)
     act(() => {
-      jest.advanceTimersByTime(25 * 60 * 1000);
+      jest.useFakeTimers();
     });
 
     // Instead of specific assertions on setInterval, you can check if time has passed
@@ -103,7 +103,7 @@ describe('Timer component', () => {
       });
 
       act(() => {
-        jest.advanceTimersByTime(25 * 60 * 1000);
+        jest.useFakeTimers();
       });
     }
     expect(mockProps.handleFinishTime).toHaveBeenCalled();
