@@ -10,6 +10,12 @@ const FocusTimeModal: React.FC<focusTimeInterface> = (focusTimeProps) => {
   const [completedPomo, setCompletedPomo] = useState(
     focusTimeProps.props.completed_timers,
   );
+  const [isNoteReadOnly, setIsNoteReadOnly] = useState(true);
+  const [note, setNote] = useState(focusTimeProps.props.notes);
+
+  function noteButton() {
+    setIsNoteReadOnly((prevIsNoteReadOnly) => !prevIsNoteReadOnly);
+  }
 
   const closeFocus = () => {
     focusTimeProps.showFocusTime(false);
@@ -134,8 +140,76 @@ const FocusTimeModal: React.FC<focusTimeInterface> = (focusTimeProps) => {
           {focusTimeProps.props.name}
         </h1>
         <div className="bg-gray-100 rounded-md p-3">
-          <div className="text-indigo-500 font-medium text-md">Notes: </div>
-          <div className="text-sm">{focusTimeProps.props.notes}</div>
+          <div className="flex">
+            <p className="text-indigo-500 font-medium text-md">Notes:</p>
+            <button
+              className="ml-auto"
+              onClick={() => {
+                noteButton();
+              }}
+            >
+              {isNoteReadOnly ? (
+                <svg
+                  className="pl-1"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M8.83994 2.39997L3.36661 8.1933C3.15994 8.4133 2.95994 8.84664 2.91994 9.14664L2.67328 11.3066C2.58661 12.0866 3.14661 12.62 3.91994 12.4866L6.06661 12.12C6.36661 12.0666 6.78661 11.8466 6.99327 11.62L12.4666 5.82664C13.4133 4.82664 13.8399 3.68664 12.3666 2.2933C10.8999 0.913305 9.78661 1.39997 8.83994 2.39997Z"
+                    stroke="#6284FF"
+                    strokeWidth="1.2"
+                    strokeMiterlimit="10"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M7.92664 3.36667C8.2133 5.20667 9.70664 6.61334 11.56 6.8"
+                    stroke="#6284FF"
+                    strokeWidth="1.2"
+                    strokeMiterlimit="10"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M2 14.6667H14"
+                    stroke="#6284FF"
+                    strokeWidth="1.2"
+                    strokeMiterlimit="10"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              ) : (
+                <div className="border border-indigo-400 rounded-sm">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="12"
+                    height="12"
+                    className="text-indigo-400"
+                    style={{ fill: 'currentColor' }}
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M0 11c2.761.575 6.312 1.688 9 3.438 3.157-4.23 8.828-8.187 15-11.438-5.861 5.775-10.711 12.328-14 18.917-2.651-3.766-5.547-7.271-10-10.917z" />
+                  </svg>
+                </div>
+              )}
+            </button>
+          </div>
+          <div className="text-sm">
+            <textarea
+              readOnly={isNoteReadOnly}
+              onChange={(evt) => {
+                focusTimeProps.setNote(evt.target.value);
+                setNote(evt.target.value);
+              }}
+              id="note"
+              value={note}
+              className="text-sm font-semibold w-full bg-gray-100"
+            ></textarea>
+          </div>
         </div>
         <div className="bg-gray-950 rounded-md p-3 justify-center items-center mt-3 border border-indigo-500 flex flex-row">
           <div className="text-white text-xl">Pomos:&nbsp;</div>

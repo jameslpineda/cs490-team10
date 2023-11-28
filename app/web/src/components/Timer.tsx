@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, MutableRefObject } from 'react';
 import moment from 'moment';
-import timerInterface from '../interfaces/TimerInterface';
+import timerInterface from '../interfaces/timerInterface';
 //import { getPomo } from '../services/userServices';
 
 const Timer: React.FC<timerInterface> = (props) => {
