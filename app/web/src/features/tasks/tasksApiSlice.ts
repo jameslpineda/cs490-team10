@@ -13,13 +13,16 @@ type CreateTaskResponse = {
 };
 
 type UpdateTaskPayload = {
-  name: string;
-  status: string;
-  timers: number;
-  completed_timers: number;
-  notes: string;
-  priority: string;
-  date: Date | string;
+  id: string;
+  taskPayload: {
+    name: string;
+    status: string;
+    timers: number;
+    completed_timers: number;
+    notes: string;
+    priority: string;
+    date: Date | string;
+  };
 };
 type UpdateTaskResponse = {
   message: string;
@@ -44,10 +47,10 @@ export const tasksApiSlice = apiSlice.injectEndpoints({
       invalidatesTags: ['Tasks'],
     }),
     updateTask: builder.mutation<UpdateTaskResponse, UpdateTaskPayload>({
-      query: (payload) => ({
-        url: '/user/update',
+      query: ({ id, taskPayload }) => ({
+        url: `/user/update/${id}`,
         method: 'POST',
-        body: payload,
+        body: taskPayload,
       }),
       invalidatesTags: ['Tasks'],
       async onQueryStarted(arg, { queryFulfilled }) {
