@@ -1,20 +1,9 @@
 import axios from 'axios';
 import { coreConfig } from '../../utils/config';
-
-// Register user
-const register = async (userData) => {
-  const response = await axios.post(
-    `${coreConfig.apiBaseUrl}/user/sign-up`,
-    userData,
-  );
-  if (response.data) {
-    localStorage.setItem('user', JSON.stringify(response.data));
-  }
-  return response.data;
-};
+import { UserData } from '../../interfaces/userInterface';
 
 // Login user
-const login = async (userData) => {
+const login = async (userData: UserData) => {
   const response = await axios.post(
     `${coreConfig.apiBaseUrl}/user/sign-in`,
     userData,
@@ -26,12 +15,15 @@ const login = async (userData) => {
 };
 
 // Logout user
-const logout = () => {
-  localStorage.removeItem('user');
+const logout = async () => {
+  const response = await axios.post(`${coreConfig.apiBaseUrl}/user/sign-out`);
+  if (response.data) {
+    localStorage.removeItem('user');
+  }
+  return response.data;
 };
 
 const authService = {
-  register,
   login,
   logout,
 };

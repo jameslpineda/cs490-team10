@@ -4,17 +4,7 @@ import Joi from 'joi';
 export const signUpValidation = (data: { email: string; password: string }) => {
   const schema = Joi.object({
     email: Joi.string().email().required(),
-    password: Joi.string()
-      .pattern(
-        new RegExp(
-          `^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[@$!%*#?&])[A-Za-z0-9@$!%*#?&]{8,}$`,
-        ),
-      )
-      .required()
-      .messages({
-        'string.pattern.base':
-          'Password must have at least one lowercase and uppercase letter, one digit, one special char, and minimum 12 chars.',
-      }),
+    password: Joi.string().required(),
   });
   return schema.validate(data);
 };
@@ -34,17 +24,7 @@ export const updateUserValidation = (data: UserInterface) => {
     current_password: Joi.string().min(1),
     new_password: Joi.when('current_password', {
       is: Joi.exist(),
-      then: Joi.string()
-        .required()
-        .pattern(
-          new RegExp(
-            `^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[@$!%*#?&])[A-Za-z0-9@$!%*#?&]{8,}$`,
-          ),
-        )
-        .messages({
-          'string.pattern.base':
-            'Password must have at least one lowercase and uppercase letter, one digit, one special char, and minimum 12 chars.',
-        }),
+      then: Joi.string().required(),
       otherwise: Joi.string(),
     }),
     pomodoro: Joi.number().integer().min(1).max(60),

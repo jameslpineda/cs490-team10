@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import focusTimeInterface from '../interfaces/focusTimeInterface';
 import Timer from './Timer';
+import { useSelector } from 'react-redux';
+import { selectCurrentUser } from '../features/auth/authSlice';
 
 const FocusTimeModal: React.FC<focusTimeInterface> = (focusTimeProps) => {
+  const userInfo = useSelector(selectCurrentUser);
   const [finishTime, setFinishTime] = useState<string>();
   const [timerType, setTimerType] = useState<string>('pomo');
   //pomo timer here for use state
-  const [timeInterval, setTimeInterval] = useState(10);
+  const [timeInterval, setTimeInterval] = useState(userInfo.pomodoro * 60);
   const [completedPomo, setCompletedPomo] = useState(
     focusTimeProps.props.completed_timers,
   );
@@ -47,7 +50,7 @@ const FocusTimeModal: React.FC<focusTimeInterface> = (focusTimeProps) => {
               onClick={() => {
                 setTimerType('pomo');
                 //add call here
-                setTimeInterval(10);
+                setTimeInterval(userInfo.pomodoro * 60);
               }}
             >
               Pomodoro
@@ -65,7 +68,7 @@ const FocusTimeModal: React.FC<focusTimeInterface> = (focusTimeProps) => {
               onClick={() => {
                 setTimerType('short');
                 //add call here
-                setTimeInterval(8);
+                setTimeInterval(userInfo.short_break * 60);
               }}
             >
               Short Break
@@ -83,7 +86,7 @@ const FocusTimeModal: React.FC<focusTimeInterface> = (focusTimeProps) => {
               onClick={() => {
                 setTimerType('long');
                 //add call here
-                setTimeInterval(5);
+                setTimeInterval(userInfo.long_break * 60);
               }}
             >
               Long Break
