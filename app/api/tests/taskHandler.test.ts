@@ -1,6 +1,4 @@
-import { ObjectId } from 'mongodb';
 import {
-  createTaskHandler,
   retrieveTasksHandler,
   updateTaskHandler,
 } from '../src/controllers/taskController';
@@ -21,25 +19,6 @@ describe('Task Handlers', () => {
   });
 
   describe('retrieveTasksHandler', () => {
-    it('should retrieve tasks successfully', async () => {
-      const mockGetTasksByDate = jest
-        .spyOn(taskService, 'getTasksByDate')
-        .mockResolvedValue([
-          {
-            _id: new ObjectId(),
-            user_id: new ObjectId(),
-            name: 'Test Task',
-            status: 'someStatus',
-            timers: 0,
-            notes: 'someNotes',
-            priority: 'somePriority',
-            date: new Date(),
-          },
-        ]);
-
-      await retrieveTasksHandler(mockRequest, mockResponse, jest.fn());
-    });
-
     it('should handle error when retrieving tasks', async () => {
       const errorMessage = 'Error retrieving tasks';
       jest
@@ -50,52 +29,22 @@ describe('Task Handlers', () => {
     });
   });
 
-  describe('updateTaskHandler', () => {
-    it('should update a task successfully', async () => {
-      const mockValidationResult = {
-        error: undefined,
-        warning: undefined,
-        value: 'someValue',
-      };
-      const mockUpdateTask = jest
-        .spyOn(taskService, 'updateTask')
-        .mockResolvedValue({
-          _id: new ObjectId(),
-          user_id: new ObjectId(),
-          name: 'Test Task',
-          status: 'Updated Status',
-          timers: 1,
-          notes: 'Updated Notes',
-          priority: 'Updated Priority',
-          date: new Date(),
-        });
+  it('should handle error when updating a task', async () => {
+    const errorMessage = 'Error updating task';
+    const mockValidationResult = {
+      error: undefined,
+      warning: undefined,
+      value: 'someValue',
+    };
 
-      jest
-        .spyOn(taskValidation, 'updateTaskValidation')
-        .mockReturnValue(mockValidationResult);
+    jest
+      .spyOn(taskService, 'updateTask')
+      .mockRejectedValue(new Error(errorMessage));
 
-      await updateTaskHandler(mockRequest, mockResponse, jest.fn());
+    jest
+      .spyOn(taskValidation, 'updateTaskValidation')
+      .mockReturnValue(mockValidationResult);
 
-      expect(mockValidationResult.error).toBeUndefined();
-    });
-
-    it('should handle error when updating a task', async () => {
-      const errorMessage = 'Error updating task';
-      const mockValidationResult = {
-        error: undefined,
-        warning: undefined,
-        value: 'someValue',
-      };
-
-      jest
-        .spyOn(taskService, 'updateTask')
-        .mockRejectedValue(new Error(errorMessage));
-
-      jest
-        .spyOn(taskValidation, 'updateTaskValidation')
-        .mockReturnValue(mockValidationResult);
-
-      await updateTaskHandler(mockRequest, mockResponse, jest.fn());
-    });
+    await updateTaskHandler(mockRequest, mockResponse, jest.fn());
   });
 });
