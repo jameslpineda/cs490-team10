@@ -3,7 +3,7 @@ import { render, fireEvent } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import '@testing-library/jest-dom';
 import FocusTimeModal from '../../components/FocusTimeModal';
-import store from '../../features/auth/store';
+import mockStore from './mockStore';
 
 describe('FocusTimeModal', () => {
   it('renders without crashing', () => {
@@ -17,7 +17,7 @@ describe('FocusTimeModal', () => {
     };
 
     render(
-      <Provider store={store}>
+      <Provider store={mockStore}>
         <FocusTimeModal {...mockFocusTimeProps} />
       </Provider>,
     );
@@ -34,10 +34,10 @@ describe('FocusTimeModal', () => {
     };
 
     const { getByTestId } = render(
-      <Provider store={store}>
+      <Provider store={mockStore}>
         <FocusTimeModal {...mockFocusTimeProps} />
       </Provider>,
-    );;
+    );
 
     fireEvent.click(getByTestId('closeButton'));
 

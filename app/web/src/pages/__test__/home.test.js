@@ -1,24 +1,13 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
-import configureMockStore from 'redux-mock-store';
 import { BrowserRouter } from 'react-router-dom';
 import Home from '../home';
 import { Provider } from 'react-redux';
-
-const mockStore = configureMockStore();
-const store = mockStore({
-  yourReducer: {
-    user: {
-      first_name: 'John',
-      last_name: 'Doe',
-      email: 'john.doe@example.com',
-    },
-  },
-});
+import mockStore from './mockStore';
 
 test('Testing decrement button', () => {
   const { getByTestId } = render(
-    <Provider store={store}>
+    <Provider store={mockStore}>
       <BrowserRouter>
         <Home />
       </BrowserRouter>
@@ -48,7 +37,7 @@ test('Testing decrement button', () => {
 
 test('Testing increment button', () => {
   const { getByTestId } = render(
-    <Provider store={store}>
+    <Provider store={mockStore}>
       <BrowserRouter>
         <Home />
       </BrowserRouter>
@@ -78,7 +67,7 @@ test('Testing increment button', () => {
 
 test('Crossing the max days threshold changes the month', () => {
   const { getByTestId } = render(
-    <Provider store={store}>
+    <Provider store={mockStore}>
       <BrowserRouter>
         <Home />
       </BrowserRouter>
@@ -100,7 +89,7 @@ test('Crossing the max days threshold changes the month', () => {
 
 test('Crossing the max month threshold changes the year', () => {
   const { getByTestId } = render(
-    <Provider store={store}>
+    <Provider store={mockStore}>
       <BrowserRouter>
         <Home />
       </BrowserRouter>
