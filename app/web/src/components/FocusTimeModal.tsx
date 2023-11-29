@@ -9,7 +9,6 @@ const FocusTimeModal: React.FC<focusTimeInterface> = (focusTimeProps) => {
   const userInfo = useSelector(selectCurrentUser);
   const [finishTime, setFinishTime] = useState<string>();
   const [timerType, setTimerType] = useState<string>('pomo');
-  //pomo timer here for use state
   const [timeInterval, setTimeInterval] = useState(userInfo.pomodoro * 60);
   const [completedPomo, setCompletedPomo] = useState(
     focusTimeProps.props.completed_timers,
@@ -28,6 +27,12 @@ const FocusTimeModal: React.FC<focusTimeInterface> = (focusTimeProps) => {
   }
 
   const closeFocus = () => {
+    const updateParams = {
+      notes: note,
+      completed_timers: completedPomo,
+    };
+    updateTask({ id: focusTimeProps.props._id, taskPayload: updateParams });
+
     focusTimeProps.showFocusTime(false);
   };
 
@@ -37,6 +42,10 @@ const FocusTimeModal: React.FC<focusTimeInterface> = (focusTimeProps) => {
 
   const handleNumComplete = (value: number) => {
     setCompletedPomo(value);
+    const updateParams = {
+      completed_timers: value,
+    };
+    updateTask({ id: focusTimeProps.props._id, taskPayload: updateParams });
   };
 
   useEffect(() => {}, [timerType]);
@@ -137,7 +146,7 @@ const FocusTimeModal: React.FC<focusTimeInterface> = (focusTimeProps) => {
         <Timer
           handleFinishTime={handleFinishTime}
           timeInterval={timeInterval}
-          completedPomo={completedPomo}
+          completedPomo={focusTimeProps.props.completed_timers}
           handleNumComplete={handleNumComplete}
           timerType={timerType}
           setTimerType={setTimerType}
