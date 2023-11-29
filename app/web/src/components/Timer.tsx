@@ -1,14 +1,10 @@
 import React, { useState, useEffect, useRef, MutableRefObject } from 'react';
 import moment from 'moment';
 import timerInterface from '../interfaces/timerInterface';
-//import { getPomo } from '../services/userServices';
-// import { useUpdateTaskMutation } from '../features/tasks/tasksApiSlice';
 
 const Timer: React.FC<timerInterface> = (props) => {
   const [remainingTime, setRemainingTime] = useState(props.timeInterval);
   const [start, setStart] = useState(false);
-
-  // const [updateTask] = useUpdateTaskMutation();
 
   const firstStart = useRef(true);
   // eslint-disable-next-line no-undef
@@ -33,10 +29,6 @@ const Timer: React.FC<timerInterface> = (props) => {
               (props.completedPomo + 1) % 4 == 0
             ) {
               props.handleNumComplete(props.completedPomo + 1);
-              // const updateParams = {
-              //   completed_timers: props.completedPomo,
-              // };
-              //call here
               const el = document.getElementById('longDiv') as HTMLElement;
               el.click();
             } else if (
@@ -44,7 +36,6 @@ const Timer: React.FC<timerInterface> = (props) => {
               (props.completedPomo + 1) % 4 != 0
             ) {
               props.handleNumComplete(props.completedPomo + 1);
-              //ruby send update completed timers
               const el = document.getElementById('shortDiv') as HTMLElement;
               el.click();
             } else {
@@ -65,7 +56,7 @@ const Timer: React.FC<timerInterface> = (props) => {
   }, [start]);
 
   const toggleStart = () => {
-    if (props.completedPomo == props.numTimers) {
+    if (props.timerType == 'pomo' && props.completedPomo == props.numTimers) {
       return;
     }
     if (start === false) {
