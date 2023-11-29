@@ -12,6 +12,8 @@ import { selectCurrentUser } from '../features/auth/authSlice';
 import { getUserID } from '../services/userServices';
 import Spinner from '../components/Spinner';
 
+import { AuthGCal } from '../features/user/AuthGCal';
+
 import { useGetTasksQuery } from '../features/tasks/tasksApiSlice';
 
 export const Home = () => {
@@ -159,7 +161,9 @@ export const Home = () => {
           </div>
           <div className="w-1/2 pl-4">
             <h2 className="text-2xl font-semibold pb-2">Appointment</h2>
-            <div className="flex flex-col flex-grow">TODO Next Sprint</div>
+            <div className="flex flex-col flex-grow">
+              <AuthGCal />
+            </div>
           </div>
         </div>
       </div>

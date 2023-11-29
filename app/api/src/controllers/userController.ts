@@ -446,6 +446,6 @@ export const createAuth = async (req: AuthRequest, res: Response) => {
   });
 
   res.status(200).json({
-    data: authorizationUrl,
+    authUrl: authorizationUrl,
   });
 };
