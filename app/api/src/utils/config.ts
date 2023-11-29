@@ -24,6 +24,9 @@ const {
   FRONTEND_BASE_URL,
   ACCESS_TOKEN_SECRET,
   REFRESH_TOKEN_SECRET,
+  CLIENT_ID,
+  CLIENT_SECRET,
+  REDIRECT_URL,
 } = process.env;
 
 export const coreConfig = {
@@ -66,4 +69,10 @@ export const corsConfig = {
 export const jwtConfig = {
   access_token_secret: ACCESS_TOKEN_SECRET,
   refresh_token_secret: REFRESH_TOKEN_SECRET,
+};
+
+export const oauth2Config = {
+  client_id: CLIENT_ID,
+  client_secret: CLIENT_SECRET,
+  redirect_url: REDIRECT_URL || 'http://localhost:3000',
 };
