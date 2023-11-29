@@ -16,13 +16,13 @@ type CreateTaskResponse = {
 type UpdateTaskPayload = {
   id: string;
   taskPayload: {
-    name: string;
-    status: string;
-    timers: number;
-    completed_timers: number;
-    notes: string;
-    priority: string;
-    date: Date | string;
+    name?: string;
+    status?: string;
+    timers?: number;
+    completed_timers?: number;
+    notes?: string;
+    priority?: string;
+    date?: Date | string;
   };
 };
 type UpdateTaskResponse = {
@@ -49,20 +49,14 @@ export const tasksApiSlice = apiSlice.injectEndpoints({
     }),
     updateTask: builder.mutation<UpdateTaskResponse, UpdateTaskPayload>({
       query: ({ id, taskPayload }) => ({
-        url: `/user/update/${id}`,
-        method: 'POST',
+        url: `/task/update/${id}`,
+        method: 'PUT',
         body: taskPayload,
       }),
       invalidatesTags: ['Tasks'],
       async onQueryStarted(arg, { queryFulfilled }) {
         try {
-          const { data } = await queryFulfilled;
-          console.log('DATA: ', data);
-
-          toast.success(`${data.message}!`, {
-            position: toast.POSITION.TOP_CENTER,
-            autoClose: 5000,
-          });
+          await queryFulfilled;
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (err: any) {
           if (err?.error?.data?.message) {

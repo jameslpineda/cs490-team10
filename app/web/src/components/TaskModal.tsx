@@ -1,42 +1,30 @@
 import React, { useState } from 'react';
-import { taskModalProps, TaskProps } from '../interfaces/taskInterface';
-import { defaultTaskPropsValues } from '../interfaces/taskInterface';
+import { taskModalProps } from '../interfaces/taskInterface';
+// import { defaultTaskPropsValues } from '../interfaces/taskInterface';
 
 import { useCreateTaskMutation } from '../features/tasks/tasksApiSlice';
 
 const TaskModal: React.FC<taskModalProps> = (props) => {
-  const [taskData, setTaskData] = useState<TaskProps>(defaultTaskPropsValues);
+  const [name, setName] = useState('');
+  const [notes, setNotes] = useState('');
+  const [priority, setPriority] = useState('Other');
+  const [timers, setTimers] = useState(1);
 
   const [createTask] = useCreateTaskMutation();
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    const { name, value } = e.target;
-    setTaskData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-
-  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setTaskData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    createTask({
-      name: taskData.name,
-      notes: taskData.notes,
-      status: taskData.status,
-      priority: taskData.priority,
-      timers: taskData.timers,
+
+    // TODO: Client side validation
+
+    const taskData = {
+      name,
+      notes,
+      priority,
+      timers,
       date: props.date.format('YYYY-MM-DD'),
-    });
+    };
+    createTask(taskData);
     props.onClose();
   };
 
@@ -61,8 +49,8 @@ const TaskModal: React.FC<taskModalProps> = (props) => {
               type="text"
               id="name"
               name="name"
-              value={taskData.name}
-              onChange={handleInputChange}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               className="mt-1 p-2 border border-gray-300 rounded-md w-full"
               required
             />
@@ -80,8 +68,8 @@ const TaskModal: React.FC<taskModalProps> = (props) => {
               type="number"
               id="timers"
               name="timers"
-              value={taskData.timers}
-              onChange={handleInputChange}
+              value={timers}
+              onChange={(e) => setTimers(parseInt(e.target.value))}
               className="mt-1 p-2 border border-gray-300 rounded-md w-full"
               min="1"
               required
@@ -99,8 +87,8 @@ const TaskModal: React.FC<taskModalProps> = (props) => {
             <textarea
               id="notes"
               name="notes"
-              value={taskData.notes}
-              onChange={handleInputChange}
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
               className="mt-1 p-2 border border-gray-300 rounded-md w-full"
               rows={4}
             />
@@ -117,8 +105,8 @@ const TaskModal: React.FC<taskModalProps> = (props) => {
             <select
               id="priority"
               name="priority"
-              value={taskData.priority}
-              onChange={handleSelectChange}
+              value={priority}
+              onChange={(e) => setPriority(e.target.value)}
               className="mt-1 p-2 border border-gray-300 rounded-md w-full"
             >
               <option value="Top Priority">Top Priority</option>
