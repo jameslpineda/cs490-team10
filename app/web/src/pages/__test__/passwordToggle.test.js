@@ -18,7 +18,7 @@ describe('Show/Hide Password Functionality', () => {
     );
 
     const passwordInput = getByLabelText('Password');
-    const toggleButton = document.querySelector('span.cursor-pointer'); // Update the selector as per your actual structure
+    const toggleButton = document.querySelector('span.cursor-pointer');
 
     // Password is hidden by default
     expect(passwordInput).toHaveAttribute('type', 'password');
@@ -40,13 +40,13 @@ describe('Show/Hide Password Functionality', () => {
     const { getByLabelText } = render(
       <Provider store={store}>
         <BrowserRouter>
-          <SignUpForm />
+          <SignInForm />
         </BrowserRouter>
       </Provider>,
     );
 
     const passwordInput = getByLabelText('Password');
-    const toggleButton = document.querySelector('span.cursor-pointer'); // Update the selector as per your actual structure
+    const toggleButton = document.querySelector('span.cursor-pointer');
 
     // Password is hidden by default
     expect(passwordInput).toHaveAttribute('type', 'password');

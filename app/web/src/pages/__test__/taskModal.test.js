@@ -49,9 +49,6 @@ describe('TaskModal', () => {
       target: { value: 'Important' },
     });
 
-    // Simulate form submission if required by your TaskModal
-    // Example: fireEvent.submit(screen.getByTestId('your-form-id'));
-
     fireEvent.click(screen.getByText('Save'));
 
     expect(onCloseMock).toHaveBeenCalled();
