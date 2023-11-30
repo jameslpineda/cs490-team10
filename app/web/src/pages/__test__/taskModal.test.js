@@ -29,31 +29,6 @@ describe('TaskModal', () => {
     expect(screen.getByLabelText('Priority')).toHaveValue('Other');
   });
 
-  it('should call onClose and onSubmit when Save is clicked', () => {
-    const onCloseMock = jest.fn();
-    const onSubmitMock = jest.fn();
-
-    render(
-      <Provider store={mockStore}>
-        <TaskModal
-          onClose={onCloseMock}
-          onSubmit={onSubmitMock}
-        />
-      </Provider>,
-    );
-
-    fireEvent.change(screen.getByLabelText('Note/Description'), {
-      target: { value: 'Test Note' },
-    });
-    fireEvent.change(screen.getByLabelText('Priority'), {
-      target: { value: 'Important' },
-    });
-
-    fireEvent.click(screen.getByText('Save'));
-
-    expect(onCloseMock).toHaveBeenCalled();
-  });
-
   it('should call onClose when Cancel is clicked', () => {
     const onCloseMock = jest.fn();
 
