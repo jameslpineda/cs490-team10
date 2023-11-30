@@ -2,26 +2,28 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import TaskModal from '../../components/TaskModal';
 import { Provider } from 'react-redux';
-import store from '../../features/auth/store';
+import mockStore from './mockStore';
 
 describe('TaskModal', () => {
   it('should render the modal with default values', () => {
     render(
-      <TaskModal
-        onClose={() => {}}
-        onSubmit={() => {}}
-      />,
+      <Provider store={mockStore}>
+        <TaskModal
+          onClose={() => {}}
+          onSubmit={() => {}}
+        />
+      </Provider>,
     );
 
     expect(screen.getByText('Add Task')).toBeInTheDocument();
-    expect(screen.getByLabelText('Title')).toBeInTheDocument();
+    expect(screen.getByLabelText('Name')).toBeInTheDocument();
     expect(screen.getByLabelText('Pomodoro Count')).toBeInTheDocument();
     expect(screen.getByLabelText('Note/Description')).toBeInTheDocument();
     expect(screen.getByLabelText('Priority')).toBeInTheDocument();
     expect(screen.getByText('Save')).toBeInTheDocument();
     expect(screen.getByText('Cancel')).toBeInTheDocument();
 
-    expect(screen.getByLabelText('Title')).toHaveValue('');
+    expect(screen.getByLabelText('Name')).toHaveValue('');
     expect(screen.getByLabelText('Pomodoro Count')).toHaveValue(1);
     expect(screen.getByLabelText('Note/Description')).toHaveValue('');
     expect(screen.getByLabelText('Priority')).toHaveValue('Other');
@@ -32,7 +34,7 @@ describe('TaskModal', () => {
     const onSubmitMock = jest.fn();
 
     render(
-      <Provider store={store}>
+      <Provider store={mockStore}>
         <TaskModal
           onClose={onCloseMock}
           onSubmit={onSubmitMock}
@@ -47,6 +49,9 @@ describe('TaskModal', () => {
       target: { value: 'Important' },
     });
 
+    // Simulate form submission if required by your TaskModal
+    // Example: fireEvent.submit(screen.getByTestId('your-form-id'));
+
     fireEvent.click(screen.getByText('Save'));
 
     expect(onCloseMock).toHaveBeenCalled();
@@ -56,10 +61,9 @@ describe('TaskModal', () => {
     const onCloseMock = jest.fn();
 
     render(
-      <TaskModal
-        onClose={onCloseMock}
-        onSubmit={() => {}}
-      />,
+      <Provider store={mockStore}>
+        <TaskModal onClose={onCloseMock} />
+      </Provider>,
     );
 
     fireEvent.click(screen.getByText('Cancel'));

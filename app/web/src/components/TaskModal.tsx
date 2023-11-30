@@ -35,7 +35,7 @@ const TaskModal: React.FC<taskModalProps> = (props) => {
       status: taskData.status,
       priority: taskData.priority,
       timers: taskData.timers,
-      date: props.date.format('YYYY-MM-DD'),
+      date: props?.date?.format('YYYY-MM-DD'),
     });
     props.onClose();
   };
