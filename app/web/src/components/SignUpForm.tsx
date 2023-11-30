@@ -33,8 +33,12 @@ const SignUpForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!validateEmail(email)) {
+    if (email.length === 0) {
+      displayValidationError('Email/Username cannot be blank');
+    } else if (!validateEmail(email)) {
       displayValidationError('Invalid Email');
+    } else if (password.length === 0) {
+      displayValidationError('Password cannot be blank');
     } else if (!validatePassword(password)) {
       displayValidationError(
         'Password must have at least one lowercase and uppercase letter, one digit, one special char, and minimum 8 chars',
@@ -81,7 +85,6 @@ const SignUpForm: React.FC = () => {
               className="w-full p-2 border border-gray-400 rounded-xl focus:outline-none focus:border-blue-500"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              required
             />
           </div>
           <div className="mb-4 relative">
@@ -111,7 +114,6 @@ const SignUpForm: React.FC = () => {
               className="w-full p-2 border border-gray-400 rounded-xl focus:outline-none focus:border-blue-500"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              required
             />
             <span
               onClick={togglePasswordVisibility}
@@ -147,7 +149,6 @@ const SignUpForm: React.FC = () => {
               className="w-full p-2 border border-gray-400 rounded-xl focus:outline-none focus:border-blue-500"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              required
             />
             <span
               onClick={togglePasswordVisibility}

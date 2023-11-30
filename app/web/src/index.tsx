@@ -15,9 +15,12 @@ const container: any = document.getElementById('root');
 const root = createRoot(container);
 
 root.render(
-  <Provider store={store}>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </Provider>,
+  <React.StrictMode>
+    <Provider store={store}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </Provider>
+    ,
+  </React.StrictMode>,
 );

@@ -8,7 +8,8 @@ import { Home } from './pages/home';
 import Settings from './pages/settings';
 import SignInPage from './pages/signIn';
 import SignUpPage from './pages/signUp';
-import RequireAuth from './features/auth/RequireAuth';
+import PersistLogin from './features/auth/PersistSignIn';
+// import RequireAuth from './features/auth/RequireAuth';
 import './styles/globals.css';
 
 function App() {
@@ -34,7 +35,8 @@ function App() {
         />
 
         {/* private routes */}
-        <Route element={<RequireAuth />}>
+        <Route element={<PersistLogin />}>
+          {/* <Route element={<RequireAuth />}> */}
           <Route
             path="/home"
             element={<Home />}
@@ -43,6 +45,7 @@ function App() {
             path="/settings"
             element={<Settings />}
           />
+          {/* </Route> */}
         </Route>
       </Routes>
       <ToastContainer

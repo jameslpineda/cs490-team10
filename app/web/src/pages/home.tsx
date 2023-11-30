@@ -31,7 +31,6 @@ export const Home = () => {
   if (isLoading) {
     content = <Spinner />;
   } else if (isSuccess) {
-    console.log('Tasks: ', tasks);
     content = <TaskList tasks={tasks} />;
   }
 

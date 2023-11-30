@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { useLazyCreateAuthQuery } from './userApiSlice';
 import { toast } from 'react-toastify';
-// import { userApiSlice } from './userApiSlice';
 
 export const AuthGCal = () => {
   const [createAuth, { data }] = useLazyCreateAuthQuery();
