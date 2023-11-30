@@ -208,20 +208,22 @@ const Settings: React.FC = () => {
               </svg>
               Current Password
             </label>
-            <input
-              type={showPassword ? 'text' : 'password'}
-              id="oldpass"
-              className="w-full p-2 border rounded-md shadow"
-              placeholder="********"
-              value={currentPassword}
-              onChange={(e) => setCurrentPassword(e.target.value)}
-            />
-            <span
-              onClick={togglePasswordVisibility}
-              className="absolute bottom-0 right-10 transform -translate-y-1/3 cursor-pointer -mr-8"
-            >
-              {showPassword ? <EyeSlashIcon /> : <EyeIcon />}
-            </span>
+            <div className="relative">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                id="oldpass"
+                className="w-full p-2 border rounded-md shadow"
+                placeholder="********"
+                value={currentPassword}
+                onChange={(e) => setCurrentPassword(e.target.value)}
+              />
+              <span
+                onClick={togglePasswordVisibility}
+                className="absolute bottom-0 right-10 transform -translate-y-1/3 cursor-pointer -mr-8"
+              >
+                {showPassword ? <EyeSlashIcon /> : <EyeIcon />}
+              </span>
+            </div>
           </div>
           <div className="w-1/3 bg-white p-4 rounded-md">
             <label
@@ -244,20 +246,22 @@ const Settings: React.FC = () => {
               </svg>
               New Password
             </label>
-            <input
-              type={showPassword ? 'text' : 'password'}
-              id="newpass"
-              className="w-full p-2 border rounded-md shadow"
-              placeholder="********"
-              value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
-            />
-            <span
-              onClick={togglePasswordVisibility}
-              className="absolute bottom-0 right-10 transform -translate-y-1/3 cursor-pointer -mr-8"
-            >
-              {showPassword ? <EyeSlashIcon /> : <EyeIcon />}
-            </span>
+            <div className="relative">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                id="newpass"
+                className="w-full p-2 border rounded-md shadow"
+                placeholder="********"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+              />
+              <span
+                onClick={togglePasswordVisibility}
+                className="absolute bottom-0 right-10 transform -translate-y-1/3 cursor-pointer -mr-8"
+              >
+                {showPassword ? <EyeSlashIcon /> : <EyeIcon />}
+              </span>
+            </div>
           </div>
           <div className="w-1/3 bg-white p-4 rounded-md">
             <label
@@ -280,20 +284,22 @@ const Settings: React.FC = () => {
               </svg>
               Confirm New Password
             </label>
-            <input
-              type={showPassword ? 'text' : 'password'}
-              id="confirmnewpass"
-              className="w-full p-2 border rounded-md shadow"
-              placeholder="********"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-            />
-            <span
-              onClick={togglePasswordVisibility}
-              className="absolute bottom-0 right-10 transform -translate-y-1/3 cursor-pointer -mr-8"
-            >
-              {showPassword ? <EyeSlashIcon /> : <EyeIcon />}
-            </span>
+            <div className="relative">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                id="confirmnewpass"
+                className="w-full p-2 border rounded-md shadow"
+                placeholder="********"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
+              <span
+                onClick={togglePasswordVisibility}
+                className="absolute bottom-0 right-10 transform -translate-y-1/3 cursor-pointer -mr-8"
+              >
+                {showPassword ? <EyeSlashIcon /> : <EyeIcon />}
+              </span>
+            </div>
           </div>
         </div>
         <h2 className="text-xl font-semibold pt-6 pl-8">
