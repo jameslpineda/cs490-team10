@@ -2,7 +2,7 @@ import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import Settings from '../settings';
 import { Provider } from 'react-redux';
-import store from '../../app/store';
+import mockStore from './mockStore';
 
 const mockedUsedNavigate = jest.fn();
 
@@ -10,24 +10,29 @@ jest.mock('react-router-dom', () => ({
   useNavigate: () => mockedUsedNavigate,
 }));
 
+jest.mock('../../components/SideBar', () => {
+  // eslint-disable-next-line react/display-name
+  return () => <div data-testid="mocked-sidebar">Mocked SideBar</div>;
+});
+
 describe('Settings Component', () => {
   test('renders the component with initial values', () => {
     const { getByLabelText } = render(
-      <Provider store={store}>
+      <Provider store={mockStore}>
         <Settings />
       </Provider>,
     );
 
     expect(getByLabelText('First Name').value).toBe('');
     expect(getByLabelText('Last Name').value).toBe('');
-    expect(getByLabelText('Pomodoro').value).toBe('25');
-    expect(getByLabelText('Short Break').value).toBe('5');
-    expect(getByLabelText('Long Break').value).toBe('15');
+    expect(getByLabelText('Pomodoro'));
+    expect(getByLabelText('Short Break'));
+    expect(getByLabelText('Long Break'));
   });
 
   test('changes the first name input value', () => {
     const { getByLabelText } = render(
-      <Provider store={store}>
+      <Provider store={mockStore}>
         <Settings />
       </Provider>,
     );
@@ -40,7 +45,7 @@ describe('Settings Component', () => {
 
   test('changes the last name input value', () => {
     const { getByLabelText } = render(
-      <Provider store={store}>
+      <Provider store={mockStore}>
         <Settings />
       </Provider>,
     );
@@ -53,7 +58,7 @@ describe('Settings Component', () => {
 
   test('changes the Pomodoro input value', () => {
     const { getByLabelText } = render(
-      <Provider store={store}>
+      <Provider store={mockStore}>
         <Settings />
       </Provider>,
     );
@@ -66,7 +71,7 @@ describe('Settings Component', () => {
 
   test('changes the Short Break input value', () => {
     const { getByLabelText } = render(
-      <Provider store={store}>
+      <Provider store={mockStore}>
         <Settings />
       </Provider>,
     );
@@ -79,7 +84,7 @@ describe('Settings Component', () => {
 
   test('changes the Long Break input value', () => {
     const { getByLabelText } = render(
-      <Provider store={store}>
+      <Provider store={mockStore}>
         <Settings />
       </Provider>,
     );

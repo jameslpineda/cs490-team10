@@ -48,14 +48,13 @@ const SignInForm: React.FC = () => {
         navigate('/home');
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
-        if (err.data.message) {
+        if (err?.data?.message) {
           toast.error(err.data.message, {
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 7000,
           });
         } else {
           toast.error('An unexpected error has occurred', {
-            position: toast.POSITION.TOP_RIGHT,
             autoClose: 7000,
           });
         }

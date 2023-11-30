@@ -23,7 +23,6 @@ export const validateTimer = (value: string) => {
 };
 export const displayValidationError = (message: string) => {
   toast.error(message, {
-    position: toast.POSITION.TOP_CENTER,
     autoClose: 5000,
   });
 };

@@ -1,10 +1,11 @@
+/* eslint-disable no-undef */
 import React from 'react';
-import { render, screen, fireEvent, act } from '@testing-library/react';
+import { render, screen, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { toast } from 'react-toastify';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import store from '../../app/store';
+import store from '../../features/auth/store';
 import SignInForm from '../../components/SignInForm';
 
 // Mocking the react-toastify module to prevent actual toasts from being shown during tests
