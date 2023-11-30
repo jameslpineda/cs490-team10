@@ -63,7 +63,7 @@ const Timer: React.FC<timerInterface> = (props) => {
       setStart(true);
       const now = moment();
       const endTime = now.clone().add(remainingTime, 'seconds');
-      props.handleFinishTime(endTime.format('HH:mm'));
+      props.handleFinishTime(endTime.format('h:mm A'));
     } else {
       setStart(false);
       props.handleFinishTime('');
