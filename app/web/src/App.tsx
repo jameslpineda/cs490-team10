@@ -9,6 +9,7 @@ import Settings from './pages/settings';
 import SignInPage from './pages/signIn';
 import SignUpPage from './pages/signUp';
 import RequireAuth from './features/auth/RequireAuth';
+import './styles/globals.css';
 
 function App() {
   return (

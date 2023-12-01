@@ -96,7 +96,7 @@ const DateBar: React.FC<DateProp> = ({
   };
 
   return (
-    <div className="flex justify-center space-x-4 p-2 m-4 bg-indigo-400 bg-opacity-15 rounded-2xl">
+    <div className="flex justify-center space-x-4 p-2 m-4 bg-primary bg-opacity-15 rounded-2xl">
       <div className="flex space-x-1">
         <button
           data-testid="decrement-month-button"
@@ -107,7 +107,7 @@ const DateBar: React.FC<DateProp> = ({
         <button
           onClick={() => setShowMonth(!false)}
           data-testid="monthID"
-          className={`relative border border-indigo-400 w-40 p-1.5 pl-3 rounded-md font-medium text-s text-left ${
+          className={`relative border border-primary w-40 p-1.5 pl-3 rounded-md font-medium text-s text-left ${
             showMonth ? 'bg-white' : ''
           } `}
         >
@@ -122,7 +122,7 @@ const DateBar: React.FC<DateProp> = ({
             )}
           </span>
           {showMonth && (
-            <div className="absolute top-8 left-0 p-2 bg-white w-full rounded-b-md outline-none border-l border-b border-r border-indigo-400">
+            <div className="absolute top-8 left-0 p-2 bg-white w-full rounded-b-md outline-none border-l border-b border-r border-primary">
               <select
                 size={5}
                 className=" text-black w-full outline-none myScroll"
@@ -164,7 +164,7 @@ const DateBar: React.FC<DateProp> = ({
         <button
           onClick={() => setShowDay(!false)}
           data-testid="dayID"
-          className={`relative border border-indigo-400 w-20 p-1.5 pl-4 rounded-md font-medium text-s text-left ${
+          className={`relative border border-primary w-20 p-1.5 pl-4 rounded-md font-medium text-s text-left ${
             showDay ? 'bg-white' : ''
           }`}
         >
@@ -179,7 +179,7 @@ const DateBar: React.FC<DateProp> = ({
             )}
           </span>
           {showDay && (
-            <div className="absolute top-8 left-0 p-2 bg-white w-full rounded-b-md outline-none border-l border-b border-r border-indigo-400">
+            <div className="absolute top-8 left-0 p-2 bg-white w-full rounded-b-md outline-none border-l border-b border-r border-primary">
               <select
                 size={5}
                 className=" text-black w-full outline-none pr-2 myScroll"
@@ -220,7 +220,7 @@ const DateBar: React.FC<DateProp> = ({
         </button>
         <button
           onClick={() => setShowYear(!false)}
-          className={`relative border border-indigo-400 w-28 p-1.5 pl-3 rounded-md font-bold text-s text-left ${
+          className={`relative border border-primary w-28 p-1.5 pl-3 rounded-md font-bold text-s text-left ${
             showYear ? 'bg-white' : ''
           }  `}
         >
@@ -235,7 +235,7 @@ const DateBar: React.FC<DateProp> = ({
             )}
           </span>
           {showYear && (
-            <div className="absolute top-8 left-0 p-2 bg-white w-full rounded-b-md outline-none border-l border-b border-r border-indigo-400">
+            <div className="absolute top-8 left-0 p-2 bg-white w-full rounded-b-md outline-none border-l border-b border-r border-primary">
               <select
                 size={5}
                 className=" text-black w-full outline-none pr-2 myScroll"

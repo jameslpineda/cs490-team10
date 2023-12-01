@@ -77,7 +77,7 @@ const Task: React.FC<TaskProps> = (props) => {
       <div className="flex pb-0.5">
         <IconCycleComponent {...props} />
         <button onClick={openFocus}>
-          <h3 className="pl-1 text-lg text-indigo-400 font-semibold">
+          <h3 className="pl-1 text-lg text-primary font-semibold">
             {props.name}
           </h3>
         </button>
@@ -210,12 +210,12 @@ const Task: React.FC<TaskProps> = (props) => {
                 }}
               >
                 {editPomo ? (
-                  <div className="border border-indigo-400 rounded-sm">
+                  <div className="border border-primary rounded-sm">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="12"
                       height="12"
-                      className="text-indigo-400"
+                      className="text-primary"
                       style={{ fill: 'currentColor' }}
                       viewBox="0 0 24 24"
                     >
@@ -303,12 +303,12 @@ const Task: React.FC<TaskProps> = (props) => {
                   />
                 </svg>
               ) : (
-                <div className="border border-indigo-400 rounded-sm">
+                <div className="border border-primary rounded-sm">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="12"
                     height="12"
-                    className="text-indigo-400"
+                    className="text-primary"
                     style={{ fill: 'currentColor' }}
                     viewBox="0 0 24 24"
                   >

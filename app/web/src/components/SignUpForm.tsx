@@ -157,9 +157,7 @@ const SignUpForm: React.FC = () => {
             </span>
           </div>
           <div className="flex justify-center">
-            <button className="btn-primary text-white p-2 rounded-xl w-1/2">
-              Sign Up
-            </button>
+            <button className="btn-primary p-3 w-1/2">Sign Up</button>
           </div>
         </form>
       </div>
@@ -168,7 +166,7 @@ const SignUpForm: React.FC = () => {
           Already have an account?&nbsp;
           <Link
             to="/"
-            className="text-indigo-400"
+            className="text-primary"
           >
             Sign in Here!
           </Link>

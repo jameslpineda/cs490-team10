@@ -138,12 +138,10 @@ const SignInForm: React.FC = () => {
             </span>
           </div>
           <div className="flex justify-center">
-            <button className="btn-primary text-white p-2 rounded-xl w-1/2">
-              Sign In
-            </button>
+            <button className="btn-primary p-3 w-1/2">Sign In</button>
           </div>
         </form>
-        <div className="flex justify-center mt-4 text-sm text-indigo-400">
+        <div className="flex justify-center mt-4 text-sm text-primary">
           <Link to="/forgot-password">Forgot Password?</Link>
         </div>
       </div>
@@ -152,7 +150,7 @@ const SignInForm: React.FC = () => {
           Need an account?&nbsp;
           <Link
             to="/signUp"
-            className="text-indigo-400"
+            className="text-primary"
           >
             Sign up here!
           </Link>
