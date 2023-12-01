@@ -30,7 +30,7 @@ const SideBar: React.FC = () => {
     <div className="flex flex-col h-screen bg-gray-900">
       <div className="h-5/6">
         <Link to="/home">
-          <h2 className="text-2xl text-white pt-10 font-semibold text-center">
+          <h2 className="text-2xl text-white pt-10 font-semibold font-fredoka-one text-center">
             Crush It
           </h2>
         </Link>
