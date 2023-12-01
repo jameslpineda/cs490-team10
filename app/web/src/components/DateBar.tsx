@@ -2,9 +2,9 @@ import React from 'react';
 import moment from 'moment';
 import DateProp from '../interfaces/dateInterface';
 
-import { ReactComponent as LButton } from '../assets/svgs/db-l-button.svg';
-import { ReactComponent as RButton } from '../assets/svgs/db-r-button.svg';
-import { ReactComponent as Arrow } from '../assets/svgs/db-arrow.svg';
+import { ReactComponent as LButton } from '../assets/svgs/db-lbutton.svg';
+import { ReactComponent as RButton } from '../assets/svgs/db-rbutton.svg';
+import { ReactComponent as DropdownIcon } from '../assets/svgs/db-dropdown-icon.svg';
 
 // import lbutton from '../assets/images/db-left-button.png';
 
@@ -115,10 +115,10 @@ const DateBar: React.FC<DateProp> = ({
             <p>{date.format('MMMM')}</p>
             {showMonth ? (
               <div className="transform rotate-180">
-                <Arrow />
+                <DropdownIcon />
               </div>
             ) : (
-              <Arrow />
+              <DropdownIcon />
             )}
           </span>
           {showMonth && (
@@ -172,10 +172,10 @@ const DateBar: React.FC<DateProp> = ({
             <p>{date.format('D')}</p>
             {showDay ? (
               <div className="transform rotate-180">
-                <Arrow />
+                <DropdownIcon />
               </div>
             ) : (
-              <Arrow />
+              <DropdownIcon />
             )}
           </span>
           {showDay && (
@@ -228,10 +228,10 @@ const DateBar: React.FC<DateProp> = ({
             <p data-testid="yearID">{date.format('YYYY')}</p>
             {showYear ? (
               <div className="transform rotate-180">
-                <Arrow />
+                <DropdownIcon />
               </div>
             ) : (
-              <Arrow />
+              <DropdownIcon />
             )}
           </span>
           {showYear && (
