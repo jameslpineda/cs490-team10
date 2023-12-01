@@ -13,4 +13,5 @@ export type UserInterface = {
   is_verified?: boolean;
   reset_password_token?: null | string;
   reset_password_expire_time?: null | number | { $gt: number };
+  refresh_token?: string;
 };

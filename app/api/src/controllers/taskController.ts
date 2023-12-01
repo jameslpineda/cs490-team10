@@ -78,22 +78,25 @@ export const updateTaskHandler = asyncHandler(
 
     const data: TaskInterface = {};
 
-    if (req.body.name) {
+    if ('name' in req.body) {
       data.name = req.body.name;
     }
-    if (req.body.status) {
+    if ('status' in req.body) {
       data.status = req.body.status;
     }
-    if (req.body.timers) {
+    if ('timers' in req.body) {
       data.timers = req.body.timers;
     }
-    if (req.body.notes) {
+    if ('completed_timers' in req.body) {
+      data.completed_timers = req.body.completed_timers;
+    }
+    if ('notes' in req.body) {
       data.notes = req.body.notes;
     }
-    if (req.body.priority) {
+    if ('priority' in req.body) {
       data.priority = req.body.priority;
     }
-    if (req.body.date) {
+    if ('date' in req.body) {
       data.date = moment(req.body.date).startOf('day').toDate();
     }
 

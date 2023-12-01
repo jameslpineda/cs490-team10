@@ -10,9 +10,8 @@ export const createTaskValidation = (data: TaskInterface) => {
       .valid('Top Priority', 'Important', 'Other')
       .required(),
     timers: Joi.number().min(1).required(),
+    completed_timers: Joi.number().min(0),
     date: Joi.date().required(),
-    user_id: Joi.string().required(),
-    _id: Joi.string().allow(''),
   });
 
   return schema.validate(data);
@@ -28,6 +27,7 @@ export const updateTaskValidation = (data: TaskInterface) => {
       'Task rolled over to the next day',
       'Task is deleted',
     ),
+    completed_timers: Joi.number().min(0),
     timers: Joi.number().min(1),
     notes: Joi.string().allow(''),
     priority: Joi.string().valid('Top Priority', 'Important', 'Other'),

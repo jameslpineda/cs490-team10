@@ -2,7 +2,7 @@ import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import Settings from '../settings';
 import { Provider } from 'react-redux';
-import store from '../../features/auth/store';
+import store from '../../app/store';
 
 const mockedUsedNavigate = jest.fn();
 

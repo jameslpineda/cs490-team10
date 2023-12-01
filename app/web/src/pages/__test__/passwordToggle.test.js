@@ -5,16 +5,15 @@ import { BrowserRouter } from 'react-router-dom';
 import SignUpForm from '../../components/SignUpForm';
 import SignInForm from '../../components/SignInForm';
 import { Provider } from 'react-redux';
-import store from '../../features/auth/store';
-
+import store from '../../app/store';
 
 describe('Show/Hide Password Functionality', () => {
   it('toggles password visibility when the icon button is clicked', () => {
     const { getByLabelText } = render(
       <Provider store={store}>
-      <BrowserRouter>
-        <SignUpForm />
-      </BrowserRouter>
+        <BrowserRouter>
+          <SignUpForm />
+        </BrowserRouter>
       </Provider>,
     );
 
@@ -40,9 +39,9 @@ describe('Show/Hide Password Functionality', () => {
   it('toggles password visibility when the icon button is clicked', () => {
     const { getByLabelText } = render(
       <Provider store={store}>
-      <BrowserRouter>
-        <SignUpForm />
-      </BrowserRouter>
+        <BrowserRouter>
+          <SignUpForm />
+        </BrowserRouter>
       </Provider>,
     );
 

@@ -6,6 +6,7 @@ export type TaskInterface = {
   name?: string;
   status?: string;
   timers?: number;
+  completed_timers?: number;
   notes?: string;
   priority?: string;
   date?: Date | string | { $gte: Date; $lt: Date };

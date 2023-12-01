@@ -22,6 +22,11 @@ const TaskSchema = new mongoose.Schema(
       required: true,
       default: 1,
     },
+    completed_timers: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
     notes: {
       type: String,
       default: '',

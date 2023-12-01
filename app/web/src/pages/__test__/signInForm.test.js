@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { toast } from 'react-toastify';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import store from '../../features/auth/store';
+import store from '../../app/store';
 import SignInForm from '../../components/SignInForm';
 
 // Mocking the react-toastify module to prevent actual toasts from being shown during tests
@@ -19,9 +19,9 @@ describe('SignInForm', () => {
   it('renders sign-in form correctly', () => {
     render(
       <Provider store={store}>
-      <BrowserRouter>
-        <SignInForm />
-      </BrowserRouter>
+        <BrowserRouter>
+          <SignInForm />
+        </BrowserRouter>
       </Provider>,
     );
     // Ensure that the sign-in form elements are rendered
@@ -39,9 +39,9 @@ describe('SignInForm', () => {
   it('updates email and password state on input change', () => {
     render(
       <Provider store={store}>
-      <BrowserRouter>
-        <SignInForm />
-      </BrowserRouter>
+        <BrowserRouter>
+          <SignInForm />
+        </BrowserRouter>
       </Provider>,
     );
 
@@ -59,9 +59,9 @@ describe('SignInForm', () => {
   it('submits the form and displays success toast on successful login', async () => {
     render(
       <Provider store={store}>
-      <BrowserRouter>
-        <SignInForm />
-      </BrowserRouter>
+        <BrowserRouter>
+          <SignInForm />
+        </BrowserRouter>
       </Provider>,
     );
 
@@ -86,9 +86,9 @@ describe('SignInForm', () => {
   it('submits the form and displays error toast on failed login', async () => {
     render(
       <Provider store={store}>
-      <BrowserRouter>
-        <SignInForm />
-      </BrowserRouter>
+        <BrowserRouter>
+          <SignInForm />
+        </BrowserRouter>
       </Provider>,
     );
 
@@ -121,9 +121,9 @@ describe('SignInForm', () => {
   it('displays error toast on network error during login', async () => {
     render(
       <Provider store={store}>
-      <BrowserRouter>
-        <SignInForm />
-      </BrowserRouter>
+        <BrowserRouter>
+          <SignInForm />
+        </BrowserRouter>
       </Provider>,
     );
 
