@@ -8,8 +8,8 @@ import {
 } from '../features/user/userApiSlice';
 import { selectCurrentUser } from '../features/auth/authSlice';
 
-import { ReactComponent as EyeIcon } from '../assets/eye.svg';
-import { ReactComponent as EyeSlashIcon } from '../assets/eye-slash.svg';
+import { ReactComponent as EyeIcon } from '../assets/svgs/eye.svg';
+import { ReactComponent as EyeSlashIcon } from '../assets/svgs/eye-slash.svg';
 
 import {
   validateName,

@@ -4,8 +4,8 @@ import { toast } from 'react-toastify';
 import Spinner from '../components/Spinner';
 import { useNavigate } from 'react-router-dom';
 
-import { ReactComponent as EyeIcon } from '../assets/eye.svg';
-import { ReactComponent as EyeSlashIcon } from '../assets/eye-slash.svg';
+import { ReactComponent as EyeIcon } from '../assets/svgs/eye.svg';
+import { ReactComponent as EyeSlashIcon } from '../assets/svgs/eye-slash.svg';
 
 import { useDispatch } from 'react-redux';
 import { setCredentials } from '../features/auth/authSlice';
