@@ -4,8 +4,8 @@ import { toast } from 'react-toastify';
 import Spinner from '../components/Spinner';
 import { useNavigate } from 'react-router-dom';
 
-import { ReactComponent as EyeIcon } from '../assets/eye.svg';
-import { ReactComponent as EyeSlashIcon } from '../assets/eye-slash.svg';
+import { ReactComponent as EyeIcon } from '../assets/svgs/eye.svg';
+import { ReactComponent as EyeSlashIcon } from '../assets/svgs/eye-slash.svg';
 
 import { useDispatch } from 'react-redux';
 import { setCredentials } from '../features/auth/authSlice';
@@ -96,7 +96,7 @@ const SignInForm: React.FC = () => {
             </label>
             <input
               id="email"
-              className="w-full p-2 border border-gray-300 rounded-xl focus:outline-none focus:border-blue-500"
+              className="w-full p-2 border border-gray-400 rounded-xl focus:outline-none focus:border-blue-500"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -125,7 +125,7 @@ const SignInForm: React.FC = () => {
             <input
               type={showPassword ? 'text' : 'password'}
               id="password"
-              className="w-full p-2 border border-gray-300 rounded-xl focus:outline-none focus:border-blue-500"
+              className="w-full p-2 border border-gray-400 rounded-xl focus:outline-none focus:border-blue-500"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               autoComplete="current-password"
@@ -138,12 +138,10 @@ const SignInForm: React.FC = () => {
             </span>
           </div>
           <div className="flex justify-center">
-            <button className="bg-blue-500 text-white p-2 rounded-xl hover:bg-blue-600 w-1/2">
-              Sign In
-            </button>
+            <button className="btn-primary p-3 w-1/2">Sign In</button>
           </div>
         </form>
-        <div className="flex justify-center mt-4 text-sm text-blue-500">
+        <div className="flex justify-center mt-4 text-sm text-primary">
           <Link to="/forgot-password">Forgot Password?</Link>
         </div>
       </div>
@@ -152,7 +150,7 @@ const SignInForm: React.FC = () => {
           Need an account?&nbsp;
           <Link
             to="/signUp"
-            className="text-sky-700"
+            className="text-primary"
           >
             Sign up here!
           </Link>

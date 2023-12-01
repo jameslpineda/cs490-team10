@@ -8,8 +8,8 @@ import {
 } from '../features/user/userApiSlice';
 import { selectCurrentUser } from '../features/auth/authSlice';
 
-import { ReactComponent as EyeIcon } from '../assets/eye.svg';
-import { ReactComponent as EyeSlashIcon } from '../assets/eye-slash.svg';
+import { ReactComponent as EyeIcon } from '../assets/svgs/eye.svg';
+import { ReactComponent as EyeSlashIcon } from '../assets/svgs/eye-slash.svg';
 
 import {
   validateName,
@@ -208,20 +208,22 @@ const Settings: React.FC = () => {
               </svg>
               Current Password
             </label>
-            <input
-              type={showPassword ? 'text' : 'password'}
-              id="oldpass"
-              className="w-full p-2 border rounded-md shadow"
-              placeholder="********"
-              value={currentPassword}
-              onChange={(e) => setCurrentPassword(e.target.value)}
-            />
-            <span
-              onClick={togglePasswordVisibility}
-              className="absolute bottom-0 right-10 transform -translate-y-1/3 cursor-pointer -mr-8"
-            >
-              {showPassword ? <EyeSlashIcon /> : <EyeIcon />}
-            </span>
+            <div className="relative">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                id="oldpass"
+                className="w-full p-2 border rounded-md shadow"
+                placeholder="********"
+                value={currentPassword}
+                onChange={(e) => setCurrentPassword(e.target.value)}
+              />
+              <span
+                onClick={togglePasswordVisibility}
+                className="absolute bottom-0 right-10 transform -translate-y-1/3 cursor-pointer -mr-8"
+              >
+                {showPassword ? <EyeSlashIcon /> : <EyeIcon />}
+              </span>
+            </div>
           </div>
           <div className="w-1/3 bg-white p-4 rounded-md">
             <label
@@ -244,20 +246,22 @@ const Settings: React.FC = () => {
               </svg>
               New Password
             </label>
-            <input
-              type={showPassword ? 'text' : 'password'}
-              id="newpass"
-              className="w-full p-2 border rounded-md shadow"
-              placeholder="********"
-              value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
-            />
-            <span
-              onClick={togglePasswordVisibility}
-              className="absolute bottom-0 right-10 transform -translate-y-1/3 cursor-pointer -mr-8"
-            >
-              {showPassword ? <EyeSlashIcon /> : <EyeIcon />}
-            </span>
+            <div className="relative">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                id="newpass"
+                className="w-full p-2 border rounded-md shadow"
+                placeholder="********"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+              />
+              <span
+                onClick={togglePasswordVisibility}
+                className="absolute bottom-0 right-10 transform -translate-y-1/3 cursor-pointer -mr-8"
+              >
+                {showPassword ? <EyeSlashIcon /> : <EyeIcon />}
+              </span>
+            </div>
           </div>
           <div className="w-1/3 bg-white p-4 rounded-md">
             <label
@@ -280,20 +284,22 @@ const Settings: React.FC = () => {
               </svg>
               Confirm New Password
             </label>
-            <input
-              type={showPassword ? 'text' : 'password'}
-              id="confirmnewpass"
-              className="w-full p-2 border rounded-md shadow"
-              placeholder="********"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-            />
-            <span
-              onClick={togglePasswordVisibility}
-              className="absolute bottom-0 right-10 transform -translate-y-1/3 cursor-pointer -mr-8"
-            >
-              {showPassword ? <EyeSlashIcon /> : <EyeIcon />}
-            </span>
+            <div className="relative">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                id="confirmnewpass"
+                className="w-full p-2 border rounded-md shadow"
+                placeholder="********"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
+              <span
+                onClick={togglePasswordVisibility}
+                className="absolute bottom-0 right-10 transform -translate-y-1/3 cursor-pointer -mr-8"
+              >
+                {showPassword ? <EyeSlashIcon /> : <EyeIcon />}
+              </span>
+            </div>
           </div>
         </div>
         <h2 className="text-xl font-semibold pt-6 pl-8">
@@ -398,14 +404,14 @@ const Settings: React.FC = () => {
           <div className="flex space-x-6 pt-2">
             <button
               onClick={routeHome}
-              className="shadow-md shadow-blue-200 w-40 border border-blue-500 bg-white hover:bg-gray-200 text-blue-500 py-2 px-4 rounded-md"
+              className="btn-secondary w-40 py-2 px-4 rounded-md"
               type="button"
             >
               Cancel
             </button>
             <button
               onClick={handleSave}
-              className="shadow-md shadow-blue-200 w-40 bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-md"
+              className="btn-primary shadow-md w-40 text-white py-2 px-4 rounded-md"
               type="button"
             >
               Save

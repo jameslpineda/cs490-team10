@@ -200,12 +200,12 @@ const FocusTimeModal: React.FC<focusTimeInterface> = (focusTimeProps) => {
                   />
                 </svg>
               ) : (
-                <div className="border border-indigo-400 rounded-sm">
+                <div className="border border-primary rounded-sm">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="12"
                     height="12"
-                    className="text-indigo-400"
+                    className="text-primary"
                     style={{ fill: 'currentColor' }}
                     viewBox="0 0 24 24"
                   >
@@ -228,13 +228,13 @@ const FocusTimeModal: React.FC<focusTimeInterface> = (focusTimeProps) => {
             ></textarea>
           </div>
         </div>
-        <div className="bg-gray-950 rounded-md p-3 justify-center items-center mt-3 border border-indigo-500 flex flex-row">
+        <div className="bg-gray-900 rounded-md p-3 justify-center items-center mt-3 border border-secondary flex flex-row font-bold">
           <div className="text-white text-xl">Pomos:&nbsp;</div>
-          <div className="text-indigo-500 pr-10 text-xl">
+          <div className="text-secondary pr-10 text-xl">
             {completedPomo}/{focusTimeProps.props.timers}
           </div>
           <div className="text-white text-xl">Finish At:&nbsp;</div>
-          <div className="text-indigo-400 text-xl">{finishTime}</div>
+          <div className="text-primary text-xl">{finishTime}</div>
         </div>
       </div>
     </div>
