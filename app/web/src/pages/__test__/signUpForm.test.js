@@ -1,11 +1,12 @@
+/* eslint-disable no-undef */
 import React from 'react';
-import { render, screen, fireEvent, act } from '@testing-library/react';
+import { render, screen, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { toast } from 'react-toastify';
 import { BrowserRouter } from 'react-router-dom';
 import SignUpForm from '../../components/SignUpForm';
 import { Provider } from 'react-redux';
-import store from '../../app/store';
+import mockStore from './mockStore';
 
 // Mocking the react-toastify module to prevent actual toasts from being shown during tests
 jest.mock('react-toastify', () => ({
@@ -18,7 +19,7 @@ jest.mock('react-toastify', () => ({
 describe('SignUpForm', () => {
   it('renders sign-up form correctly', () => {
     render(
-      <Provider store={store}>
+      <Provider store={mockStore}>
         <BrowserRouter>
           <SignUpForm />
         </BrowserRouter>
@@ -33,7 +34,7 @@ describe('SignUpForm', () => {
 
   it('updates email and password state on input change', () => {
     render(
-      <Provider store={store}>
+      <Provider store={mockStore}>
         <BrowserRouter>
           <SignUpForm />
         </BrowserRouter>
@@ -60,7 +61,7 @@ describe('SignUpForm', () => {
 
   it('submits the form and displays verification email', async () => {
     render(
-      <Provider store={store}>
+      <Provider store={mockStore}>
         <BrowserRouter>
           <SignUpForm />
         </BrowserRouter>
@@ -91,7 +92,7 @@ describe('SignUpForm', () => {
 
   it('submits the form and displays error toast on failed sign up', async () => {
     render(
-      <Provider store={store}>
+      <Provider store={mockStore}>
         <BrowserRouter>
           <SignUpForm />
         </BrowserRouter>
@@ -119,7 +120,7 @@ describe('SignUpForm', () => {
 
   it('displays error toast on network error during login', async () => {
     render(
-      <Provider store={store}>
+      <Provider store={mockStore}>
         <BrowserRouter>
           <SignUpForm />
         </BrowserRouter>

@@ -1,7 +1,9 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
+import { Provider } from 'react-redux';
 import '@testing-library/jest-dom';
 import FocusTimeModal from '../../components/FocusTimeModal';
+import mockStore from './mockStore';
 
 describe('FocusTimeModal', () => {
   it('renders without crashing', () => {
@@ -14,7 +16,11 @@ describe('FocusTimeModal', () => {
       },
     };
 
-    render(<FocusTimeModal {...mockFocusTimeProps} />);
+    render(
+      <Provider store={mockStore}>
+        <FocusTimeModal {...mockFocusTimeProps} />
+      </Provider>,
+    );
   });
 
   it('closes the modal when the close button is clicked', () => {
@@ -27,7 +33,11 @@ describe('FocusTimeModal', () => {
       },
     };
 
-    const { getByTestId } = render(<FocusTimeModal {...mockFocusTimeProps} />);
+    const { getByTestId } = render(
+      <Provider store={mockStore}>
+        <FocusTimeModal {...mockFocusTimeProps} />
+      </Provider>,
+    );
 
     fireEvent.click(getByTestId('closeButton'));
 

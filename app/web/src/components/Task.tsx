@@ -2,14 +2,18 @@ import React, { useState } from 'react';
 import IconCycleComponent from './IconCycleComponent';
 import { TaskProps } from '../interfaces/taskInterface';
 import FocusTimeModal from './FocusTimeModal';
+import { useUpdateTaskMutation } from '../features/tasks/tasksApiSlice';
 
 const Task: React.FC<TaskProps> = (props) => {
-  const [extend, setExtend] = useState(false);
   const [count, setCounter] = useState(props.timers);
   const [userNote, setNote] = useState(props.notes);
+
+  const [extend, setExtend] = useState(false);
   const [isNoteReadOnly, setIsNoteReadOnly] = useState(true);
   const [editPomo, setEditPomo] = useState(false);
   const [focusTime, showFocusTime] = useState(false);
+
+  const [updateTask] = useUpdateTaskMutation();
 
   function pomoButtons() {
     const dec = document.getElementById('pomoDec') as HTMLElement;
@@ -36,17 +40,32 @@ const Task: React.FC<TaskProps> = (props) => {
   function incrementCount() {
     const newCount = +count + 1;
     setCounter(newCount);
+    const updateParams = {
+      timers: newCount,
+    };
+    updateTask({ id: props._id, taskPayload: updateParams });
   }
-
   function decrementCount() {
     const newCount = count - 1;
     if (newCount != 0) {
       setCounter(newCount);
     }
+    const updateParams = {
+      timers: newCount,
+    };
+    updateTask({ id: props._id, taskPayload: updateParams });
   }
 
   function noteButton() {
-    setIsNoteReadOnly((prevIsNoteReadOnly) => !prevIsNoteReadOnly);
+    if (isNoteReadOnly == false) {
+      setIsNoteReadOnly(true);
+      const updateParams = {
+        notes: userNote,
+      };
+      updateTask({ id: props._id, taskPayload: updateParams });
+    } else {
+      setIsNoteReadOnly(false);
+    }
   }
 
   const openFocus = () => {
@@ -56,7 +75,7 @@ const Task: React.FC<TaskProps> = (props) => {
   return (
     <div className="border bg-white px-3 py-2 mb-1 rounded-xl">
       <div className="flex pb-0.5">
-        <IconCycleComponent />
+        <IconCycleComponent {...props} />
         <button onClick={openFocus}>
           <h3 className="pl-1 text-lg text-indigo-400 font-semibold">
             {props.name}

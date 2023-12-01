@@ -67,7 +67,6 @@ export const userApiSlice = apiSlice.injectEndpoints({
             });
           } else {
             toast.error('An unexpected error has occurred', {
-              position: toast.POSITION.TOP_CENTER,
               autoClose: 7000,
             });
           }

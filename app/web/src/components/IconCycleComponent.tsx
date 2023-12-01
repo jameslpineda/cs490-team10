@@ -1,11 +1,45 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { TaskProps } from '../interfaces/taskInterface';
+import { useUpdateTaskMutation } from '../features/tasks/tasksApiSlice';
 
-const IconCycleComponent: React.FC = () => {
+const IconCycleComponent: React.FC<TaskProps> = (props) => {
   const [clickCount, setClickCount] = useState<number>(0);
 
+  const [updateTask] = useUpdateTaskMutation();
+
+  useEffect(() => {
+    const initialStatusIndex =
+      statusIndices[props.status || 'Task has not been started'];
+    setClickCount(initialStatusIndex || 0);
+  }, [props.status]);
+
   const handleClick = () => {
-    //backend call here figure out w anbar
-    setClickCount((clickCount + 1) % icons.length); // Cycle through icons
+    const newClickCount = (clickCount + 1) % icons.length; // Cycle through icons
+    setClickCount(newClickCount);
+
+    const newStatus = statusMapping[newClickCount];
+    const updateParams = {
+      status: newStatus,
+    };
+    updateTask({ id: props._id, taskPayload: updateParams });
+
+    // call update endpoint here w the newstatus
+  };
+
+  const statusMapping: { [key: number]: string } = {
+    0: 'Task has not been started',
+    1: 'Task is in progress',
+    2: 'Task is complete',
+    3: 'Task rolled over to the next day',
+    4: 'Task is deleted',
+  };
+
+  const statusIndices: { [key: string]: number } = {
+    'Task has not been started': 0,
+    'Task is in progress': 1,
+    'Task is complete': 2,
+    'Task rolled over to the next day': 3,
+    'Task is deleted': 4,
   };
 
   const icons: React.JSX.Element[] = [
@@ -86,7 +120,6 @@ const IconCycleComponent: React.FC = () => {
       />
     </svg>,
   ];
-
   return (
     <div
       className="icon-container pt-0.5"
@@ -96,5 +129,4 @@ const IconCycleComponent: React.FC = () => {
     </div>
   );
 };
-
 export default IconCycleComponent;

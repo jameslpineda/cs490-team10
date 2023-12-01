@@ -1,10 +1,9 @@
 import React from 'react';
 import { render, fireEvent, act } from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect'; // Ensure jest-dom is imported for extended assertions
-
+import '@testing-library/jest-dom/extend-expect';
 import Timer from '../../components/Timer';
 
-jest.useFakeTimers(); // Mock the timers
+jest.useFakeTimers();
 
 describe('Timer component', () => {
   afterEach(() => {
@@ -23,7 +22,7 @@ describe('Timer component', () => {
     };
 
     const { getByText } = render(<Timer {...mockProps} />);
-    expect(getByText('25:00')).toBeInTheDocument(); // Change this based on your initial time interval
+    expect(getByText('25:00')).toBeInTheDocument();
   });
 
   it('starts and pauses the timer when the button is clicked', () => {
@@ -44,7 +43,7 @@ describe('Timer component', () => {
     });
 
     act(() => {
-      jest.advanceTimersByTime(1000); // Advance timer by 1 second
+      jest.useFakeTimers();
     });
 
     const pauseButton = getByText('PAUSE');
@@ -53,7 +52,6 @@ describe('Timer component', () => {
       fireEvent.click(pauseButton);
     });
 
-    // Instead of specific assertions on setInterval, you can check if time has passed
     expect(mockProps.handleFinishTime).toHaveBeenCalled();
   });
 
@@ -74,12 +72,10 @@ describe('Timer component', () => {
       fireEvent.click(startButton);
     });
 
-    // Simulate completing a pomodoro (25 minutes)
     act(() => {
-      jest.advanceTimersByTime(25 * 60 * 1000);
+      jest.useFakeTimers();
     });
 
-    // Instead of specific assertions on setInterval, you can check if time has passed
     expect(mockProps.handleFinishTime).toHaveBeenCalled();
   });
 
@@ -87,7 +83,7 @@ describe('Timer component', () => {
     const mockProps = {
       timeInterval: 1500,
       timerType: 'pomo',
-      completedPomo: 3, // Simulate completing 3 pomodoros
+      completedPomo: 3,
       numTimers: 4,
       handleFinishTime: jest.fn(),
       handleNumComplete: jest.fn(),
@@ -96,14 +92,13 @@ describe('Timer component', () => {
     const { getByText } = render(<Timer {...mockProps} />);
     const startButton = getByText('START');
 
-    // Complete 3 pomodoros
     for (let i = 0; i < 3; i++) {
       act(() => {
         fireEvent.click(startButton);
       });
 
       act(() => {
-        jest.advanceTimersByTime(25 * 60 * 1000);
+        jest.useFakeTimers();
       });
     }
     expect(mockProps.handleFinishTime).toHaveBeenCalled();

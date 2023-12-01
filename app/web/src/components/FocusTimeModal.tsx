@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import focusTimeInterface from '../interfaces/focusTimeInterface';
 import Timer from './Timer';
+
 import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '../features/auth/authSlice';
+import { useUpdateTaskMutation } from '../features/tasks/tasksApiSlice';
 
 const FocusTimeModal: React.FC<focusTimeInterface> = (focusTimeProps) => {
   const userInfo = useSelector(selectCurrentUser);
   const [finishTime, setFinishTime] = useState<string>();
   const [timerType, setTimerType] = useState<string>('pomo');
-  //pomo timer here for use state
   const [timeInterval, setTimeInterval] = useState(userInfo.pomodoro * 60);
   const [completedPomo, setCompletedPomo] = useState(
     focusTimeProps.props.completed_timers,
@@ -16,11 +17,23 @@ const FocusTimeModal: React.FC<focusTimeInterface> = (focusTimeProps) => {
   const [isNoteReadOnly, setIsNoteReadOnly] = useState(true);
   const [note, setNote] = useState(focusTimeProps.props.notes);
 
+  const [updateTask] = useUpdateTaskMutation();
+
   function noteButton() {
     setIsNoteReadOnly((prevIsNoteReadOnly) => !prevIsNoteReadOnly);
+    const updateParams = {
+      notes: note,
+    };
+    updateTask({ id: focusTimeProps.props._id, taskPayload: updateParams });
   }
 
   const closeFocus = () => {
+    const updateParams = {
+      notes: note,
+      completed_timers: completedPomo,
+    };
+    updateTask({ id: focusTimeProps.props._id, taskPayload: updateParams });
+
     focusTimeProps.showFocusTime(false);
   };
 
@@ -30,6 +43,10 @@ const FocusTimeModal: React.FC<focusTimeInterface> = (focusTimeProps) => {
 
   const handleNumComplete = (value: number) => {
     setCompletedPomo(value);
+    const updateParams = {
+      completed_timers: value,
+    };
+    updateTask({ id: focusTimeProps.props._id, taskPayload: updateParams });
   };
 
   useEffect(() => {}, [timerType]);
@@ -49,7 +66,6 @@ const FocusTimeModal: React.FC<focusTimeInterface> = (focusTimeProps) => {
               className="flex flex-col w-1/3 pt-2 font-medium"
               onClick={() => {
                 setTimerType('pomo');
-                //add call here
                 setTimeInterval(userInfo.pomodoro * 60);
               }}
             >
@@ -67,7 +83,6 @@ const FocusTimeModal: React.FC<focusTimeInterface> = (focusTimeProps) => {
               className="flex flex-col w-1/3 pt-2 font-medium"
               onClick={() => {
                 setTimerType('short');
-                //add call here
                 setTimeInterval(userInfo.short_break * 60);
               }}
             >
@@ -85,7 +100,6 @@ const FocusTimeModal: React.FC<focusTimeInterface> = (focusTimeProps) => {
               className="flex flex-col w-5/12 pt-2 font-medium"
               onClick={() => {
                 setTimerType('long');
-                //add call here
                 setTimeInterval(userInfo.long_break * 60);
               }}
             >
@@ -133,7 +147,7 @@ const FocusTimeModal: React.FC<focusTimeInterface> = (focusTimeProps) => {
         <Timer
           handleFinishTime={handleFinishTime}
           timeInterval={timeInterval}
-          completedPomo={completedPomo}
+          completedPomo={focusTimeProps.props.completed_timers}
           handleNumComplete={handleNumComplete}
           timerType={timerType}
           setTimerType={setTimerType}
