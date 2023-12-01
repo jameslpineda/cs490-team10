@@ -228,7 +228,7 @@ const FocusTimeModal: React.FC<focusTimeInterface> = (focusTimeProps) => {
             ></textarea>
           </div>
         </div>
-        <div className="bg-gray-900 rounded-md p-3 justify-center items-center mt-3 border border-secondary flex flex-row">
+        <div className="bg-gray-900 rounded-md p-3 justify-center items-center mt-3 border border-secondary flex flex-row font-bold">
           <div className="text-white text-xl">Pomos:&nbsp;</div>
           <div className="text-secondary pr-10 text-xl">
             {completedPomo}/{focusTimeProps.props.timers}
