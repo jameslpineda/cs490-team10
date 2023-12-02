@@ -23,8 +23,6 @@ import { UserInterface } from '../interfaces/userInterface';
 import asyncHandler from 'express-async-handler';
 import jwt, { VerifyErrors } from 'jsonwebtoken';
 import { jwtConfig } from '../utils/config';
-import { google } from 'googleapis';
-import { oauth2Config } from '../utils/config';
 
 const RESET_TIME = 300000; // 5 minutes = 300000 milliseconds
 
@@ -433,29 +431,3 @@ export const refreshToken = asyncHandler(async (req, res) => {
     },
   );
 });
-
-// @desc Creates authorization url for OAuth2
-// @route GET /user/create-auth
-// @access Private
-export const createAuth = async (req: AuthRequest, res: Response) => {
-  const oatuh2Client = new google.auth.OAuth2(
-    oauth2Config.client_id,
-    oauth2Config.client_secret,
-    oauth2Config.redirect_url,
-  );
-
-  const scopes = [
-    'https://www.googleapis.com/auth/calendar',
-    'https://www.googleapis.com/auth/calendar.events',
-  ];
-
-  const authorizationUrl = oatuh2Client.generateAuthUrl({
-    access_type: 'offline',
-    scope: scopes,
-    include_granted_scopes: true,
-  });
-
-  res.status(200).json({
-    authUrl: authorizationUrl,
-  });
-};

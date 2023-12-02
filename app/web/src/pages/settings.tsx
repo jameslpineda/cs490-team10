@@ -18,6 +18,8 @@ import {
   displayValidationError,
 } from '../utils/validation';
 
+import { AuthGcal } from '../features/appointments/AuthGcal';
+
 const Settings: React.FC = () => {
   const userInfo = useSelector(selectCurrentUser);
 
@@ -417,6 +419,9 @@ const Settings: React.FC = () => {
               Save
             </button>
           </div>
+        </div>
+        <div className="flex w-full justify-center">
+          <AuthGcal />
         </div>
       </div>
     </div>

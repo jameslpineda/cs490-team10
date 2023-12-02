@@ -74,5 +74,5 @@ export const jwtConfig = {
 export const oauth2Config = {
   client_id: CLIENT_ID,
   client_secret: CLIENT_SECRET,
-  redirect_url: REDIRECT_URL || 'http://localhost:3000',
+  redirect_url: REDIRECT_URL || 'http://localhost:3000/settings',
 };

@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser';
 import { errorHandler } from './middleware/errorHandler';
 import userRoutes from './routes/userRoutes';
 import taskRoutes from './routes/taskRoutes';
+import gcalRoutes from './routes/gcalRoutes';
 import { corsConfig } from './utils/config';
 import { logger } from './middleware/logger';
 import credentials from './middleware/credentialsMiddleware';
@@ -25,6 +26,7 @@ app.use(logger);
 // routes
 app.use('/user', userRoutes);
 app.use('/task', taskRoutes);
+app.use('/gcal', gcalRoutes);
 
 app.use(errorHandler);
 

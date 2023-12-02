@@ -34,9 +34,6 @@ type VerifyResponse = {
   email: string;
   message: string;
 };
-type CreateAuthResponse = {
-  authUrl: string;
-};
 
 export const userApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -114,9 +111,6 @@ export const userApiSlice = apiSlice.injectEndpoints({
         method: 'PUT',
       }),
     }),
-    createAuth: builder.query<CreateAuthResponse, void>({
-      query: () => '/user/create-auth',
-    }),
   }),
 });
 
@@ -125,5 +119,4 @@ export const {
   useUpdateUserMutation,
   useCreateUserMutation,
   useVerifyUserMutation,
-  useLazyCreateAuthQuery,
 } = userApiSlice;
