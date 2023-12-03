@@ -13,8 +13,6 @@ import { selectCurrentUser } from '../features/auth/authSlice';
 import { getUserID } from '../services/userServices';
 import Spinner from '../components/Spinner';
 
-import Appointments from '../features/appointments/Appointments';
-
 import { useGetTasksQuery } from '../features/tasks/tasksApiSlice';
 
 export const Home = () => {
