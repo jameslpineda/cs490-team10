@@ -4,6 +4,8 @@ import { TaskProps } from '../interfaces/taskInterface';
 import FocusTimeModal from './FocusTimeModal';
 import { useUpdateTaskMutation } from '../features/tasks/tasksApiSlice';
 
+import { ReactComponent as DropdownIcon } from '../assets/svgs/task-dropdown-icon.svg';
+
 const Task: React.FC<TaskProps> = (props) => {
   const [count, setCounter] = useState(props.timers);
   const [userNote, setNote] = useState(props.notes);
@@ -77,7 +79,7 @@ const Task: React.FC<TaskProps> = (props) => {
       <div className="flex pb-0.5">
         <IconCycleComponent {...props} />
         <button onClick={openFocus}>
-          <h3 className="pl-1 text-lg text-indigo-400 font-semibold">
+          <h3 className="pl-1 text-lg text-primary font-semibold">
             {props.name}
           </h3>
         </button>
@@ -103,29 +105,13 @@ const Task: React.FC<TaskProps> = (props) => {
             />
           </svg>
           <button onClick={() => setExtend(!extend)}>
-            <svg
-              width="19"
-              height="19"
-              viewBox="0 0 20 20"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M9.99996 18.3333C14.6023 18.3333 18.3333 14.6024 18.3333 9.99999C18.3333 5.39762 14.6023 1.66666 9.99996 1.66666C5.39759 1.66666 1.66663 5.39762 1.66663 9.99999C1.66663 14.6024 5.39759 18.3333 9.99996 18.3333Z"
-                stroke="#292D32"
-                strokeWidth="1.2"
-                strokeMiterlimit="10"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M7.05835 8.94998L10 11.8833L12.9417 8.94998"
-                stroke="#292D32"
-                strokeWidth="1.2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+            {extend ? (
+              <div className="transform rotate-180">
+                <DropdownIcon />
+              </div>
+            ) : (
+              <DropdownIcon />
+            )}
           </button>
         </div>
       </div>
@@ -210,12 +196,12 @@ const Task: React.FC<TaskProps> = (props) => {
                 }}
               >
                 {editPomo ? (
-                  <div className="border border-indigo-400 rounded-sm">
+                  <div className="border border-primary rounded-sm">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="12"
                       height="12"
-                      className="text-indigo-400"
+                      className="text-primary"
                       style={{ fill: 'currentColor' }}
                       viewBox="0 0 24 24"
                     >
@@ -303,12 +289,12 @@ const Task: React.FC<TaskProps> = (props) => {
                   />
                 </svg>
               ) : (
-                <div className="border border-indigo-400 rounded-sm">
+                <div className="border border-primary rounded-sm">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="12"
                     height="12"
-                    className="text-indigo-400"
+                    className="text-primary"
                     style={{ fill: 'currentColor' }}
                     viewBox="0 0 24 24"
                   >

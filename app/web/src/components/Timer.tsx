@@ -90,15 +90,15 @@ const Timer: React.FC<timerInterface> = (props) => {
 
   return (
     <div className="bg-gray-100 rounded-md pt-6 mt-2">
-      <div className="flex text-8xl justify-center items-center font-semibold">
+      <div className="flex text-8xl text-timer justify-center items-center font-bold">
         {dispSecondsAsMins(remainingTime)}
       </div>
       <div className="flex justify-center items-center pb-6 mt-4">
         <button
           onClick={toggleStart}
-          className="h-10 w-24 bg-indigo-500 text-white rounded-md font-medium"
+          className="h-12 w-32 btn-primary"
         >
-          {!start ? 'START' : 'PAUSE'}
+          {!start ? 'Start' : 'Pause'}
         </button>
       </div>
     </div>
