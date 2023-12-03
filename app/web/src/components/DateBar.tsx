@@ -1,12 +1,10 @@
 import React from 'react';
 import moment from 'moment';
-import DateProp from '../interfaces/dateInterface';
+import { DateProp } from '../interfaces/dateInterface';
 
 import { ReactComponent as LButton } from '../assets/svgs/db-lbutton.svg';
 import { ReactComponent as RButton } from '../assets/svgs/db-rbutton.svg';
 import { ReactComponent as DropdownIcon } from '../assets/svgs/db-dropdown-icon.svg';
-
-// import lbutton from '../assets/images/db-left-button.png';
 
 const DateBar: React.FC<DateProp> = ({
   date,

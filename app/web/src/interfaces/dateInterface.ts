@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 
-interface DateProp {
+export interface DateProp {
   // eslint-disable-next-line no-unused-vars
   date: moment.Moment;
   setDate: React.Dispatch<React.SetStateAction<moment.Moment>>;
@@ -13,4 +13,6 @@ interface DateProp {
   setShowYear: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default DateProp;
+export interface Date {
+  date: string;
+}
