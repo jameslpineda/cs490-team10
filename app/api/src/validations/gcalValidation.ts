@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { CreateTokensReqBody } from '../interfaces/eventsInterface';
+import { CreateTokensReqBody } from '../interfaces/gcalInterface';
 
 export const createTokensValidation = (data: CreateTokensReqBody) => {
   const schema = Joi.object({

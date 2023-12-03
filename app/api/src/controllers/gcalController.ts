@@ -1,33 +1,24 @@
-import { google } from 'googleapis';
 import { AuthRequestInterface as AuthRequest } from '../interfaces/authInterface';
-import { Event } from '../interfaces/eventsInterface';
 import { Response } from 'express';
-import { oauth2Config } from '../utils/config';
 import { createTokensValidation } from '../validations/gcalValidation';
 import { getUser, updateUser } from '../services/userService';
+import {
+  createAuthUrl,
+  getTokens,
+  getEventsFromGcal,
+} from '../services/gcalService';
 import asyncHandler from 'express-async-handler';
 import moment from 'moment';
-
-// Create OAuth2 Client
-const oauth2Client = new google.auth.OAuth2(
-  oauth2Config.client_id,
-  oauth2Config.client_secret,
-  oauth2Config.redirect_url,
-);
-const scopes = [
-  'https://www.googleapis.com/auth/calendar',
-  'https://www.googleapis.com/auth/calendar.events',
-];
 
 // @desc Creates authorization url for OAuth2
 // @route GET /gcal/create-auth
 // @access Private
 export const createAuth = (req: AuthRequest, res: Response) => {
-  const authorizationUrl = oauth2Client.generateAuthUrl({
-    access_type: 'offline',
-    scope: scopes,
-    include_granted_scopes: true,
-  });
+  const authorizationUrl = createAuthUrl();
+
+  if (!authorizationUrl) {
+    throw new Error('Failed to create authorization url');
+  }
 
   res.status(200).json({
     authUrl: authorizationUrl,
@@ -47,9 +38,13 @@ export const createTokens = asyncHandler(
     const { code } = req.body;
 
     // Exchange tokens for code
-    const { tokens } = await oauth2Client.getToken(code);
+    const tokens = await getTokens(code);
+    if (!tokens) {
+      throw new Error('Failed to exchange code for tokens');
+    }
+
+    // Store refresh token
     if (tokens.refresh_token) {
-      // Store refresh token
       const updatedUser = await updateUser(
         { _id: req.user_id },
         { oauth2_refresh_token: tokens.refresh_token },
@@ -60,6 +55,7 @@ export const createTokens = asyncHandler(
         throw new Error('Failed to update user.');
       }
     }
+
     res.status(200).json({ message: 'Successfully created tokens' });
   },
 );
@@ -85,41 +81,20 @@ export const getEvents = asyncHandler(
     }
 
     if (!user.oauth2_refresh_token) {
+      res.status(401);
       throw new Error(
         'Authorization is required to connect to Google Calendar',
       );
     }
 
-    oauth2Client.setCredentials({ refresh_token: user.oauth2_refresh_token });
-    const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
+    const events = await getEventsFromGcal(
+      user.oauth2_refresh_token,
+      from.toISOString(),
+      to.toISOString(),
+    );
 
-    const resp = await calendar.events.list({
-      calendarId: 'primary',
-      timeMin: from.toISOString(),
-      timeMax: to.toISOString(),
-      maxResults: 100,
-      singleEvents: true,
-      orderBy: 'startTime',
-    });
-    const calendarEvents = resp.data.items;
-
-    let events: Event[] = [];
-    if (calendarEvents) {
-      events = calendarEvents.map((item) => {
-        const start = item.start
-          ? item.start.dateTime || item.start.date
-          : from.toISOString();
-        const end = item.end
-          ? item.end.dateTime || item.end.date
-          : to.toISOString();
-        const event = {
-          summary: item.summary,
-          description: item.description,
-          start: start,
-          end: end,
-        };
-        return event as Event;
-      });
+    if (events === null) {
+      throw new Error('Failed to get events from Google Calendar');
     }
 
     res.status(200).json({
@@ -128,59 +103,3 @@ export const getEvents = asyncHandler(
     });
   },
 );
-// export const getEvents = async (req: AuthRequest, res: Response) => {
-//   oauth2Client.setCredentials(tokens);
-
-//   const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
-//   let userCredential = tokens;
-
-//   oauth2Client.on('tokens', (tokens) => {
-//     if (tokens.refresh_token) {
-//       // Store refresh token
-//       userCredential = tokens;
-//     }
-//   });
-
-//   const dist = tokens.expiry_date - Date.now(); // distance in milliseconds from the expiry date
-//   let timerOne = setInterval(async () => {
-//     const resp = await calendar.events.list({
-//       calendarId: 'primary',
-//       timeMin: '2023-05-01T12:00:00Z',
-//       timeMax: '2023-05-01T12:00:01Z', //max time only one second after begin time to make a dummy call
-//       maxResults: 100,
-//       singleEvents: true,
-//       orderBy: 'startTime',
-//     });
-//   }, dist - 10000); // 10 seconds before expiry, make an API call to refresh the access token - it will automatically update within the oauth client
-
-//   console.log({ tokens });
-//   const resp = await calendar.events.list({
-//     calendarId: 'primary',
-//     timeMin: start,
-//     timeMax: end,
-//     maxResults: 100,
-//     singleEvents: true,
-//     orderBy: 'startTime',
-//   });
-
-//   const calendarEvents = resp.data.items;
-//   if (!calendarEvents || calendarEvents.length === 0) {
-//     console.log('No upcoming events found.');
-//     return;
-//   }
-
-//   console.log('Upcoming 100 events:');
-//   const events = calendarEvents.map((item, i) => {
-//     const start = item.start.dateTime || item.start.date;
-//     const end = item.end.dateTime || item.end.date;
-//     const event = {
-//       summary: item.summary,
-//       description: item.description,
-//       start: start,
-//       end: end,
-//     };
-//     return event;
-//   });
-
-//   return { code, events };
-// };

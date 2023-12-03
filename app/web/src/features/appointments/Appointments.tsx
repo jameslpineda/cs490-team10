@@ -9,14 +9,19 @@ type AppointmentsProps = {
 };
 
 const Appointments = (props: AppointmentsProps) => {
-  const { data, isLoading, isSuccess } = useGetEventsQuery(
+  const { data, isLoading, isSuccess, isError } = useGetEventsQuery(
     props.date.format('YYYY-MM-DD'),
   );
+  console.log(props.date.format());
 
   let content = <Spinner />;
 
   if (isLoading) {
     content = <Spinner />;
+  } else if (isError) {
+    content = (
+      <div>Authorize Crush It to access Google Calendar in the settings</div>
+    );
   } else if (isSuccess) {
     content = <div>{JSON.stringify(data.events)}</div>;
   }

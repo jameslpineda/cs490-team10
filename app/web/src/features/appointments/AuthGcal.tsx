@@ -7,22 +7,21 @@ import { toast } from 'react-toastify';
 import queryString from 'query-string';
 
 export const AuthGcal = () => {
-  const [createAuth, { data }] = useLazyCreateAuthQuery();
+  const [createAuthUrl, { data }] = useLazyCreateAuthQuery();
   const [createTokens] = useCreateTokensMutation();
   const effectRan = useRef(false);
 
   const { code } = queryString.parse(window.location.search);
 
-  // Initialize
+  // Initialize lazy query
   useEffect(() => {
-    createAuth();
+    createAuthUrl();
   }, []);
 
   useEffect(() => {
     // Make sure to add check for prod
     // Ensures that effect runs once
     if (effectRan.current === true) {
-      // console.log('code:', code);
       handleCode();
     }
 
@@ -34,7 +33,7 @@ export const AuthGcal = () => {
       try {
         await createTokens({ code }).unwrap();
 
-        toast.error('Sucessfully authorized!', {
+        toast.success('Sucessfully authorized!', {
           position: toast.POSITION.TOP_CENTER,
         });
       } catch (err) {
@@ -49,14 +48,21 @@ export const AuthGcal = () => {
   };
 
   const handleClick = () => {
-    createAuth();
-    if (data) {
-      console.log(data.authUrl);
+    try {
+      createAuthUrl();
 
-      // Redirect user
-      window.location.href = data.authUrl;
-    } else {
-      toast.error('Something went wrong!');
+      if (data) {
+        // Redirect user
+        window.location.href = data.authUrl;
+      } else {
+        toast.error('Failed to create auth URL', {
+          position: toast.POSITION.TOP_CENTER,
+        });
+      }
+    } catch (error) {
+      toast.error('Something went wrong!', {
+        position: toast.POSITION.TOP_CENTER,
+      });
     }
   };
 
