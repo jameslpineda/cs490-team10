@@ -9,8 +9,15 @@ type CreateTokensPayload = {
   code: string;
 };
 type CreateTokensResponse = {
-  tokens: unknown;
+  message: string;
 };
+// type GetEventsPayload = {
+//   date: string;
+// };
+// type GetEventsResponse = {
+//   message: string;
+//   events: unknown;
+// };
 
 export const appointmentsApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -24,8 +31,17 @@ export const appointmentsApiSlice = apiSlice.injectEndpoints({
         body: payload,
       }),
     }),
+    getEvents: builder.query({
+      query: (date) => ({
+        url: `/gcal/get-events?date=${date}`,
+        method: 'GET',
+      }),
+    }),
   }),
 });
 
-export const { useLazyCreateAuthQuery, useCreateTokensMutation } =
-  appointmentsApiSlice;
+export const {
+  useLazyCreateAuthQuery,
+  useCreateTokensMutation,
+  useGetEventsQuery,
+} = appointmentsApiSlice;

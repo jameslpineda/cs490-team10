@@ -1,6 +1,4 @@
-export type GetEventsReqBody = {
-  start?: string;
-  end?: string;
+export type CreateTokensReqBody = {
   code?: string;
 };
 
@@ -9,9 +7,4 @@ export type Event = {
   description?: string;
   start: string;
   end: string;
-};
-
-export type Events = {
-  code: string;
-  events: Event[];
 };

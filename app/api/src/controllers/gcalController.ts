@@ -1,9 +1,12 @@
 import { google } from 'googleapis';
 import { AuthRequestInterface as AuthRequest } from '../interfaces/authInterface';
+import { Event } from '../interfaces/eventsInterface';
 import { Response } from 'express';
 import { oauth2Config } from '../utils/config';
 import { createTokensValidation } from '../validations/gcalValidation';
+import { getUser, updateUser } from '../services/userService';
 import asyncHandler from 'express-async-handler';
+import moment from 'moment';
 
 // Create OAuth2 Client
 const oauth2Client = new google.auth.OAuth2(
@@ -45,10 +48,86 @@ export const createTokens = asyncHandler(
 
     // Exchange tokens for code
     const { tokens } = await oauth2Client.getToken(code);
-    res.status(200).json({ tokens });
+    if (tokens.refresh_token) {
+      // Store refresh token
+      const updatedUser = await updateUser(
+        { _id: req.user_id },
+        { oauth2_refresh_token: tokens.refresh_token },
+      );
+
+      // If the update failed
+      if (!updatedUser) {
+        throw new Error('Failed to update user.');
+      }
+    }
+    res.status(200).json({ message: 'Successfully created tokens' });
   },
 );
 
+// @desc Get events using the tokens
+// @route GET /gcal/get-events
+// @access Private
+export const getEvents = asyncHandler(
+  async (req: AuthRequest, res: Response) => {
+    const date = req.query.date;
+
+    if (!date) {
+      res.status(422);
+      throw new Error('Missing date in query');
+    }
+    const from = moment(date as string).startOf('day');
+    const to = moment(from).add(1, 'day');
+
+    const user = await getUser({ _id: req.user_id });
+    if (!user) {
+      res.status(404);
+      throw new Error('User not found');
+    }
+
+    if (!user.oauth2_refresh_token) {
+      throw new Error(
+        'Authorization is required to connect to Google Calendar',
+      );
+    }
+
+    oauth2Client.setCredentials({ refresh_token: user.oauth2_refresh_token });
+    const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
+
+    const resp = await calendar.events.list({
+      calendarId: 'primary',
+      timeMin: from.toISOString(),
+      timeMax: to.toISOString(),
+      maxResults: 100,
+      singleEvents: true,
+      orderBy: 'startTime',
+    });
+    const calendarEvents = resp.data.items;
+
+    let events: Event[] = [];
+    if (calendarEvents) {
+      events = calendarEvents.map((item) => {
+        const start = item.start
+          ? item.start.dateTime || item.start.date
+          : from.toISOString();
+        const end = item.end
+          ? item.end.dateTime || item.end.date
+          : to.toISOString();
+        const event = {
+          summary: item.summary,
+          description: item.description,
+          start: start,
+          end: end,
+        };
+        return event as Event;
+      });
+    }
+
+    res.status(200).json({
+      message: 'Successfully retrieved Google Calendar Events',
+      events,
+    });
+  },
+);
 // export const getEvents = async (req: AuthRequest, res: Response) => {
 //   oauth2Client.setCredentials(tokens);
 

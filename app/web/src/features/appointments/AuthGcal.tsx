@@ -22,7 +22,7 @@ export const AuthGcal = () => {
     // Make sure to add check for prod
     // Ensures that effect runs once
     if (effectRan.current === true) {
-      console.log('code:', code);
+      // console.log('code:', code);
       handleCode();
     }
 
@@ -32,12 +32,17 @@ export const AuthGcal = () => {
   const handleCode = async () => {
     if (code !== null && code !== undefined && typeof code === 'string') {
       try {
-        const response = await createTokens({ code }).unwrap();
+        await createTokens({ code }).unwrap();
 
-        console.log(response.tokens);
+        toast.error('Sucessfully authorized!', {
+          position: toast.POSITION.TOP_CENTER,
+        });
       } catch (err) {
         toast.error(
           'An error occurred while processing the authorization code!',
+          {
+            position: toast.POSITION.TOP_CENTER,
+          },
         );
       }
     }

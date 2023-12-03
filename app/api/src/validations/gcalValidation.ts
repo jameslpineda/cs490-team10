@@ -1,7 +1,7 @@
 import Joi from 'joi';
-import { GetEventsReqBody } from '../interfaces/eventsInterface';
+import { CreateTokensReqBody } from '../interfaces/eventsInterface';
 
-export const createTokensValidation = (data: GetEventsReqBody) => {
+export const createTokensValidation = (data: CreateTokensReqBody) => {
   const schema = Joi.object({
     code: Joi.string().required(),
   });
