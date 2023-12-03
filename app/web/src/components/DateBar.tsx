@@ -96,36 +96,38 @@ const DateBar: React.FC<DateProp> = ({
   };
 
   return (
-    <div className="flex justify-center space-x-4 p-2 m-4 bg-primary bg-opacity-15 rounded-2xl">
-      <div className="flex space-x-1">
+    <div className="flex shrink-0 justify-center space-x-5 p-2 m-4 date-bar">
+      <div className="flex shrink-0 space-x-1">
         <button
           data-testid="decrement-month-button"
           onClick={decrementMonth}
         >
           <LButton />
         </button>
-        <button
-          onClick={() => setShowMonth(!false)}
-          data-testid="monthID"
-          className={`relative border border-primary w-40 p-1.5 pl-3 rounded-md font-medium text-s text-left ${
-            showMonth ? 'bg-white' : ''
-          } `}
-        >
-          <span className="text-black font-bold flex justify-between items-center">
-            <p>{date.format('MMMM')}</p>
-            {showMonth ? (
-              <div className="transform rotate-180">
+        <div className="relative">
+          <button
+            onClick={() => setShowMonth(!false)}
+            data-testid="monthID"
+            className={`relative border border-primary w-[199px] pr-[13px] h-full  pl-[18px] rounded-[10px] font-medium text-s text-left ${
+              showMonth ? 'bg-white rounded-b-[0px] border-b-white' : ''
+            } `}
+          >
+            <span className="text-light-black font-bold text-[22px] flex justify-between items-center line-height-nm">
+              <p>{date.format('MMMM')}</p>
+              {showMonth ? (
+                <div className="transform rotate-180">
+                  <DropdownIcon />
+                </div>
+              ) : (
                 <DropdownIcon />
-              </div>
-            ) : (
-              <DropdownIcon />
-            )}
-          </span>
+              )}
+            </span>
+          </button>
           {showMonth && (
-            <div className="absolute top-8 left-0 p-2 bg-white w-full rounded-b-md outline-none border-l border-b border-r border-primary">
+            <div className="absolute left-0 pl-[19px] pr-[7px] pb-[20px] bg-white w-full rounded-b-[10px] outline-none border-l border-b border-r border-primary">
               <select
                 size={5}
-                className=" text-black w-full outline-none myScroll"
+                className=" text-light-black text-[18px] w-full outline-none myScroll"
                 value={date.format('MMMM')}
                 onChange={(e) => {
                   updateDate(date.clone().month(e.target.value));
@@ -135,7 +137,7 @@ const DateBar: React.FC<DateProp> = ({
                 {monthNames.map((month) => {
                   return (
                     <option
-                      className="bg-white cursor-pointer py-1.5"
+                      className="bg-white cursor-pointer py-[6.5px]"
                       key={month}
                       value={month}
                     >
@@ -146,7 +148,7 @@ const DateBar: React.FC<DateProp> = ({
               </select>
             </div>
           )}
-        </button>
+        </div>
         <button
           data-testid="increment-month-button"
           onClick={incrementMonth}
@@ -154,35 +156,37 @@ const DateBar: React.FC<DateProp> = ({
           <RButton />
         </button>
       </div>
-      <div className="flex space-x-1">
+      <div className="flex shrink-0 space-x-1">
         <button
           data-testid="decrement-day-button"
           onClick={decrementDay}
         >
           <LButton />
         </button>
-        <button
-          onClick={() => setShowDay(!false)}
-          data-testid="dayID"
-          className={`relative border border-primary w-20 p-1.5 pl-4 rounded-md font-medium text-s text-left ${
-            showDay ? 'bg-white' : ''
-          }`}
-        >
-          <span className="text-black font-bold flex justify-between  items-center">
-            <p>{date.format('D')}</p>
-            {showDay ? (
-              <div className="transform rotate-180">
+        <div className="relative">
+          <button
+            onClick={() => setShowDay(!false)}
+            data-testid="dayID"
+            className={`relative border border-primary w-[98px] pr-[11px] h-full  pl-[19px] rounded-[10px] font-medium text-s text-left ${
+              showDay ? 'bg-white rounded-b-[0px] border-b-white' : ''
+            }`}
+          >
+            <span className="text-light-black font-bold text-[22px] flex justify-between items-center line-height-nm">
+              <p>{date.format('D')}</p>
+              {showDay ? (
+                <div className="transform rotate-180">
+                  <DropdownIcon />
+                </div>
+              ) : (
                 <DropdownIcon />
-              </div>
-            ) : (
-              <DropdownIcon />
-            )}
-          </span>
+              )}
+            </span>
+          </button>
           {showDay && (
-            <div className="absolute top-8 left-0 p-2 bg-white w-full rounded-b-md outline-none border-l border-b border-r border-primary">
+            <div className="absolute left-0 pl-[19px] pr-[7px] pb-[20px] bg-white w-full rounded-b-[10px] outline-none border-l border-b border-r border-primary">
               <select
                 size={5}
-                className=" text-black w-full outline-none pr-2 myScroll"
+                className="text-light-black text-[18px] w-full outline-none pr-2 myScroll"
                 value={date.format('D')}
                 onChange={(e) => {
                   updateDate(date.clone().date(parseInt(e.target.value)));
@@ -192,7 +196,7 @@ const DateBar: React.FC<DateProp> = ({
                 {daysArray.map((day) => {
                   return (
                     <option
-                      className="bg-white cursor-pointer py-1.5"
+                      className="bg-white cursor-pointer py-[6.5px]"
                       key={day}
                       value={day}
                     >
@@ -203,7 +207,7 @@ const DateBar: React.FC<DateProp> = ({
               </select>
             </div>
           )}
-        </button>
+        </div>
         <button
           data-testid="increment-day-button"
           onClick={incrementDay}
@@ -211,34 +215,36 @@ const DateBar: React.FC<DateProp> = ({
           <RButton />
         </button>
       </div>
-      <div className="flex space-x-1">
+      <div className="flex shrink-0 space-x-1">
         <button
           data-testid="decrement-year-button"
           onClick={decrementYear}
         >
           <LButton />
         </button>
-        <button
-          onClick={() => setShowYear(!false)}
-          className={`relative border border-primary w-28 p-1.5 pl-3 rounded-md font-bold text-s text-left ${
-            showYear ? 'bg-white' : ''
-          }  `}
-        >
-          <span className="text-black font-bold flex justify-between  items-center">
-            <p data-testid="yearID">{date.format('YYYY')}</p>
-            {showYear ? (
-              <div className="transform rotate-180">
+        <div className="relative">
+          <button
+            onClick={() => setShowYear(!false)}
+            className={`relative border border-primary w-[113px] pr-[7px] h-full pl-[13px] rounded-[10px] font-medium text-s text-left ${
+              showYear ? 'bg-white rounded-b-[0px] border-b-white' : ''
+            }  `}
+          >
+            <span className="text-light-black font-bold text-[22px] flex justify-between items-center line-height-nm">
+              <p data-testid="yearID">{date.format('YYYY')}</p>
+              {showYear ? (
+                <div className="transform rotate-180">
+                  <DropdownIcon />
+                </div>
+              ) : (
                 <DropdownIcon />
-              </div>
-            ) : (
-              <DropdownIcon />
-            )}
-          </span>
+              )}
+            </span>
+          </button>
           {showYear && (
-            <div className="absolute top-8 left-0 p-2 bg-white w-full rounded-b-md outline-none border-l border-b border-r border-primary">
+            <div className="absolute left-0 pl-[13px] pr-[7px] pb-[20px] bg-white w-full rounded-b-[10px] outline-none border-l border-b border-r border-primary">
               <select
                 size={5}
-                className=" text-black w-full outline-none pr-2 myScroll"
+                className=" text-light-black text-[18px] w-full outline-none pr-2 myScroll"
                 value={date.format('YYYY')}
                 onChange={(e) => {
                   updateDate(date.clone().year(parseInt(e.target.value)));
@@ -248,7 +254,7 @@ const DateBar: React.FC<DateProp> = ({
                 {allYears.map((year) => {
                   return (
                     <option
-                      className="bg-white cursor-pointer p-1.5"
+                      className="bg-white cursor-pointer p-[6.5px]"
                       key={year}
                       value={year}
                     >
@@ -259,7 +265,7 @@ const DateBar: React.FC<DateProp> = ({
               </select>
             </div>
           )}
-        </button>
+        </div>
         <button
           data-testid="increment-year-button"
           onClick={incrementYear}

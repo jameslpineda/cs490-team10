@@ -13,6 +13,7 @@ module.exports = {
         primary: '#6284FF',
         secondary: '#407BFF',
         timer: '#1F1F1F',
+        'light-black': '#1F1F1F',
         gray: {
           300: '#F5F7F9',
           400: '#DADADA',

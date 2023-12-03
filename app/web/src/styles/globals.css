@@ -36,4 +36,11 @@ code {
   .btn-secondary:hover: {
     backgroundcolor: rgb(245 247 249);
   } */
+  .date-bar {
+    @apply bg-primary bg-opacity-15;
+    border-radius: 10px;
+  }
+  .line-height-nm {
+    line-height: normal;
+  }
 }
