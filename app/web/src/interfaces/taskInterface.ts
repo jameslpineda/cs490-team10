@@ -42,3 +42,7 @@ export interface taskModalProps {
 export interface TaskCardProps {
   tasks: TaskProps[];
 }
+
+export interface TaskCardProps {
+  tasks: TaskProps[];
+}
