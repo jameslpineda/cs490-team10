@@ -51,6 +51,10 @@ const UserSchema = new mongoose.Schema(
       type: String,
       default: null,
     },
+    oauth2_refresh_token: {
+      type: String,
+      default: null,
+    },
   },
   {
     timestamps: true,

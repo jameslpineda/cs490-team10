@@ -14,4 +14,5 @@ export type UserInterface = {
   reset_password_token?: null | string;
   reset_password_expire_time?: null | number | { $gt: number };
   refresh_token?: string;
+  oauth2_refresh_token?: string;
 };

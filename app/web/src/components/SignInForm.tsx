@@ -10,6 +10,7 @@ import { ReactComponent as EyeSlashIcon } from '../assets/svgs/eye-slash.svg';
 import { useDispatch } from 'react-redux';
 import { setCredentials } from '../features/auth/authSlice';
 import { useSignInMutation } from '../features/auth/authApiSlice';
+import usePersist from '../hooks/usePersist';
 
 import { validateEmail, displayValidationError } from '../utils/validation';
 
@@ -19,6 +20,7 @@ const SignInForm: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const [signIn, { isLoading }] = useSignInMutation();
+  usePersist();
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -48,7 +50,8 @@ const SignInForm: React.FC = () => {
         navigate('/home');
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
-        if (err?.data?.message) {
+        console.log(err);
+        if (err.data.message) {
           toast.error(err.data.message, {
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 7000,

@@ -417,7 +417,17 @@ export const refreshToken = asyncHandler(async (req, res) => {
       if (!accessToken) {
         throw new Error('Failed to create Access Token');
       }
-      res.status(200).json({ accessToken });
+      res.status(200).json({
+        accessToken,
+        user: {
+          email: user.email,
+          first_name: user.first_name,
+          last_name: user.last_name,
+          pomodoro: user.pomodoro,
+          short_break: user.short_break,
+          long_break: user.long_break,
+        },
+      });
     },
   );
 });
