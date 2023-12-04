@@ -36,7 +36,7 @@ describe('Timer component', () => {
     };
 
     const { getByText } = render(<Timer {...mockProps} />);
-    const startButton = getByText('START');
+    const startButton = getByText('Start');
 
     act(() => {
       fireEvent.click(startButton);
@@ -46,7 +46,7 @@ describe('Timer component', () => {
       jest.useFakeTimers();
     });
 
-    const pauseButton = getByText('PAUSE');
+    const pauseButton = getByText('Pause');
 
     act(() => {
       fireEvent.click(pauseButton);
@@ -66,7 +66,7 @@ describe('Timer component', () => {
     };
 
     const { getByText } = render(<Timer {...mockProps} />);
-    const startButton = getByText('START');
+    const startButton = getByText('Start');
 
     act(() => {
       fireEvent.click(startButton);
@@ -90,7 +90,7 @@ describe('Timer component', () => {
     };
 
     const { getByText } = render(<Timer {...mockProps} />);
-    const startButton = getByText('START');
+    const startButton = getByText('Start');
 
     for (let i = 0; i < 3; i++) {
       act(() => {
