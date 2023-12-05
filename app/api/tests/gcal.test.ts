@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable no-unused-vars */
 import {
@@ -37,7 +38,7 @@ jest.mock('../src/controllers/gcalController', () => {
 };
 });
 
-describe('Your functions', () => {
+describe('Google Calendar Functions', () => {
   let req: AuthRequest;
   let res: Response;
   let next: NextFunction;
