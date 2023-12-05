@@ -20,7 +20,7 @@ export const createAuth = (req: AuthRequest, res: Response) => {
     throw new Error('Failed to create authorization url');
   }
 
-  res.status(200).json({
+  res?.status(200)?.json({
     authUrl: authorizationUrl,
   });
 };
