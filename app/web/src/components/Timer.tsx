@@ -11,6 +11,8 @@ const Timer: React.FC<timerInterface> = (props) => {
   const tick: MutableRefObject<NodeJS.Timer | undefined> = useRef();
 
   useEffect(() => {
+    props.handleFinishTime('');
+    setStart(false);
     setRemainingTime(props.timeInterval);
   }, [props.timeInterval, props.timerType]);
 
