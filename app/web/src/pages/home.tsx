@@ -81,7 +81,7 @@ export const Home = () => {
           <button
             onClick={routeSettings}
             data-testid="name"
-            className="flex p-2 text-black border border-black hover:bg-gray-100 font-semibold rounded-md"
+            className="flex p-2 text-light-black text-sm border hover:bg-gray-100 font-bold rounded-md"
           >
             {username.toString()}
           </button>
@@ -159,7 +159,7 @@ export const Home = () => {
             {content}
           </div>
           <div className="w-1/2 pl-4">
-            <h2 className="text-2xl font-semibold pb-2">Appointment</h2>
+            <h2 className="text-3xl font-bold pb-2">Appointments</h2>
             <div className="flex flex-col flex-grow">
               <Appointments date={date} />
             </div>

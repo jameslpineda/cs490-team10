@@ -15,7 +15,7 @@ const Important: React.FC<TaskCardProps> = ({ tasks }) => {
           style={{ border: isOver ? '2px solid gold' : '' }}
         >
           {' '}
-          <h2 className="text-xl font-semibold font-sans">Important</h2>
+          <h2 className="text-xl font-bold font-sans mb-3">Important</h2>
           {tasks.map((task: TaskProps) => (
             <Task
               key={task._id}

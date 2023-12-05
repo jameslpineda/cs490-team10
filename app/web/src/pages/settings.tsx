@@ -120,7 +120,7 @@ const Settings: React.FC = () => {
             <button
               id="nameID"
               data-testid="name"
-              className="flex p-2 text-black border border-back hover:bg-gray-100 font-semibold rounded-md"
+              className="flex p-2 text-light-black text-sm border hover:bg-gray-100 font-bold rounded-md"
             >
               {username}
             </button>
