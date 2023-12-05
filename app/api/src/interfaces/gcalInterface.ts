@@ -3,7 +3,7 @@ export type CreateTokensReqBody = {
 };
 
 export type Event = {
-  summary: string;
+  title: string;
   description?: string;
   start: string;
   end: string;

@@ -51,8 +51,8 @@ const TaskList: React.FC<TaskCardProps> = ({ tasks }) => {
         collisionDetection={closestCenter}
         onDragEnd={(event) => handleDragEnd(event)}
       >
-        <div className="flex-1 flex-col flex-grow">
-          <div className="flex-grow bg-white rounded-lg shadow-md">
+        <div className="h-full pb-16 flex-1 flex-col flex-grow">
+          <div className="h-full overflow-y-auto flex-grow bg-white rounded-lg shadow-md">
             <div className="flex flex-col p-4">
               <TopPriority tasks={topPriority} />
               <Important tasks={important} />

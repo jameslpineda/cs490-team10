@@ -9,10 +9,9 @@ type AppointmentsProps = {
 };
 
 const Appointments = (props: AppointmentsProps) => {
-  const { data, isLoading, isSuccess, isError } = useGetEventsQuery(
+  const { data, isLoading, isSuccess, isError } = useGetEventsQuery (
     props.date.format('YYYY-MM-DD'),
   );
-  console.log(props.date.format());
 
   let content = <Spinner />;
 

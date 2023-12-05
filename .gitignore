@@ -1,7 +1,7 @@
 .DS_Store
 .env
-.env.local
-.env.development
+app/.env.local
+app/.env.development
 
 **/node_modules/
 **/logs/

@@ -3,6 +3,7 @@ import moment from 'moment';
 import '../components/scroll.css';
 import TaskModal from '../components/TaskModal';
 import TaskList from '../components/TaskList';
+import Appointments from '../components/Appointments';
 import SideBar from '../components/SideBar';
 import DateBar from '../components/DateBar';
 import { useNavigate } from 'react-router-dom';
@@ -11,10 +12,8 @@ import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '../features/auth/authSlice';
 import { getUserID } from '../services/userServices';
 import Spinner from '../components/Spinner';
-
-import Appointments from '../features/appointments/Appointments';
-
 import { useGetTasksQuery } from '../features/tasks/tasksApiSlice';
+import '../components/calendarComponents/calendar.css';
 
 export const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -98,8 +97,8 @@ export const Home = () => {
             setShowYear={setShowYear}
           />
         </div>
-        <div className="flex">
-          <div className="w-1/2 pl-4">
+        <div className="flex h-4/5">
+          <div className="w-1/2 pl-4 h-7/8">
             <div className="flex pb-2">
               <h2 className="text-3xl font-bold pb-2 pr-2">Tasks</h2>
               <button onClick={openModal}>
@@ -158,11 +157,9 @@ export const Home = () => {
             </div>
             {content}
           </div>
-          <div className="w-1/2 pl-4">
-            <h2 className="text-3xl font-bold pb-2">Appointments</h2>
-            <div className="flex flex-col flex-grow">
-              <Appointments date={date} />
-            </div>
+          <div className="w-1/2 pl-4 pr-2 h-7/8">
+            <h2 className="text-3xl font-bold pb-4">Appointments</h2>
+            <Appointments date={date.format('YYYY-MM-DD')} />
           </div>
         </div>
       </div>
