@@ -2,9 +2,9 @@ import React from 'react';
 import moment from 'moment';
 import DateProp from '../interfaces/dateInterface';
 
-import { ReactComponent as LButton } from '../assets/svgs/db-lbutton.svg';
-import { ReactComponent as RButton } from '../assets/svgs/db-rbutton.svg';
-import { ReactComponent as DropdownIcon } from '../assets/svgs/db-dropdown-icon.svg';
+import DBLButton from '../components/buttons/dbLButtonSvg';
+import DBRButton from '../components/buttons/dbRButtonSvg';
+import DBDropdownButton from './buttons/dbDropdownButtonSvg';
 
 // import lbutton from '../assets/images/db-left-button.png';
 
@@ -96,38 +96,41 @@ const DateBar: React.FC<DateProp> = ({
   };
 
   return (
-    <div className="flex shrink-0 justify-center space-x-5 p-2 m-4 date-bar">
-      <div className="flex shrink-0 space-x-1">
+    <div className="flex shrink-0 justify-center items-center space-x-5 h-[3.75rem] m-4 date-bar">
+      <div className="flex shrink-0 space-x-1 h-[2.8125rem]">
         <button
           data-testid="decrement-month-button"
           onClick={decrementMonth}
+          className="w-[2.8125rem]"
         >
-          <LButton />
+          <DBLButton />
         </button>
         <div className="relative">
           <button
             onClick={() => setShowMonth(!false)}
             data-testid="monthID"
-            className={`relative border border-primary w-[199px] pr-[13px] h-full  pl-[18px] rounded-[10px] font-medium text-s text-left ${
+            className={`relative border border-primary w-[12.4375rem] pr-[13px] h-full  pl-[18px] rounded-[0.625rem] font-medium text-s text-left ${
               showMonth ? 'bg-white rounded-b-[0px] border-b-white' : ''
             } `}
           >
-            <span className="text-light-black font-bold text-[22px] flex justify-between items-center line-height-nm">
+            <span className="text-light-black font-bold text-[1.375rem] line-height-normal flex justify-between items-center line-height-nm">
               <p>{date.format('MMMM')}</p>
-              {showMonth ? (
-                <div className="transform rotate-180">
-                  <DropdownIcon />
-                </div>
-              ) : (
-                <DropdownIcon />
-              )}
+              <div className="w-5 h-5">
+                {showMonth ? (
+                  <div className="transform rotate-180">
+                    <DBDropdownButton />
+                  </div>
+                ) : (
+                  <DBDropdownButton />
+                )}
+              </div>
             </span>
           </button>
           {showMonth && (
             <div className="absolute left-0 pl-[19px] pr-[7px] pb-[20px] bg-white w-full rounded-b-[10px] outline-none border-l border-b border-r border-primary">
               <select
                 size={5}
-                className=" text-light-black text-[18px] w-full outline-none myScroll"
+                className=" text-light-black text-lg line-height-normal w-full outline-none myScroll"
                 value={date.format('MMMM')}
                 onChange={(e) => {
                   updateDate(date.clone().month(e.target.value));
@@ -152,41 +155,45 @@ const DateBar: React.FC<DateProp> = ({
         <button
           data-testid="increment-month-button"
           onClick={incrementMonth}
+          className="w-[2.8125rem]"
         >
-          <RButton />
+          <DBRButton />
         </button>
       </div>
-      <div className="flex shrink-0 space-x-1">
+      <div className="flex shrink-0 space-x-1 h-[2.8125rem]">
         <button
           data-testid="decrement-day-button"
           onClick={decrementDay}
+          className="w-[2.8125rem]"
         >
-          <LButton />
+          <DBLButton />
         </button>
         <div className="relative">
           <button
             onClick={() => setShowDay(!false)}
             data-testid="dayID"
-            className={`relative border border-primary w-[98px] pr-[11px] h-full  pl-[19px] rounded-[10px] font-medium text-s text-left ${
+            className={`relative border border-primary w-[6.125rem] pr-[11px] h-full  pl-[19px] rounded-[0.625rem] font-medium text-s text-left ${
               showDay ? 'bg-white rounded-b-[0px] border-b-white' : ''
             }`}
           >
-            <span className="text-light-black font-bold text-[22px] flex justify-between items-center line-height-nm">
+            <span className="text-light-black font-bold text-[1.375rem] line-height-normal flex justify-between items-center line-height-nm">
               <p>{date.format('D')}</p>
-              {showDay ? (
-                <div className="transform rotate-180">
-                  <DropdownIcon />
-                </div>
-              ) : (
-                <DropdownIcon />
-              )}
+              <div className="w-5 h-5">
+                {showDay ? (
+                  <div className="transform rotate-180">
+                    <DBDropdownButton />
+                  </div>
+                ) : (
+                  <DBDropdownButton />
+                )}
+              </div>
             </span>
           </button>
           {showDay && (
             <div className="absolute left-0 pl-[19px] pr-[7px] pb-[20px] bg-white w-full rounded-b-[10px] outline-none border-l border-b border-r border-primary">
               <select
                 size={5}
-                className="text-light-black text-[18px] w-full outline-none pr-2 myScroll"
+                className="text-light-black text-lg line-height-normal w-full outline-none pr-2 myScroll"
                 value={date.format('D')}
                 onChange={(e) => {
                   updateDate(date.clone().date(parseInt(e.target.value)));
@@ -211,40 +218,44 @@ const DateBar: React.FC<DateProp> = ({
         <button
           data-testid="increment-day-button"
           onClick={incrementDay}
+          className="w-[2.8125rem]"
         >
-          <RButton />
+          <DBRButton />
         </button>
       </div>
-      <div className="flex shrink-0 space-x-1">
+      <div className="flex shrink-0 space-x-1 h-[2.8125rem]">
         <button
           data-testid="decrement-year-button"
           onClick={decrementYear}
+          className="w-[2.8125rem]"
         >
-          <LButton />
+          <DBLButton />
         </button>
         <div className="relative">
           <button
             onClick={() => setShowYear(!false)}
-            className={`relative border border-primary w-[113px] pr-[7px] h-full pl-[13px] rounded-[10px] font-medium text-s text-left ${
+            className={`relative border border-primary w-[7.0625rem] pr-[7px] h-full pl-[13px] rounded-[0.625rem] font-medium text-s text-left ${
               showYear ? 'bg-white rounded-b-[0px] border-b-white' : ''
             }  `}
           >
-            <span className="text-light-black font-bold text-[22px] flex justify-between items-center line-height-nm">
+            <span className="text-light-black font-bold text-[1.375rem] line-height-normal flex justify-between items-center line-height-nm">
               <p data-testid="yearID">{date.format('YYYY')}</p>
-              {showYear ? (
-                <div className="transform rotate-180">
-                  <DropdownIcon />
-                </div>
-              ) : (
-                <DropdownIcon />
-              )}
+              <div className="w-5 h-5">
+                {showYear ? (
+                  <div className="transform rotate-180">
+                    <DBDropdownButton />
+                  </div>
+                ) : (
+                  <DBDropdownButton />
+                )}
+              </div>
             </span>
           </button>
           {showYear && (
             <div className="absolute left-0 pl-[13px] pr-[7px] pb-[20px] bg-white w-full rounded-b-[10px] outline-none border-l border-b border-r border-primary">
               <select
                 size={5}
-                className=" text-light-black text-[18px] w-full outline-none pr-2 myScroll"
+                className=" text-light-black text-lg line-height-normal w-full outline-none pr-2 myScroll"
                 value={date.format('YYYY')}
                 onChange={(e) => {
                   updateDate(date.clone().year(parseInt(e.target.value)));
@@ -269,8 +280,9 @@ const DateBar: React.FC<DateProp> = ({
         <button
           data-testid="increment-year-button"
           onClick={incrementYear}
+          className="w-[2.8125rem]"
         >
-          <RButton />
+          <DBRButton />
         </button>
       </div>
     </div>
