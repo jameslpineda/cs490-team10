@@ -62,7 +62,7 @@ export const getEventsFromGcal = async (
           : from;
         const end = item.end ? item.end.dateTime || item.end.date : to;
         const event = {
-          summary: item.summary,
+          title: item.summary,
           description: item.description,
           start: start,
           end: end,

@@ -2,6 +2,7 @@ import React from 'react';
 import DayCalendar from './calendarComponents/DayCalendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { Date } from '../interfaces/dateInterface';
+
 const Appointments: React.FC<Date> = ({ date }) => {
   return (
     <>

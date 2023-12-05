@@ -1,0 +1,31 @@
+.rbc-calendar * {
+    border: none !important;
+}
+
+.rbc-event {
+    border: 1px solid #E2EAF1 !important;
+    background-color: white;
+    border-radius: 0px;
+}
+
+.rbc-event:hover {
+    background-color: #E2EAF1;
+}
+
+.rbc-event-label {
+    display: none;
+}
+
+.rbc-event-content {
+    color: #1F1F1F;
+    display: grid;
+    align-items: center;
+    font-size: 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: bold;
+    padding-left: 10px;
+}
+
+.rbc-time-gutter {
+    padding-right: 20px;
+}

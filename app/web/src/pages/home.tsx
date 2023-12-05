@@ -12,8 +12,8 @@ import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '../features/auth/authSlice';
 import { getUserID } from '../services/userServices';
 import Spinner from '../components/Spinner';
-
 import { useGetTasksQuery } from '../features/tasks/tasksApiSlice';
+import '../components/calendarComponents/calendar.css';
 
 export const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);

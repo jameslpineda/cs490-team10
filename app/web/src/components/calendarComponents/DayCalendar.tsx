@@ -2,22 +2,29 @@ import React from 'react';
 import moment from 'moment';
 import Calendar from './Calendar';
 import { Date } from '../../interfaces/dateInterface';
+import { useGetEventsQuery } from '../../features/appointments/appointmentsApiSlice';
+import { Event, GoogleCalendarEvent } from '../../interfaces/eventInterface';
+import { toast } from 'react-toastify';
 
 const DayCalendar: React.FC<Date> = ({ date }) => {
-  console.log('Date: ', date);
-  const events = [
-    //To be filled with Event objects from backend payload using rtk query
-    {
-      start: moment('2023-12-03' + 'T11:00:00').toDate(),
-      end: moment('2023-12-03' + 'T11:00:00').toDate(),
-      title: 'appontment 1',
-    },
-    {
-      start: moment('2023-12-02' + 'T14:00:00').toDate(),
-      end: moment('2023-12-02' + 'T15:30:00').toDate(),
-      title: 'appointment 2',
-    },
-  ];
+  const { data, isSuccess, isError } = useGetEventsQuery(date);
+
+  let events: Event[] = [];
+  if (isError) {
+    toast.error(`Authorize Google Calendar in Settings`, {
+      position: toast.POSITION.TOP_CENTER,
+      autoClose: 5000,
+    });
+  } else if (isSuccess) {
+    events = data.events.map((gEvent: GoogleCalendarEvent) => {
+      return {
+        title: gEvent.title,
+        description: gEvent.description,
+        start: moment(gEvent.start).toDate(),
+        end: moment(gEvent.end).toDate(),
+      };
+    });
+  }
 
   return (
     <Calendar
