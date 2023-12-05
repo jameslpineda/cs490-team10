@@ -51,7 +51,7 @@ const SignInForm: React.FC = () => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
         console.log(err);
-        if (err.data.message) {
+        if (err?.data?.message) {
           toast.error(err.data.message, {
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 7000,

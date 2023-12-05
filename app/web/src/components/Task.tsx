@@ -81,7 +81,7 @@ const Task: React.FC<TaskProps> = (props) => {
   };
 
   return (
-    <div className="border bg-white px-3 py-2 mb-1 rounded-xl">
+    <div className="border bg-white px-3 py-2 mb-3 rounded-xl">
       <div className="flex pb-0.5">
         <IconCycleComponent {...props} />
         <button onClick={openFocus}>

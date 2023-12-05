@@ -14,7 +14,7 @@ const TopPriority: React.FC<TaskCardProps> = ({ tasks }) => {
           className="flex-1 bg-gray-100 rounded-md p-4 mb-4"
           style={{ border: isOver ? '2px solid red' : '' }}
         >
-          <h2 className="text-xl font-semibold font-sans">Top Priority</h2>
+          <h2 className="text-xl font-bold font-sans mb-3">Top Priority</h2>
           {tasks.map((task: TaskProps) => (
             <Task
               key={task._id}
