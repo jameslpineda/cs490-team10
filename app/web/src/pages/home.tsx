@@ -72,7 +72,7 @@ export const Home = () => {
       }}
     >
       <div className="w-1/6">
-        <SideBar />
+        <SideBar date={date} />
       </div>
       <div className="w-5/6 bg-gray-100 h-screen">
         <div className="bg-white flex p-4">

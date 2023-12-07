@@ -1,12 +1,28 @@
 import React, { useEffect } from 'react';
 import crushItLogo from '../assets/images/crush_it_logo.png';
 import { useNavigate, Link } from 'react-router-dom';
-
+import moment from 'moment';
 import { useSendSignOutMutation } from '../features/auth/authApiSlice';
 import { toast } from 'react-toastify';
 
-const SideBar: React.FC = () => {
+const SideBar: React.FC<{ date: moment.Moment }> = ({ date }) => {
   const navigate = useNavigate();
+
+  function handlePlanDay() {
+    if (window.location.pathname === '/settings') {
+      navigate('/home');
+    } else {
+      const today = moment().format('YYYY-MM-DD');
+      if (date.format('YYYY-MM-DD') != today) {
+        toast.error('You can only plan on the current day', {
+          autoClose: 5000,
+        });
+      } else {
+        // TODO: Add roll over logic
+        console.log('Implement Play Day Feature');
+      }
+    }
+  }
 
   /* eslint-disable */
   const [sendSignOut, { isLoading, isSuccess, isError, error }] =
@@ -52,6 +68,7 @@ const SideBar: React.FC = () => {
         <div className="flex justify-center items-center pb-20 mb-5">
           <div className="flex space-x-6 pt-4">
             <button
+              onClick={handlePlanDay}
               className="shadow-lg w-25 text-white border border-white bg-gray-900 hover:bg-gray-800 font-semibold py-2 px-8 rounded-md"
               type="button"
             >

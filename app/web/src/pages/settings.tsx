@@ -19,6 +19,7 @@ import {
 } from '../utils/validation';
 
 import { AuthGcal } from '../features/appointments/AuthGcal';
+import moment from 'moment';
 
 const Settings: React.FC = () => {
   const userInfo = useSelector(selectCurrentUser);
@@ -430,7 +431,7 @@ const Settings: React.FC = () => {
   return (
     <div className="flex">
       <div className="w-1/6">
-        <SideBar />
+        <SideBar date={moment()} />
       </div>
       {content}
     </div>
