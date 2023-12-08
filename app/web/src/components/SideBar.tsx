@@ -4,26 +4,33 @@ import { useNavigate, Link } from 'react-router-dom';
 import moment from 'moment';
 import { useSendSignOutMutation } from '../features/auth/authApiSlice';
 import { toast } from 'react-toastify';
+import { usePlanTasksMutation } from '../features/tasks/tasksApiSlice';
 
 const SideBar: React.FC<{ date: moment.Moment }> = ({ date }) => {
   const navigate = useNavigate();
+  const [planTasks] = usePlanTasksMutation();
 
-  function handlePlanDay() {
+  const handlePlanDay = async () => {
     if (window.location.pathname === '/settings') {
       navigate('/home');
     } else {
       const today = moment().format('YYYY-MM-DD');
-      if (date.format('YYYY-MM-DD') != today) {
-        toast.error('You can only plan on the current day', {
+      if (date.format('YYYY-MM-DD') < today) {
+        toast.error('You can only plan on the current day or future days', {
+          position: toast.POSITION.TOP_CENTER,
           autoClose: 5000,
         });
       } else {
-        // TODO: Add roll over logic
-        console.log('Implement Play Day Feature');
+        try {
+          planTasks(date.format('YYYY-MM-DD'));
+          console.log(date);
+          console.log('Tasks planned successfully');
+        } catch (error) {
+          console.error('Failed to plan tasks:', error);
+        }
       }
     }
-  }
-
+  };
   /* eslint-disable */
   const [sendSignOut, { isLoading, isSuccess, isError, error }] =
     useSendSignOutMutation();

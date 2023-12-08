@@ -30,6 +30,12 @@ type UpdateTaskResponse = {
   updateFields: string[];
 };
 
+type PlanTasksResponse = {
+  message: string;
+  updatedTasks: number;
+  createdTasks: CreateTaskResponse[];
+};
+
 export const tasksApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getTasks: builder.query({
@@ -44,6 +50,13 @@ export const tasksApiSlice = apiSlice.injectEndpoints({
         url: '/task/create',
         method: 'POST',
         body: payload,
+      }),
+      invalidatesTags: ['Tasks'],
+    }),
+    planTasks: builder.mutation<PlanTasksResponse, string>({
+      query: (date) => ({
+        url: `/task/plan?date=${date}`,
+        method: 'POST',
       }),
       invalidatesTags: ['Tasks'],
     }),
@@ -80,4 +93,5 @@ export const {
   useGetTasksQuery,
   useCreateTaskMutation,
   useUpdateTaskMutation,
+  usePlanTasksMutation,
 } = tasksApiSlice;
