@@ -128,6 +128,7 @@ export const planTaskHandler = async (
       return;
     }
 
+    // Retrieves tasks from prior day
     const from = moment(date as string)
       .subtract(1, 'days')
       .startOf('day');
@@ -137,14 +138,13 @@ export const planTaskHandler = async (
       .startOf('day')
       .toDate();
 
-    // Get all tasks by date
     const data = {
       user_id: req.user_id,
       date: { $gte: from.toDate(), $lt: to.toDate() },
     };
     const tasksToUpdate = await getTasksByDate(data);
 
-    // Adjust here for empty task list retrieved
+    // Adjusted here for empty task list
     if (!tasksToUpdate || tasksToUpdate.length === 0) {
       console.log('No tasks for planning');
       res.status(200).json({
@@ -155,14 +155,16 @@ export const planTaskHandler = async (
       return;
     }
 
+    // Filters task list to only modify tasks without status of complete or deleted
+    const tasksUpdateFiltered = tasksToUpdate.filter(
+      (task) => !['Task is complete', 'Task is deleted'].includes(task.status),
+    );
+
+    // Updates the old task to rolled over
     const updatedTasks = await Promise.all(
-      tasksToUpdate.map(async (task) => {
+      tasksUpdateFiltered.map(async (task) => {
         try {
-          // Make a service to filter out completed and cancelled tasks
-          if (
-            task.status !== 'Task is complete' &&
-            task.status !== 'Task is deleted'
-          ) {
+          {
             await updateTask(
               { _id: task._id, status: 'Task has not been started' },
               { status: 'Task rolled over to the next day' },
@@ -176,22 +178,21 @@ export const planTaskHandler = async (
       }),
     );
 
-    const newTasks = tasksToUpdate.map((task) => ({
+    // Creates a new task with new status + 0 completed timers
+    const newTasks = tasksUpdateFiltered.map((task) => ({
       user_id: task.user_id,
       notes: task.notes,
       name: task.name,
       timers: task.timers,
-      completed_timers: task.completed_timers,
-      // Change priority here
+      completed_timers: 0,
       priority: task.priority,
       status: 'Task has not been started',
       date: today,
     }));
 
-    console.log(newTasks);
-
     const createdTasks = [];
 
+    // Creates duplicate tasks
     for (const newTaskData of newTasks) {
       try {
         console.log(newTaskData);
@@ -207,6 +208,7 @@ export const planTaskHandler = async (
       }
     }
 
+    // Error handling
     if (
       !updatedTasks.every(Boolean) ||
       createdTasks.length !== newTasks.length
