@@ -21,7 +21,7 @@ export const AuthGcal = () => {
   useEffect(() => {
     // Make sure to add check for prod
     // Ensures that effect runs once
-    if (effectRan.current === true) {
+    if (effectRan.current === true || process.env.NODE_ENV === 'production') {
       handleCode();
     }
 

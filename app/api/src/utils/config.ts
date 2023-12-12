@@ -1,10 +1,7 @@
 import * as path from 'path';
 import dotenv from 'dotenv';
 
-const env_file =
-  process.env.NODE_ENV === 'local'
-    ? '../../../../.env.local'
-    : '../../../.env.development';
+const env_file = `../../../../.env.${process.env.NODE_ENV}`;
 
 dotenv.config({ path: path.resolve(__dirname, env_file) });
 
@@ -59,7 +56,10 @@ export const nodemailerConfig = {
   },
 };
 
-export const allowedOrigins = ['http://localhost:3000'];
+export const allowedOrigins = [
+  'http://localhost:3000',
+  'https://crushit-team10.vercel.app',
+];
 
 export const corsConfig = {
   origin: allowedOrigins,
