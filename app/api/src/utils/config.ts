@@ -1,7 +1,10 @@
 import * as path from 'path';
 import dotenv from 'dotenv';
 
-const env_file = `../../../../.env.${process.env.NODE_ENV}`;
+const env_file =
+  process.env.NODE_ENV === 'production'
+    ? '/etc/secrets/.env.production'
+    : `../../../../.env.${process.env.NODE_ENV}`;
 
 dotenv.config({ path: path.resolve(__dirname, env_file) });
 
