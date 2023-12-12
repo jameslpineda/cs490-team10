@@ -19,7 +19,7 @@ const PersistLogin = () => {
 
   useEffect(() => {
     // Make sure to add check for prod
-    if (effectRan.current === true) {
+    if (effectRan.current === true || process.env.NODE_ENV === 'production') {
       const verifyRefreshToken = async () => {
         // console.log('verifying refresh token');
         try {

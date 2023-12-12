@@ -3,8 +3,13 @@ import { setCredentials, signOut } from '../../features/auth/authSlice';
 import { RootState } from '../../interfaces/stateInterface';
 import { toast } from 'react-toastify';
 
+const BASE_URL =
+  process.env.NODE_ENV !== 'production'
+    ? 'http://localhost:443'
+    : 'https://crushit-team10-api.onrender.com';
+
 const baseQuery = fetchBaseQuery({
-  baseUrl: 'http://localhost:443',
+  baseUrl: BASE_URL,
   credentials: 'include',
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.token;
