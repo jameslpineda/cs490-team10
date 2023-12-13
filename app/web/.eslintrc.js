@@ -11,6 +11,7 @@ module.exports = {
     'plugin:react/recommended',
     'eslint:recommended',
     'prettier',
+    // 'plugin:@atlaskit/design-system/recommended',
   ],
   overrides: [
     {
@@ -28,6 +29,13 @@ module.exports = {
     ecmaVersion: 'latest',
     sourceType: 'module',
   },
-  plugins: ['@typescript-eslint', 'react', 'prettier'],
-  rules: { 'prettier/prettier': ['error', { endOfLine: 'auto' }] },
+  plugins: [
+    '@typescript-eslint',
+    'react',
+    'prettier',
+    '@atlaskit/design-system',
+  ],
+  rules: {
+    'prettier/prettier': ['error', { endOfLine: 'auto' }],
+  },
 };

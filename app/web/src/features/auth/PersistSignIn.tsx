@@ -4,7 +4,7 @@ import { useRefreshTokenMutation } from './authApiSlice';
 import usePersist from '../../hooks/usePersist';
 import { useSelector } from 'react-redux';
 import { selectCurrentToken } from './authSlice';
-import Spinner from '../../components/Spinner';
+import LoadingSpinner from '../../components/LoadingSpinner';
 // import { toast } from 'react-toastify';
 
 const PersistLogin = () => {
@@ -38,7 +38,7 @@ const PersistLogin = () => {
     effectRan.current = true;
   }, []);
 
-  let content = <Spinner />;
+  let content = <LoadingSpinner />;
 
   // persist: no
   if (!persist) {
@@ -46,7 +46,7 @@ const PersistLogin = () => {
 
     // persist: yes, token: no
   } else if (isLoading) {
-    content = <Spinner />;
+    content = <LoadingSpinner />;
     // persist: yes, token: no (refresh token missing)
   } else if (isError) {
     // toast.error('You must sign in to access this page');

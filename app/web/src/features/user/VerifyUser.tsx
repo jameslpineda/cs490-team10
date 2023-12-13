@@ -1,7 +1,7 @@
 import { Navigate, useParams } from 'react-router-dom';
 import React, { useEffect, useRef } from 'react';
 import { useVerifyUserMutation } from './userApiSlice';
-import Spinner from '../../components/Spinner';
+import LoadingSpinner from '../../components/LoadingSpinner';
 // import { toast } from 'react-toastify';
 
 const VerifyUser = () => {
@@ -30,7 +30,7 @@ const VerifyUser = () => {
     effectRan.current = true;
   }, []);
 
-  let content = <Spinner />;
+  let content = <LoadingSpinner />;
 
   if (!isLoading) {
     content = (

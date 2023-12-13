@@ -11,7 +11,6 @@ import { TaskProps } from '../interfaces/taskInterface';
 import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '../features/auth/authSlice';
 import { getUserID } from '../services/userServices';
-import Spinner from '../components/Spinner';
 import { useGetTasksQuery } from '../features/tasks/tasksApiSlice';
 import '../components/calendarComponents/calendar.css';
 
@@ -19,17 +18,13 @@ export const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [date, setDate] = useState(moment());
 
-  const {
-    data: tasks,
-    isLoading,
-    isSuccess,
-  } = useGetTasksQuery(date.format('YYYY-MM-DD'));
+  const { data: tasks, isSuccess } = useGetTasksQuery(
+    date.format('YYYY-MM-DD'),
+  );
 
   let content = <TaskList tasks={[]} />;
 
-  if (isLoading) {
-    content = <Spinner />;
-  } else if (isSuccess) {
+  if (isSuccess) {
     content = <TaskList tasks={tasks} />;
   }
 

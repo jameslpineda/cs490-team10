@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@atlaskit/css-reset": "^6.6.2",
+    "@atlaskit/spinner": "^16.0.0",
+    "@atlaskit/tokens": "^1.29.2",
     "@dnd-kit/core": "^6.1.0",
     "@fvilers/disable-react-devtools": "^1.3.0",
     "@reduxjs/toolkit": "^1.9.7",
@@ -64,6 +67,7 @@
     ]
   },
   "devDependencies": {
+    "@atlaskit/eslint-plugin-design-system": "^8.15.3",
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@types/react": "^18.2.33",
     "@typescript-eslint/eslint-plugin": "^6.9.1",
