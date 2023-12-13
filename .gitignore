@@ -2,6 +2,7 @@
 .env
 app/.env.local
 app/.env.development
+app/.env.production
 
 **/node_modules/
 **/logs/
