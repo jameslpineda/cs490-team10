@@ -1,12 +1,12 @@
-import * as path from 'path';
+// import * as path from 'path';
 import dotenv from 'dotenv';
 
-const env_file =
-  process.env.NODE_ENV === 'production'
-    ? '/etc/secrets/.env.production'
-    : `../../../../.env.${process.env.NODE_ENV}`;
+const env_file = process.env.NODE_ENV
+  ? `../../../../.env.${process.env.NODE_ENV}`
+  : '/etc/secrets/.env.production';
+console.log(env_file);
 
-dotenv.config({ path: path.resolve(__dirname, env_file) });
+dotenv.config({ path: env_file });
 
 const {
   PORT,
