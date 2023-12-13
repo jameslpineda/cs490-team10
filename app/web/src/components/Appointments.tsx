@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import DayCalendar from './calendarComponents/DayCalendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { Date } from '../interfaces/dateInterface';
@@ -10,13 +10,18 @@ import { Event, GoogleCalendarEvent } from '../interfaces/eventInterface';
 const Appointments: React.FC<Date> = ({ date }) => {
   const { data, isSuccess, isError } = useGetEventsQuery(date);
 
+  useEffect(() => {
+    if (isError) {
+      toast.error(`Authorize Google Calendar in Settings`, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        autoClose: false,
+      });
+    }
+  }, [isError]);
+
   let events: Event[] = [];
-  if (isError) {
-    toast.error(`Authorize Google Calendar in Settings`, {
-      position: toast.POSITION.TOP_CENTER,
-      autoClose: 5000,
-    });
-  } else if (isSuccess) {
+
+  if (isSuccess) {
     events = data.events.map((gEvent: GoogleCalendarEvent) => ({
       title: gEvent.title,
       description: gEvent.description,
