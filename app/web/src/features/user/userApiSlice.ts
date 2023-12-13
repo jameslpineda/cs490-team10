@@ -110,6 +110,22 @@ export const userApiSlice = apiSlice.injectEndpoints({
         url: `/user/verify?token=${token}`,
         method: 'PUT',
       }),
+      async onQueryStarted(arg, { queryFulfilled }) {
+        try {
+          await queryFulfilled;
+
+          toast.success(`Account successfully verified!`, {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 5000,
+          });
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (err: any) {
+          toast.error('Invalid verification token', {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 5000,
+          });
+        }
+      },
     }),
   }),
 });

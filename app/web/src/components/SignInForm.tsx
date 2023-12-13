@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import Spinner from '../components/Spinner';
 import { useNavigate } from 'react-router-dom';
 
 import { ReactComponent as EyeIcon } from '../assets/svgs/eye.svg';
@@ -19,7 +18,7 @@ const SignInForm: React.FC = () => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
-  const [signIn, { isLoading }] = useSignInMutation();
+  const [signIn] = useSignInMutation();
   usePersist();
 
   const dispatch = useDispatch();
@@ -68,8 +67,6 @@ const SignInForm: React.FC = () => {
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
-
-  if (isLoading) return <Spinner />;
 
   return (
     <div className="bg-white rounded-lg p-8 h-full flex flex-col justify-between">

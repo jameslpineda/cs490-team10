@@ -127,300 +127,306 @@ const Settings: React.FC = () => {
             </button>
           </div>
         </div>
-        <h2 className="text-xl font-semibold pt-6 pl-8">User Information</h2>
-        <div className="flex px-8 py-4">
-          <div className="w-1/2 bg-white p-4 rounded-md">
-            <label
-              htmlFor="firstName"
-              className="text-gray-600 flex"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 28 28"
-                strokeWidth="2"
-                stroke="#6284FF"
-                className="w-6 h-6 pt-1"
+        <form>
+          <h2 className="text-xl font-semibold pt-6 pl-8">User Information</h2>
+          <div className="flex px-8 py-4">
+            <div className="w-1/2 bg-white p-4 rounded-md">
+              <label
+                htmlFor="firstName"
+                className="text-gray-600 flex"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
-                />
-              </svg>
-              First Name
-            </label>
-            <input
-              type="text"
-              id="firstName"
-              className="w-full p-2 border rounded-md shadow"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-            />
-          </div>
-          <div className="w-1/2 bg-white p-4 rounded-md">
-            <label
-              htmlFor="lastName"
-              className="text-gray-600 flex"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 28 28"
-                strokeWidth="2"
-                stroke="#6284FF"
-                className="w-6 h-6 pt-1"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
-                />
-              </svg>
-              Last Name
-            </label>
-            <input
-              type="text"
-              id="lastName"
-              className="w-full p-2 border rounded-md shadow"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-            />
-          </div>
-        </div>
-        <h2 className="text-xl font-semibold pt-6 pl-8">Change Password</h2>
-        <div className="flex px-8 py-4">
-          <div className="w-1/3 bg-white p-4 rounded-md">
-            <label
-              htmlFor="oldpass"
-              className="text-gray-600 flex"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 28 28"
-                strokeWidth="2"
-                stroke="#6284FF"
-                className="w-6 h-6 pt-1"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"
-                />
-              </svg>
-              Current Password
-            </label>
-            <div className="relative">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 28 28"
+                  strokeWidth="2"
+                  stroke="#6284FF"
+                  className="w-6 h-6 pt-1"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
+                  />
+                </svg>
+                First Name
+              </label>
               <input
-                type={showPassword ? 'text' : 'password'}
-                id="oldpass"
+                type="text"
+                id="firstName"
                 className="w-full p-2 border rounded-md shadow"
-                placeholder="********"
-                value={currentPassword}
-                onChange={(e) => setCurrentPassword(e.target.value)}
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
               />
-              <span
-                onClick={togglePasswordVisibility}
-                className="absolute bottom-0 right-10 transform -translate-y-1/3 cursor-pointer -mr-8"
+            </div>
+            <div className="w-1/2 bg-white p-4 rounded-md">
+              <label
+                htmlFor="lastName"
+                className="text-gray-600 flex"
               >
-                {showPassword ? <EyeSlashIcon /> : <EyeIcon />}
-              </span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 28 28"
+                  strokeWidth="2"
+                  stroke="#6284FF"
+                  className="w-6 h-6 pt-1"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
+                  />
+                </svg>
+                Last Name
+              </label>
+              <input
+                type="text"
+                id="lastName"
+                className="w-full p-2 border rounded-md shadow"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                autoComplete="last-name"
+              />
             </div>
           </div>
-          <div className="w-1/3 bg-white p-4 rounded-md">
-            <label
-              htmlFor="newpass"
-              className="text-gray-600 flex"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 28 28"
-                strokeWidth="2"
-                stroke="#6284FF"
-                className="w-6 h-6 pt-1"
+          <h2 className="text-xl font-semibold pt-6 pl-8">Change Password</h2>
+          <div className="flex px-8 py-4">
+            <div className="w-1/3 bg-white p-4 rounded-md">
+              <label
+                htmlFor="oldpass"
+                className="text-gray-600 flex"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 28 28"
+                  strokeWidth="2"
+                  stroke="#6284FF"
+                  className="w-6 h-6 pt-1"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"
+                  />
+                </svg>
+                Current Password
+              </label>
+              <div className="relative">
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  id="oldpass"
+                  className="w-full p-2 border rounded-md shadow"
+                  placeholder="********"
+                  value={currentPassword}
+                  onChange={(e) => setCurrentPassword(e.target.value)}
+                  autoComplete="current-password"
                 />
-              </svg>
-              New Password
-            </label>
-            <div className="relative">
-              <input
-                type={showPassword ? 'text' : 'password'}
-                id="newpass"
-                className="w-full p-2 border rounded-md shadow"
-                placeholder="********"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-              />
-              <span
-                onClick={togglePasswordVisibility}
-                className="absolute bottom-0 right-10 transform -translate-y-1/3 cursor-pointer -mr-8"
+                <span
+                  onClick={togglePasswordVisibility}
+                  className="absolute bottom-0 right-10 transform -translate-y-1/3 cursor-pointer -mr-8"
+                >
+                  {showPassword ? <EyeSlashIcon /> : <EyeIcon />}
+                </span>
+              </div>
+            </div>
+            <div className="w-1/3 bg-white p-4 rounded-md">
+              <label
+                htmlFor="newpass"
+                className="text-gray-600 flex"
               >
-                {showPassword ? <EyeSlashIcon /> : <EyeIcon />}
-              </span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 28 28"
+                  strokeWidth="2"
+                  stroke="#6284FF"
+                  className="w-6 h-6 pt-1"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"
+                  />
+                </svg>
+                New Password
+              </label>
+              <div className="relative">
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  id="newpass"
+                  className="w-full p-2 border rounded-md shadow"
+                  placeholder="********"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  autoComplete="new-password"
+                />
+                <span
+                  onClick={togglePasswordVisibility}
+                  className="absolute bottom-0 right-10 transform -translate-y-1/3 cursor-pointer -mr-8"
+                >
+                  {showPassword ? <EyeSlashIcon /> : <EyeIcon />}
+                </span>
+              </div>
+            </div>
+            <div className="w-1/3 bg-white p-4 rounded-md">
+              <label
+                htmlFor="confirmnewpass"
+                className="text-gray-600 flex"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 28 28"
+                  strokeWidth="2"
+                  stroke="#6284FF"
+                  className="w-6 h-6 pt-1"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"
+                  />
+                </svg>
+                Confirm New Password
+              </label>
+              <div className="relative">
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  id="confirmnewpass"
+                  className="w-full p-2 border rounded-md shadow"
+                  placeholder="********"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  autoComplete="confirm-password"
+                />
+                <span
+                  onClick={togglePasswordVisibility}
+                  className="absolute bottom-0 right-10 transform -translate-y-1/3 cursor-pointer -mr-8"
+                >
+                  {showPassword ? <EyeSlashIcon /> : <EyeIcon />}
+                </span>
+              </div>
             </div>
           </div>
-          <div className="w-1/3 bg-white p-4 rounded-md">
-            <label
-              htmlFor="confirmnewpass"
-              className="text-gray-600 flex"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 28 28"
-                strokeWidth="2"
-                stroke="#6284FF"
-                className="w-6 h-6 pt-1"
+          <h2 className="text-xl font-semibold pt-6 pl-8">
+            Pomodoro Timer (Minutes)
+          </h2>
+          <div className="flex px-8 py-4">
+            <div className="w-1/3 bg-white p-4 rounded-md">
+              <label
+                htmlFor="pomodoro"
+                className="text-gray-600 flex"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"
-                />
-              </svg>
-              Confirm New Password
-            </label>
-            <div className="relative">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 28 28"
+                  strokeWidth="2"
+                  stroke="#6284FF"
+                  className="w-6 h-6 pt-1"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                Pomodoro
+              </label>
               <input
-                type={showPassword ? 'text' : 'password'}
-                id="confirmnewpass"
+                type="number"
+                min="1"
+                step="any"
+                id="pomodoro"
                 className="w-full p-2 border rounded-md shadow"
-                placeholder="********"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
+                value={pomoTimer}
+                onChange={(e) => setPomoTimer(e.target.value)}
               />
-              <span
-                onClick={togglePasswordVisibility}
-                className="absolute bottom-0 right-10 transform -translate-y-1/3 cursor-pointer -mr-8"
+            </div>
+            <div className="w-1/3 bg-white p-4 rounded-md">
+              <label
+                htmlFor="shortbreak"
+                className="text-gray-600 flex"
               >
-                {showPassword ? <EyeSlashIcon /> : <EyeIcon />}
-              </span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 28 28"
+                  strokeWidth="2"
+                  stroke="#6284FF"
+                  className="w-6 h-6 pt-1"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                Short Break
+              </label>
+              <input
+                type="number"
+                min="1"
+                step="any"
+                id="shortbreak"
+                className="w-full p-2 border rounded-md shadow"
+                value={shortBreak}
+                onChange={(e) => setShortBreak(e.target.value)}
+              />
+            </div>
+            <div className="w-1/3 bg-white p-4 rounded-md">
+              <label
+                htmlFor="longbreak"
+                className="text-gray-600 flex"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 28 28"
+                  strokeWidth="2"
+                  stroke="#6284FF"
+                  className="w-6 h-6 pt-1"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                Long Break
+              </label>
+              <input
+                type="number"
+                min="1"
+                step="any"
+                id="longbreak"
+                className="w-full p-2 border rounded-md shadow"
+                value={longBreak}
+                onChange={(e) => setLongBreak(e.target.value)}
+              />
             </div>
           </div>
-        </div>
-        <h2 className="text-xl font-semibold pt-6 pl-8">
-          Pomodoro Timer (Minutes)
-        </h2>
-        <div className="flex px-8 py-4">
-          <div className="w-1/3 bg-white p-4 rounded-md">
-            <label
-              htmlFor="pomodoro"
-              className="text-gray-600 flex"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 28 28"
-                strokeWidth="2"
-                stroke="#6284FF"
-                className="w-6 h-6 pt-1"
+          <div className="flex justify-center items-center pb-10">
+            <div className="flex space-x-6 pt-2">
+              <button
+                onClick={routeHome}
+                className="btn-secondary w-40 py-2 px-4 rounded-md"
+                type="button"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-              Pomodoro
-            </label>
-            <input
-              type="number"
-              min="1"
-              step="any"
-              id="pomodoro"
-              className="w-full p-2 border rounded-md shadow"
-              value={pomoTimer}
-              onChange={(e) => setPomoTimer(e.target.value)}
-            />
-          </div>
-          <div className="w-1/3 bg-white p-4 rounded-md">
-            <label
-              htmlFor="shortbreak"
-              className="text-gray-600 flex"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 28 28"
-                strokeWidth="2"
-                stroke="#6284FF"
-                className="w-6 h-6 pt-1"
+                Cancel
+              </button>
+              <button
+                onClick={handleSave}
+                className="btn-primary shadow-md w-40 text-white py-2 px-4 rounded-md"
+                type="button"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-              Short Break
-            </label>
-            <input
-              type="number"
-              min="1"
-              step="any"
-              id="shortbreak"
-              className="w-full p-2 border rounded-md shadow"
-              value={shortBreak}
-              onChange={(e) => setShortBreak(e.target.value)}
-            />
+                Save
+              </button>
+            </div>
           </div>
-          <div className="w-1/3 bg-white p-4 rounded-md">
-            <label
-              htmlFor="longbreak"
-              className="text-gray-600 flex"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 28 28"
-                strokeWidth="2"
-                stroke="#6284FF"
-                className="w-6 h-6 pt-1"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-              Long Break
-            </label>
-            <input
-              type="number"
-              min="1"
-              step="any"
-              id="longbreak"
-              className="w-full p-2 border rounded-md shadow"
-              value={longBreak}
-              onChange={(e) => setLongBreak(e.target.value)}
-            />
-          </div>
-        </div>
-        <div className="flex justify-center items-center pb-10">
-          <div className="flex space-x-6 pt-2">
-            <button
-              onClick={routeHome}
-              className="btn-secondary w-40 py-2 px-4 rounded-md"
-              type="button"
-            >
-              Cancel
-            </button>
-            <button
-              onClick={handleSave}
-              className="btn-primary shadow-md w-40 text-white py-2 px-4 rounded-md"
-              type="button"
-            >
-              Save
-            </button>
-          </div>
-        </div>
+        </form>
         <div className="flex w-full justify-center">
           <AuthGcal />
         </div>

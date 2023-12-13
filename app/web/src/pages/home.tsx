@@ -11,25 +11,21 @@ import { TaskProps } from '../interfaces/taskInterface';
 import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '../features/auth/authSlice';
 import { getUserID } from '../services/userServices';
-import Spinner from '../components/Spinner';
 import { useGetTasksQuery } from '../features/tasks/tasksApiSlice';
 import '../components/calendarComponents/calendar.css';
+import AddButtonSvg from '../components/buttons/addButtonSvg';
 
 export const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [date, setDate] = useState(moment());
 
-  const {
-    data: tasks,
-    isLoading,
-    isSuccess,
-  } = useGetTasksQuery(date.format('YYYY-MM-DD'));
+  const { data: tasks, isSuccess } = useGetTasksQuery(
+    date.format('YYYY-MM-DD'),
+  );
 
   let content = <TaskList tasks={[]} />;
 
-  if (isLoading) {
-    content = <Spinner />;
-  } else if (isSuccess) {
+  if (isSuccess) {
     content = <TaskList tasks={tasks} />;
   }
 
@@ -99,54 +95,16 @@ export const Home = () => {
         </div>
         <div className="flex h-4/5">
           <div className="w-1/2 pl-4 h-7/8">
-            <div className="flex pb-2">
-              <h2 className="text-3xl font-bold pb-2 pr-2">Tasks</h2>
-              <button onClick={openModal}>
-                <svg
-                  width="32"
-                  height="32"
-                  viewBox="0 0 39 39"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
+            <div className="flex pb-4">
+              <div className="flex flex-row space-x-3 content-center">
+                <h2 className="text-3xl font-bold">Tasks</h2>
+                <button
+                  onClick={openModal}
+                  className="w-[2.4375rem] h-[2.4375rem]"
                 >
-                  <circle
-                    cx="19.5"
-                    cy="19.5"
-                    r="19.5"
-                    fill="url(#paint0_linear_1521_35)"
-                  />
-                  <path
-                    d="M13 19.5H26"
-                    stroke="white"
-                    strokeWidth="3"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M19.5 26V13"
-                    stroke="white"
-                    strokeWidth="3"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <defs>
-                    <linearGradient
-                      id="paint0_linear_1521_35"
-                      x1="19.5"
-                      y1="0"
-                      x2="19.5"
-                      y2="39"
-                      gradientUnits="userSpaceOnUse"
-                    >
-                      <stop stopColor="#5D8EFF" />
-                      <stop
-                        offset="1"
-                        stopColor="#3E6FE1"
-                      />
-                    </linearGradient>
-                  </defs>
-                </svg>
-              </button>
+                  <AddButtonSvg />
+                </button>
+              </div>
               {isModalOpen && (
                 <TaskModal
                   onClose={closeModal}
