@@ -9,6 +9,7 @@ import Settings from './pages/settings';
 import SignInPage from './pages/signIn';
 import SignUpPage from './pages/signUp';
 import PersistLogin from './features/auth/PersistSignIn';
+import VerifyUser from './features/user/VerifyUser';
 // import RequireAuth from './features/auth/RequireAuth';
 import './styles/globals.css';
 
@@ -32,6 +33,10 @@ function App() {
         <Route
           path="/reset-password/:id/:token"
           element={<ResetPassword />}
+        />
+        <Route
+          path="/verify/:token"
+          element={<VerifyUser />}
         />
 
         {/* private routes */}
