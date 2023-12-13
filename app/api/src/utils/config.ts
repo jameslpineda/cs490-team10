@@ -1,9 +1,10 @@
 // import * as path from 'path';
 import dotenv from 'dotenv';
 
-const env_file = process.env.NODE_ENV
-  ? `../../../../.env.${process.env.NODE_ENV}`
-  : '/etc/secrets/.env.production';
+const env_file =
+  process.env.NODE_ENV && process.env.NODE_ENV !== 'production'
+    ? `../../../../.env.${process.env.NODE_ENV}`
+    : '/etc/secrets/.env.production';
 console.log(env_file);
 
 dotenv.config({ path: env_file });
