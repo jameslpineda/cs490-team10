@@ -52,7 +52,7 @@
   },
   "scripts": {
     "test": "jest",
-    "build": "npx tsc",
+    "build": "yarn install && npx tsc",
     "start": "node dist/src/server.js",
     "dev": "nodemon src/server.ts",
     "format": "prettier --write .",
