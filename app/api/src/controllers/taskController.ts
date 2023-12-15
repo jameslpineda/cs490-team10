@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Response } from 'express';
 import moment from 'moment';
 import { AuthRequestInterface as AuthRequest } from '../interfaces/authInterface';
@@ -12,6 +13,7 @@ import {
   createTaskValidation,
   updateTaskValidation,
 } from '../validations/taskValidation';
+import { sortNewTasks } from '../utils/sortNewTasks';
 
 // @desc Creates a task
 // @route POST /task/create
@@ -113,19 +115,15 @@ export const updateTaskHandler = asyncHandler(
   },
 );
 
-// @desc Creates new planned task list for next day
+// @desc Plans a new day with updated tasks
 // @route POST /task/plan
 // @access Private
-export const planTaskHandler = async (
-  req: AuthRequest,
-  res: Response,
-): Promise<void> => {
-  try {
+export const planTaskHandler = asyncHandler(
+  async (req: AuthRequest, res: Response) => {
     const date = req.query.date;
 
     if (!date) {
       res.status(422).json({ error: 'Missing date in query' });
-      return;
     }
 
     // Retrieves tasks from prior day
@@ -141,72 +139,42 @@ export const planTaskHandler = async (
     const data = {
       user_id: req.user_id,
       date: { $gte: from.toDate(), $lt: to.toDate() },
+      status: {
+        $nin: [
+          'Task is complete',
+          'Task is deleted',
+          'Task rolled over to the next day',
+        ],
+      },
     };
     const tasksToUpdate = await getTasksByDate(data);
 
-    // Adjusted here for empty task list
-    if (!tasksToUpdate || tasksToUpdate.length === 0) {
-      console.log('No tasks for planning');
-      res.status(200).json({
-        message: 'No tasks for planning',
-        updatedTasks: 0,
-        createdTasks: 0,
-      });
-      return;
-    }
-
-    // Filters task list to only modify tasks without status of complete or deleted
-    const tasksUpdateFiltered = tasksToUpdate.filter(
-      (task) => !['Task is complete', 'Task is deleted'].includes(task.status),
-    );
-
     // Updates the old task to rolled over
-    const updatedTasks = await Promise.all(
-      tasksUpdateFiltered.map(async (task) => {
-        try {
-          {
-            await updateTask(
-              { _id: task._id, status: 'Task has not been started' },
-              { status: 'Task rolled over to the next day' },
-            );
-          }
-          return true;
-        } catch (error) {
-          console.error('Error updating task:', error);
-          return false;
-        }
-      }),
-    );
-
-    // Creates a new task with new status + 0 completed timers
-    const newTasks = tasksUpdateFiltered.map((task) => ({
-      user_id: task.user_id,
-      notes: task.notes,
-      name: task.name,
-      timers: task.timers,
-      completed_timers: 0,
-      priority: task.priority,
-      status: 'Task has not been started',
-      date: today,
-    }));
-
-    const createdTasks = [];
-
-    // Creates duplicate tasks
-    for (const newTaskData of newTasks) {
-      try {
-        console.log(newTaskData);
-        const createdTask = await createTask(newTaskData);
-        if (createdTask) {
-          createdTasks.push(createdTask);
-          console.log('Task created successfully:', createdTask);
-        } else {
-          console.error('Failed to create task. createTask returned null.');
-        }
-      } catch (error) {
-        console.error('Error creating task:', error);
+    tasksToUpdate?.forEach(async (task) => {
+      const updatedTask = await updateTask(
+        { _id: task._id, status: 'Task has not been started' },
+        { status: 'Task rolled over to the next day' },
+      );
+      if (!updatedTask) {
+        throw new Error('Failed to update tasks with new status');
       }
-    }
+    });
+
+    tasksToUpdate?.forEach(async (task) => {
+      const newTask = await createTask({
+        user_id: task.user_id,
+        notes: task.notes,
+        name: task.name,
+        timers: task.timers,
+        completed_timers: 0,
+        priority: task.priority,
+        status: 'Task has not been started',
+        date: today,
+      });
+      if (!newTask) {
+        throw new Error('Failed to create new tasks');
+      }
+    });
 
     // Retrives all tasks for current day
     const todayData = {
@@ -215,70 +183,12 @@ export const planTaskHandler = async (
     };
     const todayTasks = await getTasksByDate(todayData);
 
-    // Updated priorities logic
-    if (todayTasks != null) {
-      const sortedTasks = todayTasks.sort((a, b) => {
-        // Sort tasks by priority (custom order: Top Priority > Important > Other)
-        const priorityOrder: { [key: string]: number } = {
-          'Top Priority': 0,
-          Important: 1,
-          Other: 2,
-        };
-
-        return (
-          priorityOrder[a.priority as string] -
-          priorityOrder[b.priority as string]
-        );
-      });
-      // Select the top three tasks as "Top Priority"
-      const topPriorityTasks = sortedTasks.slice(0, 3);
-
-      // Select remaining important tasks
-      const importantTasks = sortedTasks
-        .slice(3)
-        .filter((task) => task.priority === 'Important');
-
-      // If there are no important tasks, move all remaining other items to important
-      if (importantTasks.length === 0) {
-        const remainingTasks = sortedTasks.slice(3);
-        for (const task of remainingTasks) {
-          await updateTask({ _id: task._id }, { priority: 'Important' });
-        }
-      } else {
-        // If there were important items, leave other items as other
-        const remainingOtherTasks = sortedTasks
-          .slice(3)
-          .filter((task) => task.priority === 'Other');
-        for (const task of remainingOtherTasks) {
-          await updateTask({ _id: task._id }, { priority: 'Other' });
-        }
-      }
-
-      // Update priority for tasks in Top Priority
-      for (const task of topPriorityTasks) {
-        await updateTask({ _id: task._id }, { priority: 'Top Priority' });
-      }
-
-      // Update priority for tasks in remaining important tasks
-      for (const task of importantTasks) {
-        await updateTask({ _id: task._id }, { priority: 'Important' });
-      }
-    }
-    // Error handling
-    if (
-      !updatedTasks.every(Boolean) ||
-      createdTasks.length !== newTasks.length
-    ) {
-      throw new Error('Failed to update tasks');
+    if (todayTasks && !sortNewTasks(todayTasks)) {
+      throw new Error('Failed to sort tasks');
     }
 
     res.status(200).json({
       message: 'Tasks updated successfully',
-      updatedTasks: updatedTasks.length,
-      createdTasks: createdTasks.length,
     });
-  } catch (error) {
-    console.error('Error in planTaskHandler:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-};
+  },
+);

@@ -4,7 +4,7 @@ export type TaskInterface = {
   _id?: ObjectId | string;
   user_id?: ObjectId | string;
   name?: string;
-  status?: string;
+  status?: string | { $nin: string[] };
   timers?: number;
   completed_timers?: number;
   notes?: string;
