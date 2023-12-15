@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Response } from 'express';
 import moment from 'moment';
 import { AuthRequestInterface as AuthRequest } from '../interfaces/authInterface';
@@ -12,6 +13,7 @@ import {
   createTaskValidation,
   updateTaskValidation,
 } from '../validations/taskValidation';
+import { sortNewTasks } from '../utils/sortNewTasks';
 
 // @desc Creates a task
 // @route POST /task/create
@@ -109,6 +111,84 @@ export const updateTaskHandler = asyncHandler(
     res.status(200).json({
       message: 'Task status updated successfully',
       updatedFields: Object.keys(data),
+    });
+  },
+);
+
+// @desc Plans a new day with updated tasks
+// @route POST /task/plan
+// @access Private
+export const planTaskHandler = asyncHandler(
+  async (req: AuthRequest, res: Response) => {
+    const date = req.query.date;
+
+    if (!date) {
+      res.status(422).json({ error: 'Missing date in query' });
+    }
+
+    // Retrieves tasks from prior day
+    const from = moment(date as string)
+      .subtract(1, 'days')
+      .startOf('day');
+    const to = moment(from).add(1, 'day');
+
+    const today = moment(date as string)
+      .startOf('day')
+      .toDate();
+
+    const data = {
+      user_id: req.user_id,
+      date: { $gte: from.toDate(), $lt: to.toDate() },
+      status: {
+        $nin: [
+          'Task is complete',
+          'Task is deleted',
+          'Task rolled over to the next day',
+        ],
+      },
+    };
+    const tasksToUpdate = await getTasksByDate(data);
+
+    // Updates the old task to rolled over
+    tasksToUpdate?.forEach(async (task) => {
+      const updatedTask = await updateTask(
+        { _id: task._id, status: 'Task has not been started' },
+        { status: 'Task rolled over to the next day' },
+      );
+      if (!updatedTask) {
+        throw new Error('Failed to update tasks with new status');
+      }
+    });
+
+    tasksToUpdate?.forEach(async (task) => {
+      const newTask = await createTask({
+        user_id: task.user_id,
+        notes: task.notes,
+        name: task.name,
+        timers: task.timers,
+        completed_timers: 0,
+        priority: task.priority,
+        status: 'Task has not been started',
+        date: today,
+      });
+      if (!newTask) {
+        throw new Error('Failed to create new tasks');
+      }
+    });
+
+    // Retrives all tasks for current day
+    const todayData = {
+      user_id: req.user_id,
+      date: { $gte: today, $lt: moment(today).add(1, 'day').toDate() },
+    };
+    const todayTasks = await getTasksByDate(todayData);
+
+    if (todayTasks && !sortNewTasks(todayTasks)) {
+      throw new Error('Failed to sort tasks');
+    }
+
+    res.status(200).json({
+      message: 'Tasks updated successfully',
     });
   },
 );

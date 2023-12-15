@@ -7,5 +7,6 @@ const router = express.Router();
 router.post('/create', requireAuth, TaskController.createTaskHandler);
 router.get('/retrieve', requireAuth, TaskController.retrieveTasksHandler);
 router.put('/update/:id', requireAuth, TaskController.updateTaskHandler);
+router.post('/plan', requireAuth, TaskController.planTaskHandler);
 
 export default router;
