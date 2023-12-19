@@ -29,7 +29,7 @@ const DayCalendar: React.FC<DayCalendarProps> = ({ date, events }) => {
       slotPropGetter={slotPropGetter}
       min={moment(date + 'T05:00:00').toDate()}
       max={moment(date + 'T20:59:00').toDate()}
-      defaultDate={moment(date).toDate()}
+      date={moment(date).toDate()}
     />
   );
 };

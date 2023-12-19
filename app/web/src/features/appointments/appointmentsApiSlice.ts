@@ -36,6 +36,7 @@ export const appointmentsApiSlice = apiSlice.injectEndpoints({
         url: `/gcal/get-events?date=${date}`,
         method: 'GET',
       }),
+      providesTags: ['Appointments'],
     }),
   }),
 });

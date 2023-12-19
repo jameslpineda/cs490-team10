@@ -23,6 +23,7 @@ const SideBar: React.FC<{ date: moment.Moment }> = ({ date }) => {
       } else {
         try {
           planTasks(date.format('YYYY-MM-DD'));
+          window.location.reload();
           console.log(date);
           console.log('Tasks planned successfully');
         } catch (error) {

@@ -14,6 +14,7 @@ import {
   updateTaskValidation,
 } from '../validations/taskValidation';
 import { sortNewTasks } from '../utils/sortNewTasks';
+import { addFocusEvents } from './gcalController';
 
 // @desc Creates a task
 // @route POST /task/create
@@ -176,12 +177,20 @@ export const planTaskHandler = asyncHandler(
       }
     });
 
-    // Retrives all tasks for current day
+    // Retrieves all tasks for current day
     const todayData = {
       user_id: req.user_id,
       date: { $gte: today, $lt: moment(today).add(1, 'day').toDate() },
     };
     const todayTasks = await getTasksByDate(todayData);
+
+    console.log('\n***THESE ARE THE TODAY TASKS***');
+    console.log(JSON.stringify(todayTasks));
+    console.log('********************************\n');
+
+    if (todayTasks && req.user_id) {
+      addFocusEvents(todayTasks, moment(today), req.user_id);
+    }
 
     if (todayTasks && !sortNewTasks(todayTasks)) {
       throw new Error('Failed to sort tasks');
