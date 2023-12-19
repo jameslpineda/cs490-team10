@@ -81,11 +81,11 @@ const Task: React.FC<TaskProps> = (props) => {
   };
 
   return (
-    <div className="border bg-white px-3 py-2 mb-3 rounded-xl">
+    <div className="border bg-white dark:bg-neutral-500 dark:border-neutral-500 px-3 py-2 mb-3 rounded-xl">
       <div className="flex pb-0.5">
         <IconCycleComponent {...props} />
         <button onClick={openFocus}>
-          <h3 className="pl-1 text-lg text-primary font-semibold">
+          <h3 className="pl-1 text-lg text-primary dark:text-blue-100 font-semibold">
             {props.name}
           </h3>
         </button>
@@ -133,8 +133,10 @@ const Task: React.FC<TaskProps> = (props) => {
         <span>
           <hr className="border-gray-300 pt-0.5"></hr>
           <div className="flex">
-            <p className="text-sm text-gray-600">Number of Pomodoro Timers:</p>
-            <p className="text-orange-400 text-sm ml-auto flex">
+            <p className="text-sm text-gray-600 dark:text-white">
+              Number of Pomodoro Timers:
+            </p>
+            <p className="text-orange-400 dark:text-orange-300 text-sm ml-auto flex">
               <button
                 onClick={() => {
                   decrementCount();
@@ -210,12 +212,12 @@ const Task: React.FC<TaskProps> = (props) => {
                 }}
               >
                 {editPomo ? (
-                  <div className="border border-primary rounded-sm">
+                  <div className="border border-primary dark:border-blue-200 rounded-sm">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="12"
                       height="12"
-                      className="text-primary"
+                      className="text-primary dark:text-blue-200"
                       style={{ fill: 'currentColor' }}
                       viewBox="0 0 24 24"
                     >
@@ -261,7 +263,7 @@ const Task: React.FC<TaskProps> = (props) => {
             </p>
           </div>
           <div className="flex">
-            <p className="text-sm text-gray-600">Note:</p>
+            <p className="text-sm text-gray-600 dark:text-white">Note:</p>
             <button
               className="ml-auto"
               onClick={() => {
@@ -303,12 +305,12 @@ const Task: React.FC<TaskProps> = (props) => {
                   />
                 </svg>
               ) : (
-                <div className="border border-primary rounded-sm">
+                <div className="border border-primary dark:text-blue-200 rounded-sm">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="12"
                     height="12"
-                    className="text-primary"
+                    className="text-primary dark:text-blue-200"
                     style={{ fill: 'currentColor' }}
                     viewBox="0 0 24 24"
                   >
@@ -323,7 +325,7 @@ const Task: React.FC<TaskProps> = (props) => {
             onChange={(evt) => setNote(evt.target.value)}
             id="note"
             value={userNote}
-            className="text-sm font-semibold w-full"
+            className="text-sm font-semibold dark:text-white dark:bg-neutral-500 rounded-sm w-full"
           ></textarea>
         </span>
       )}

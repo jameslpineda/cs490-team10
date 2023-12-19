@@ -50,7 +50,7 @@ const SideBar: React.FC<{ date: moment.Moment }> = ({ date }) => {
   const onSignOutClick = () => sendSignOut();
 
   return (
-    <div className="flex flex-col h-screen bg-gray-900">
+    <div className="flex flex-col h-screen bg-gray-900 dark:bg-zinc-950">
       <div className="h-5/6">
         <Link to="/home">
           <h2 className="text-3xl text-white pt-10 font-normal font-fredoka-one text-center">

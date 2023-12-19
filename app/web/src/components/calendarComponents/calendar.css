@@ -1,7 +1,18 @@
 .rbc-calendar * {
     border: none !important;
 }
-
+.dark .rbc-label {
+    color: white;
+}
+.dark .label-now .rbc-label {
+    color: #6284ff;
+}
+.dark .rbc-row {
+    background-color: #1F1F1F;
+}
+.dark .rbc-today {
+    background-color: #1F1F1F;
+}
 .rbc-event {
     border: 1px solid #E2EAF1 !important;
     background-color: white;

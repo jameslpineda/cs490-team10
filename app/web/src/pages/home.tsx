@@ -70,18 +70,18 @@ export const Home = () => {
       <div className="w-1/6">
         <SideBar date={date} />
       </div>
-      <div className="w-5/6 bg-gray-100 h-screen">
-        <div className="bg-white flex p-4">
+      <div className="w-5/6 bg-gray-100 dark:bg-zinc-900 h-screen">
+        <div className="bg-white dark:bg-zinc-900 flex p-4">
           <div className="flex-grow"></div>
           <button
             onClick={routeSettings}
             data-testid="name"
-            className="flex p-2 text-light-black text-sm border hover:bg-gray-100 font-bold rounded-md"
+            className="flex p-2 text-light-black dark:text-white text-sm border hover:bg-gray-100 dark:hover:bg-gray-800 font-bold rounded-md"
           >
             {username.toString()}
           </button>
         </div>
-        <div className="bg-gray-100">
+        <div className="bg-gray-100 dark:bg-zinc-900">
           <DateBar
             date={date}
             setDate={setDate}
@@ -97,7 +97,7 @@ export const Home = () => {
           <div className="w-1/2 pl-4 h-7/8">
             <div className="flex pb-4">
               <div className="flex flex-row space-x-3 content-center">
-                <h2 className="text-3xl font-bold">Tasks</h2>
+                <h2 className="text-3xl dark:text-white font-bold">Tasks</h2>
                 <button
                   onClick={openModal}
                   className="w-[2.4375rem] h-[2.4375rem]"
@@ -116,7 +116,9 @@ export const Home = () => {
             {content}
           </div>
           <div className="w-1/2 pl-4 pr-2 h-7/8">
-            <h2 className="text-3xl font-bold pb-4">Appointments</h2>
+            <h2 className="text-3xl dark:text-white font-bold pb-4">
+              Appointments
+            </h2>
             <Appointments date={date.format('YYYY-MM-DD')} />
           </div>
         </div>

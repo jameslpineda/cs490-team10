@@ -11,10 +11,12 @@ const Other: React.FC<TaskCardProps> = ({ tasks }) => {
     <>
       <div ref={setNodeRef}>
         <div
-          className="flex-1 bg-gray-100 rounded-md p-4 mb-4"
+          className="flex-1 bg-gray-100 dark:bg-zinc-700 rounded-md p-4 mb-4"
           style={{ border: isOver ? '2px solid grey' : '' }}
         >
-          <h2 className="text-xl font-bold font-sans mb-3">Other</h2>
+          <h2 className="text-xl dark:text-white font-bold font-sans mb-3">
+            Other
+          </h2>
           {tasks.map((task: TaskProps) => (
             <Task
               key={task._id}

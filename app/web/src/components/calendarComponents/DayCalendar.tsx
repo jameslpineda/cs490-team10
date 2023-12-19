@@ -11,7 +11,9 @@ interface DayCalendarProps {
 const DayCalendar: React.FC<DayCalendarProps> = ({ date, events }) => {
   const slotPropGetter = useCallback(
     (date: moment.MomentInput) => ({
-      className: 'rbc-label',
+      className: `rbc-label ${
+        moment(date).hour() === moment().hour() ? 'label-now' : ''
+      }`,
       ...(moment(date).hour() == moment().hour() && {
         style: {
           color: '#6284ff',

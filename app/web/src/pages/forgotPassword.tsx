@@ -69,8 +69,8 @@ const ForgotPassword: React.FC = () => {
 
   return (
     <div className="bg-gray-700 min-h-screen flex items-center justify-center">
-      <div className="bg-white p-8 rounded shadow-lg md:w-96 w-3/5 mx-4">
-        <h1 className="text-2xl font-semibold text-center mb-4 text-gray-700">
+      <div className="bg-white dark:bg-gray-600 p-8 rounded shadow-lg md:w-96 w-3/5 mx-4">
+        <h1 className="text-2xl font-semibold text-center mb-4 text-gray-700 dark:text-white">
           Forgot Password
         </h1>
         {message && (
@@ -82,7 +82,7 @@ const ForgotPassword: React.FC = () => {
           <div className="mb-4">
             <label
               htmlFor="email"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium text-gray-700 dark:text-white"
             >
               Enter email for reset password link
             </label>
@@ -92,7 +92,7 @@ const ForgotPassword: React.FC = () => {
               name="email"
               id="email"
               placeholder="Enter Your Email Address"
-              className="w-full mt-2 p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+              className="w-full mt-2 p-2 border border-gray-300 dark:border-gray-800 dark:bg-gray-800 rounded focus:outline-none focus:border-blue-500"
               required
             />
           </div>
