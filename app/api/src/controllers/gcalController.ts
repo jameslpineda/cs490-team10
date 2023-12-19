@@ -76,7 +76,7 @@ export const getEvents = asyncHandler(
       throw new Error('Missing date in query');
     }
     const from = moment(date as string).startOf('day');
-    const to = moment(from).add(1, 'day');
+    const to = moment(from).add(1, 'day').add(5, 'hours');
 
     const user = await getUser({ _id: req.user_id });
     if (!user) {

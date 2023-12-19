@@ -28,6 +28,7 @@ const Appointments: React.FC<Date> = ({ date }) => {
       start: moment(gEvent.start).toDate(),
       end: moment(gEvent.end).toDate(),
     }));
+    console.log(events);
   }
 
   return (

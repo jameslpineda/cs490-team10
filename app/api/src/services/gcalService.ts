@@ -99,7 +99,10 @@ export const addFocusEventsToGcal = async (
               slot.start = slot.start.replace('+00:00', '-05:00');
               slot.end = slot.end.replace('+00:00', '-05:00');
               const event = {
-                summary: focusTask.name,
+                summary:
+                  'Focus Time   |   ' +
+                  focusTask.name +
+                  `   |   ${focusTask.completed_timers} / ${focusTask.timers}`,
                 start: { dateTime: slot.start },
                 end: { dateTime: slot.end },
               };
