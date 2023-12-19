@@ -33,7 +33,7 @@ const Appointments: React.FC<Date> = ({ date }) => {
   return (
     <>
       <div className="h-full pb-16 flex-1 flex-col flex-grow">
-        <div className="h-full pb-4 flex-1 flex-col flex-grow bg-white rounded-lg shadow-md">
+        <div className="h-full pb-4 flex-1 flex-col flex-grow bg-white dark:bg-zinc-800 rounded-lg shadow-md">
           <div className="h-full flex flex-col p-4 overflow-y-auto">
             <DayCalendar
               date={date}

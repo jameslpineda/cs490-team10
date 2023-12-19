@@ -11,6 +11,8 @@ import { selectCurrentUser } from '../features/auth/authSlice';
 import { ReactComponent as EyeIcon } from '../assets/svgs/eye.svg';
 import { ReactComponent as EyeSlashIcon } from '../assets/svgs/eye-slash.svg';
 
+import ThemeSwitcher from '../components/ThemeSwitcher';
+
 import {
   validateName,
   validatePassword,
@@ -114,26 +116,35 @@ const Settings: React.FC = () => {
 
   const content = (
     <div className="w-5/6">
-      <div className="bg-gray-100 h-screen">
-        <div className="flex ml-auto p-4 bg-white">
-          <div className="w-1/2 text-left text-2xl font-bold">Profile</div>
+      <div className="bg-gray-100 dark:bg-zinc-900 h-screen">
+        <div className="flex ml-auto p-4 bg-white dark:bg-zinc-900">
+          <div className="w-1/2 text-left dark:text-white text-2xl font-bold">
+            Profile
+          </div>
           <div className="w-1/2 flex justify-end">
             <button
               id="nameID"
               data-testid="name"
-              className="flex p-2 text-light-black text-sm border hover:bg-gray-100 font-bold rounded-md"
+              className="flex p-2 text-light-black dark:text-white text-sm border hover:bg-gray-100 dark:hover:bg-gray-800 font-bold rounded-md"
             >
               {username}
             </button>
           </div>
         </div>
         <form>
-          <h2 className="text-xl font-semibold pt-6 pl-8">User Information</h2>
+          <div className="flex justify-between">
+            <h2 className="text-xl dark:text-white font-semibold pt-6 pl-8">
+              User Information
+            </h2>
+            <div className="pt-6 pr-8">
+              <ThemeSwitcher />
+            </div>
+          </div>
           <div className="flex px-8 py-4">
-            <div className="w-1/2 bg-white p-4 rounded-md">
+            <div className="w-1/2 bg-white dark:bg-zinc-950 p-4 rounded-md">
               <label
                 htmlFor="firstName"
-                className="text-gray-600 flex"
+                className="text-gray-600 dark:text-white flex"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -154,15 +165,15 @@ const Settings: React.FC = () => {
               <input
                 type="text"
                 id="firstName"
-                className="w-full p-2 border rounded-md shadow"
+                className="w-full p-2 border dark:bg-gray-950 dark:text-white rounded-md shadow"
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
               />
             </div>
-            <div className="w-1/2 bg-white p-4 rounded-md">
+            <div className="w-1/2 bg-white dark:bg-zinc-950 p-4 rounded-md">
               <label
                 htmlFor="lastName"
-                className="text-gray-600 flex"
+                className="text-gray-600 dark:text-white flex"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -183,19 +194,21 @@ const Settings: React.FC = () => {
               <input
                 type="text"
                 id="lastName"
-                className="w-full p-2 border rounded-md shadow"
+                className="w-full p-2 border dark:bg-gray-950 dark:text-white rounded-md shadow"
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
                 autoComplete="last-name"
               />
             </div>
           </div>
-          <h2 className="text-xl font-semibold pt-6 pl-8">Change Password</h2>
+          <h2 className="text-xl font-semibold dark:text-white pt-6 pl-8">
+            Change Password
+          </h2>
           <div className="flex px-8 py-4">
-            <div className="w-1/3 bg-white p-4 rounded-md">
+            <div className="w-1/3 bg-white dark:bg-zinc-950 p-4 rounded-md">
               <label
                 htmlFor="oldpass"
-                className="text-gray-600 flex"
+                className="text-gray-60 dark:text-white flex"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -217,7 +230,7 @@ const Settings: React.FC = () => {
                 <input
                   type={showPassword ? 'text' : 'password'}
                   id="oldpass"
-                  className="w-full p-2 border rounded-md shadow"
+                  className="w-full p-2 border dark:bg-gray-950 dark:text-white rounded-md shadow"
                   placeholder="********"
                   value={currentPassword}
                   onChange={(e) => setCurrentPassword(e.target.value)}
@@ -231,10 +244,10 @@ const Settings: React.FC = () => {
                 </span>
               </div>
             </div>
-            <div className="w-1/3 bg-white p-4 rounded-md">
+            <div className="w-1/3 bg-white dark:bg-zinc-950 p-4 rounded-md">
               <label
                 htmlFor="newpass"
-                className="text-gray-600 flex"
+                className="text-gray-600 dark:text-white flex"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -256,7 +269,7 @@ const Settings: React.FC = () => {
                 <input
                   type={showPassword ? 'text' : 'password'}
                   id="newpass"
-                  className="w-full p-2 border rounded-md shadow"
+                  className="w-full p-2 border dark:bg-gray-950 dark:text-white rounded-md shadow"
                   placeholder="********"
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
@@ -270,10 +283,10 @@ const Settings: React.FC = () => {
                 </span>
               </div>
             </div>
-            <div className="w-1/3 bg-white p-4 rounded-md">
+            <div className="w-1/3 bg-white dark:bg-zinc-950 p-4 rounded-md">
               <label
                 htmlFor="confirmnewpass"
-                className="text-gray-600 flex"
+                className="text-gray-600 dark:text-white flex"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -295,7 +308,7 @@ const Settings: React.FC = () => {
                 <input
                   type={showPassword ? 'text' : 'password'}
                   id="confirmnewpass"
-                  className="w-full p-2 border rounded-md shadow"
+                  className="w-full p-2 border dark:bg-gray-950 dark:text-white rounded-md shadow"
                   placeholder="********"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
@@ -310,14 +323,14 @@ const Settings: React.FC = () => {
               </div>
             </div>
           </div>
-          <h2 className="text-xl font-semibold pt-6 pl-8">
+          <h2 className="text-xl font-semibold dark:text-white pt-6 pl-8">
             Pomodoro Timer (Minutes)
           </h2>
           <div className="flex px-8 py-4">
-            <div className="w-1/3 bg-white p-4 rounded-md">
+            <div className="w-1/3 bg-white dark:bg-zinc-950 p-4 rounded-md">
               <label
                 htmlFor="pomodoro"
-                className="text-gray-600 flex"
+                className="text-gray-600 dark:text-white flex"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -340,15 +353,15 @@ const Settings: React.FC = () => {
                 min="1"
                 step="any"
                 id="pomodoro"
-                className="w-full p-2 border rounded-md shadow"
+                className="w-full p-2 border dark:bg-gray-950 dark:text-white rounded-md shadow"
                 value={pomoTimer}
                 onChange={(e) => setPomoTimer(e.target.value)}
               />
             </div>
-            <div className="w-1/3 bg-white p-4 rounded-md">
+            <div className="w-1/3 bg-white dark:bg-zinc-950 p-4 rounded-md">
               <label
                 htmlFor="shortbreak"
-                className="text-gray-600 flex"
+                className="text-gray-600 dark:text-white flex"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -371,15 +384,15 @@ const Settings: React.FC = () => {
                 min="1"
                 step="any"
                 id="shortbreak"
-                className="w-full p-2 border rounded-md shadow"
+                className="w-full p-2 border dark:bg-gray-950 dark:text-white rounded-md shadow"
                 value={shortBreak}
                 onChange={(e) => setShortBreak(e.target.value)}
               />
             </div>
-            <div className="w-1/3 bg-white p-4 rounded-md">
+            <div className="w-1/3 bg-white dark:bg-zinc-950 p-4 rounded-md">
               <label
                 htmlFor="longbreak"
-                className="text-gray-600 flex"
+                className="text-gray-600 dark:bg-gray-950 dark:text-white flex"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -402,7 +415,7 @@ const Settings: React.FC = () => {
                 min="1"
                 step="any"
                 id="longbreak"
-                className="w-full p-2 border rounded-md shadow"
+                className="w-full p-2 border dark:bg-gray-950 dark:text-white rounded-md shadow"
                 value={longBreak}
                 onChange={(e) => setLongBreak(e.target.value)}
               />
@@ -412,7 +425,7 @@ const Settings: React.FC = () => {
             <div className="flex space-x-6 pt-2">
               <button
                 onClick={routeHome}
-                className="btn-secondary w-40 py-2 px-4 rounded-md"
+                className="btn-secondary w-40 py-2 px-4 dark:bg-gray-950 rounded-md"
                 type="button"
               >
                 Cancel

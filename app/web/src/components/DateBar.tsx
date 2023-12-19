@@ -108,10 +108,12 @@ const DateBar: React.FC<DateProp> = ({
             onClick={() => setShowMonth(!false)}
             data-testid="monthID"
             className={`relative border border-primary w-[12.4375rem] pr-[13px] h-full  pl-[18px] rounded-[0.625rem] font-medium text-s text-left ${
-              showMonth ? 'bg-white rounded-b-[0px] border-b-white' : ''
+              showMonth
+                ? 'bg-white dark:bg-gray-800 rounded-b-[0px] border-b-white'
+                : ''
             } `}
           >
-            <span className="text-light-black font-bold text-[1.375rem] line-height-normal flex justify-between items-center line-height-nm">
+            <span className="text-light-black dark:bg-gray-800 dark:text-white font-bold text-[1.375rem] line-height-normal flex justify-between items-center line-height-nm">
               <p>{date.format('MMMM')}</p>
               <div className="w-5 h-5">
                 {showMonth ? (
@@ -125,10 +127,10 @@ const DateBar: React.FC<DateProp> = ({
             </span>
           </button>
           {showMonth && (
-            <div className="absolute left-0 pl-[19px] pr-[7px] pb-[20px] bg-white w-full rounded-b-[10px] outline-none border-l border-b border-r border-primary">
+            <div className="absolute left-0 pl-[19px] pr-[7px] pb-[20px] bg-white dark:bg-gray-800 w-full rounded-b-[10px] outline-none border-l border-b border-r border-primary">
               <select
                 size={5}
-                className=" text-light-black text-lg line-height-normal w-full outline-none myScroll"
+                className=" text-light-black dark:bg-gray-800 dark:text-white text-lg line-height-normal w-full outline-none myScroll"
                 value={date.format('MMMM')}
                 onChange={(e) => {
                   updateDate(date.clone().month(e.target.value));
@@ -138,7 +140,7 @@ const DateBar: React.FC<DateProp> = ({
                 {monthNames.map((month) => {
                   return (
                     <option
-                      className="bg-white cursor-pointer py-[6.5px]"
+                      className="bg-white dark:bg-gray-800 cursor-pointer py-[6.5px]"
                       key={month}
                       value={month}
                     >
@@ -171,10 +173,12 @@ const DateBar: React.FC<DateProp> = ({
             onClick={() => setShowDay(!false)}
             data-testid="dayID"
             className={`relative border border-primary w-[6.125rem] pr-[11px] h-full  pl-[19px] rounded-[0.625rem] font-medium text-s text-left ${
-              showDay ? 'bg-white rounded-b-[0px] border-b-white' : ''
+              showDay
+                ? 'bg-white dark:bg-gray-800 rounded-b-[0px] border-b-white'
+                : ''
             }`}
           >
-            <span className="text-light-black font-bold text-[1.375rem] line-height-normal flex justify-between items-center line-height-nm">
+            <span className="text-light-black dark:text-white font-bold text-[1.375rem] line-height-normal flex justify-between items-center line-height-nm">
               <p>{date.format('D')}</p>
               <div className="w-5 h-5">
                 {showDay ? (
@@ -188,10 +192,10 @@ const DateBar: React.FC<DateProp> = ({
             </span>
           </button>
           {showDay && (
-            <div className="absolute left-0 pl-[19px] pr-[7px] pb-[20px] bg-white w-full rounded-b-[10px] outline-none border-l border-b border-r border-primary">
+            <div className="absolute left-0 pl-[19px] pr-[7px] pb-[20px] bg-white dark:bg-gray-800 w-full rounded-b-[10px] outline-none border-l border-b border-r border-primary">
               <select
                 size={5}
-                className="text-light-black text-lg line-height-normal w-full outline-none pr-2 myScroll"
+                className="text-light-black dark:text-white text-lg line-height-normal w-full outline-none pr-2 myScroll"
                 value={date.format('D')}
                 onChange={(e) => {
                   updateDate(date.clone().date(parseInt(e.target.value)));
@@ -201,7 +205,7 @@ const DateBar: React.FC<DateProp> = ({
                 {daysArray.map((day) => {
                   return (
                     <option
-                      className="bg-white cursor-pointer py-[6.5px]"
+                      className="bg-white dark:bg-gray-800 cursor-pointer py-[6.5px]"
                       key={day}
                       value={day}
                     >
@@ -233,10 +237,12 @@ const DateBar: React.FC<DateProp> = ({
           <button
             onClick={() => setShowYear(!false)}
             className={`relative border border-primary w-[7.0625rem] pr-[7px] h-full pl-[13px] rounded-[0.625rem] font-medium text-s text-left ${
-              showYear ? 'bg-white rounded-b-[0px] border-b-white' : ''
+              showYear
+                ? 'bg-white dark:bg-gray-800 rounded-b-[0px] border-b-white'
+                : ''
             }  `}
           >
-            <span className="text-light-black font-bold text-[1.375rem] line-height-normal flex justify-between items-center line-height-nm">
+            <span className="text-light-black dark:text-white font-bold text-[1.375rem] line-height-normal flex justify-between items-center line-height-nm">
               <p data-testid="yearID">{date.format('YYYY')}</p>
               <div className="w-5 h-5">
                 {showYear ? (
@@ -250,10 +256,10 @@ const DateBar: React.FC<DateProp> = ({
             </span>
           </button>
           {showYear && (
-            <div className="absolute left-0 pl-[13px] pr-[7px] pb-[20px] bg-white w-full rounded-b-[10px] outline-none border-l border-b border-r border-primary">
+            <div className="absolute left-0 pl-[13px] pr-[7px] pb-[20px] bg-white dark:bg-gray-800 w-full rounded-b-[10px] outline-none border-l border-b border-r border-primary">
               <select
                 size={5}
-                className=" text-light-black text-lg line-height-normal w-full outline-none pr-2 myScroll"
+                className=" text-light-black dark:text-white text-lg line-height-normal w-full outline-none pr-2 myScroll"
                 value={date.format('YYYY')}
                 onChange={(e) => {
                   updateDate(date.clone().year(parseInt(e.target.value)));
@@ -263,7 +269,7 @@ const DateBar: React.FC<DateProp> = ({
                 {allYears.map((year) => {
                   return (
                     <option
-                      className="bg-white cursor-pointer p-[6.5px]"
+                      className="bg-white dark:bg-gray-800 cursor-pointer p-[6.5px]"
                       key={year}
                       value={year}
                     >

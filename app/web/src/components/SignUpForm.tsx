@@ -55,14 +55,16 @@ const SignUpForm: React.FC = () => {
   };
 
   return (
-    <div className="bg-white rounded-lg p-8 h-full flex flex-col justify-between">
+    <div className="bg-white dark:bg-gray-600 rounded-lg p-8 h-full flex flex-col justify-between">
       <div>
-        <h2 className="text-2xl font-semibold mb-4 text-left">Sign Up</h2>
+        <h2 className="text-2xl font-semibold dark:text-white mb-4 text-left">
+          Sign Up
+        </h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label
               htmlFor="email"
-              className="flex text-sm font-medium mb-1 text-gray-700"
+              className="flex text-sm font-medium mb-1 text-gray-700 dark:text-white"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -82,7 +84,7 @@ const SignUpForm: React.FC = () => {
             </label>
             <input
               id="email"
-              className="w-full p-2 border border-gray-400 rounded-xl focus:outline-none focus:border-blue-500"
+              className="w-full p-2 border border-gray-400 dark:border-gray-800 dark:text-white dark:bg-gray-800 rounded-xl focus:outline-none focus:border-blue-500"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -90,7 +92,7 @@ const SignUpForm: React.FC = () => {
           <div className="mb-4 relative">
             <label
               htmlFor="password"
-              className="flex text-sm font-medium mb-1 text-gray-700"
+              className="flex text-sm font-medium mb-1 text-gray-700 dark:text-white"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -98,7 +100,7 @@ const SignUpForm: React.FC = () => {
                 viewBox="0 0 28 28"
                 strokeWidth="2"
                 stroke="#6284FF"
-                className="w-5 h-5 pt-0.5"
+                className="w-5 h-5 pt-0.5 dark:text-white"
               >
                 <path
                   strokeLinecap="round"
@@ -111,7 +113,7 @@ const SignUpForm: React.FC = () => {
             <input
               type={showPassword ? 'text' : 'password'}
               id="password"
-              className="w-full p-2 border border-gray-400 rounded-xl focus:outline-none focus:border-blue-500"
+              className="w-full p-2 border border-gray-400 dark:border-gray-800 dark:bg-gray-800 dark:text-white rounded-xl focus:outline-none focus:border-blue-500"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
@@ -125,7 +127,7 @@ const SignUpForm: React.FC = () => {
           <div className="mb-4 relative">
             <label
               htmlFor="confirmPassword"
-              className="flex text-sm font-medium mb-1 text-gray-700"
+              className="flex text-sm font-medium mb-1 text-gray-700 dark:text-white"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -146,7 +148,7 @@ const SignUpForm: React.FC = () => {
             <input
               type={showPassword ? 'text' : 'password'}
               id="confirmPassword"
-              className="w-full p-2 border border-gray-400 rounded-xl focus:outline-none focus:border-blue-500"
+              className="w-full p-2 border border-gray-400 dark:border-gray-800 dark:bg-gray-800 dark:text-white rounded-xl focus:outline-none focus:border-blue-500"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
@@ -163,11 +165,11 @@ const SignUpForm: React.FC = () => {
         </form>
       </div>
       <div className="flex w-full justify-center">
-        <div className="flex w-96 bg-gray-300 justify-center rounded-xl p-3">
+        <div className="flex w-96 bg-gray-300 dark:bg-gray-700 dark:text-white justify-center rounded-xl p-3">
           Already have an account?&nbsp;
           <Link
             to="/"
-            className="text-primary"
+            className="text-primary dark:text-blue-100"
           >
             Sign in Here!
           </Link>
