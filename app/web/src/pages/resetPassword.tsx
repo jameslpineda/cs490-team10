@@ -49,15 +49,15 @@ const ResetPassword: React.FC = () => {
 
   return (
     <div className="bg-gray-700 min-h-screen flex items-center justify-center">
-      <div className="bg-white p-8 rounded shadow-lg md:w-96 w-3/5 mx-4">
-        <h1 className="text-2xl font-semibold text-center mb-4">
+      <div className="bg-white dark:bg-gray-600 p-8 rounded shadow-lg md:w-96 w-3/5 mx-4">
+        <h1 className="text-2xl font-semibold text-center mb-4 dark:text-white">
           Reset Password
         </h1>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label
               htmlFor="password"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium text-gray-700 dark:text-white"
             >
               New Password
             </label>
@@ -68,7 +68,7 @@ const ResetPassword: React.FC = () => {
               value={password}
               onChange={handleEmailChange}
               placeholder="Enter Your New Password"
-              className="w-full mt-2 p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+              className="w-full mt-2 p-2 border border-gray-300 dark:border-gray-800 dark:bg-gray-800 rounded focus:outline-none focus:border-blue-500"
               required
             />
           </div>

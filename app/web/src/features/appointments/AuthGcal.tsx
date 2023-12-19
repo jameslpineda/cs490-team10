@@ -69,7 +69,7 @@ export const AuthGcal = () => {
   return (
     <button
       onClick={handleClick}
-      className="flex w-80 bg-white text-gray-600 justify-center rounded-xl p-3"
+      className="flex w-80 bg-white dark:bg-gray-900 text-gray-600 dark:text-white dark:btn-secondary justify-center rounded-xl p-3"
     >
       <span className="mr-1">Connect to</span>
       <span className="text-primary">Google Calendar</span>?

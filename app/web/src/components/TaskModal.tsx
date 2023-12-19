@@ -34,14 +34,14 @@ const TaskModal: React.FC<taskModalProps> = (props) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white w-1/3 p-8 rounded-md">
-        <h2 className="text-2xl font-bold mb-4">Add Task</h2>
+      <div className="bg-white dark:bg-gray-600 w-1/3 p-8 rounded-md">
+        <h2 className="text-2xl dark:text-white font-bold mb-4">Add Task</h2>
         <form onSubmit={handleSubmit}>
           {/* Name */}
           <div className="mb-4">
             <label
               htmlFor="name"
-              className="block text-sm font-medium text-gray-600"
+              className="block text-sm font-medium text-gray-600 dark:text-white"
             >
               Name
             </label>
@@ -51,7 +51,7 @@ const TaskModal: React.FC<taskModalProps> = (props) => {
               name="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+              className="mt-1 p-2 border border-gray-300 dark:bg-gray-700 dark:text-white rounded-md w-full"
               required
             />
           </div>
@@ -60,7 +60,7 @@ const TaskModal: React.FC<taskModalProps> = (props) => {
           <div className="mb-4">
             <label
               htmlFor="timers"
-              className="block text-sm font-medium text-gray-600"
+              className="block text-sm font-medium text-gray-600  dark:text-white"
             >
               Pomodoro Count
             </label>
@@ -70,7 +70,7 @@ const TaskModal: React.FC<taskModalProps> = (props) => {
               name="timers"
               value={timers}
               onChange={(e) => setTimers(parseInt(e.target.value))}
-              className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+              className="mt-1 p-2 border border-gray-300 dark:bg-gray-700 dark:text-white rounded-md w-full"
               min="1"
               required
             />
@@ -80,7 +80,7 @@ const TaskModal: React.FC<taskModalProps> = (props) => {
           <div className="mb-4">
             <label
               htmlFor="notes"
-              className="block text-sm font-medium text-gray-600"
+              className="block text-sm font-medium text-gray-600 dark:text-white"
             >
               Note/Description
             </label>
@@ -89,7 +89,7 @@ const TaskModal: React.FC<taskModalProps> = (props) => {
               name="notes"
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+              className="mt-1 p-2 border border-gray-300 dark:bg-gray-700 dark:text-white ounded-md w-full"
               rows={4}
             />
           </div>
@@ -98,7 +98,7 @@ const TaskModal: React.FC<taskModalProps> = (props) => {
           <div className="mb-4">
             <label
               htmlFor="priority"
-              className="block text-sm font-medium text-gray-600"
+              className="block text-sm font-medium text-gray-600 dark:text-white"
             >
               Priority
             </label>
@@ -107,7 +107,7 @@ const TaskModal: React.FC<taskModalProps> = (props) => {
               name="priority"
               value={priority}
               onChange={(e) => setPriority(e.target.value)}
-              className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+              className="mt-1 p-2 border border-gray-300 dark:bg-gray-700 dark:text-white rounded-md w-full"
             >
               <option value="Top Priority">Top Priority</option>
               <option value="Important">Important</option>
@@ -119,14 +119,14 @@ const TaskModal: React.FC<taskModalProps> = (props) => {
           <div className="flex justify-end">
             <button
               type="button"
-              className="btn-secondary px-4 py-2 rounded mr-2"
+              className="btn-secondary dark:bg-gray-800 dark:text-blue-300 px-4 py-2 rounded mr-2"
               onClick={handleCancel}
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="btn-primary px-4 py-2 rounded"
+              className="btn-primary dark:bg-blue-800 dark:text-white px-4 py-2 rounded"
             >
               Save
             </button>
