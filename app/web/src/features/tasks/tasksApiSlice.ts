@@ -58,7 +58,7 @@ export const tasksApiSlice = apiSlice.injectEndpoints({
         url: `/task/plan?date=${date}`,
         method: 'POST',
       }),
-      invalidatesTags: ['Tasks'],
+      invalidatesTags: ['Tasks', 'Appointments'],
     }),
     updateTask: builder.mutation<UpdateTaskResponse, UpdateTaskPayload>({
       query: ({ id, taskPayload }) => ({

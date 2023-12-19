@@ -6,9 +6,13 @@ import {
   createAuthUrl,
   getTokens,
   getEventsFromGcal,
+  addFocusEventsToGcal,
+  // addFocusEventsToGcal,
 } from '../services/gcalService';
 import asyncHandler from 'express-async-handler';
 import moment from 'moment';
+import { TaskInterface } from '../interfaces/taskInterface';
+import { ObjectId } from 'mongodb';
 
 // @desc Creates authorization url for OAuth2
 // @route GET /gcal/create-auth
@@ -103,3 +107,28 @@ export const getEvents = asyncHandler(
     });
   },
 );
+
+export const addFocusEvents = async (
+  focusTasks: TaskInterface[],
+  date: moment.Moment,
+  user_id: ObjectId,
+) => {
+  console.log('The tasks are: ' + focusTasks);
+  const from = moment(date.format('YYYY-MM-DD') + 'T05:00:00').toDate();
+  const to = moment(date.format('YYYY-MM-DD') + 'T20:59:00').toDate();
+
+  const user = await getUser({ _id: user_id });
+  if (!user) {
+    throw new Error('User not found');
+  }
+  if (!user.oauth2_refresh_token) {
+    throw new Error('Authorization is required to connect to Google Calendar');
+  }
+
+  await addFocusEventsToGcal(
+    user.oauth2_refresh_token,
+    moment(from).toISOString(),
+    moment(to).toISOString(),
+    focusTasks,
+  );
+};
