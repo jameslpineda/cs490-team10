@@ -13,6 +13,28 @@
 .dark .rbc-today {
     background-color: #1F1F1F;
 }
+
+.dark .rbc-event {
+    color: white;
+    border: 1px solid #000000 !important;
+    background-color: #1F1F1F;
+    border-radius: 0px;
+}
+
+.dark .rbc-event-content {
+    color: white;
+    display: grid;
+    align-items: center;
+    font-size: 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: bold;
+    padding-left: 10px;
+}
+
+.dark .rbc-event:hover {
+    background-color: #272727;
+}
+
 .rbc-event {
     border: 1px solid #E2EAF1 !important;
     background-color: white;
